@@ -1,11 +1,15 @@
-import React from 'react';
+import React from 'react'
 
 function App() {
-  return (
-    <div >
-      Probando
-    </div>
-  );
+	const testingEslintAndPrettier = 2
+	return (
+		<div
+			className='example'
+			name='example'
+		>
+			Probando: {testingEslintAndPrettier}
+		</div>
+	)
 }
 
-export default App;
+export default App
