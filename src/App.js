@@ -1,14 +1,12 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import MainRoutes from './routes/MainRoutes'
 
 function App() {
-	const testingEslintAndPrettier = 2
 	return (
-		<div
-			className='example'
-			name='example'
-		>
-			Probando: {testingEslintAndPrettier}
-		</div>
+		<Router>
+			<MainRoutes />
+		</Router>
 	)
 }
 
