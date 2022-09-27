@@ -8,8 +8,8 @@ const Navbar = () => {
 
 	return (
 		<div className='shadow-md w-full fixed top-0 left-0'>
-			<div className='md:flex items-center justify-between bg-blue py-4 md:p-3 md:px-10 px-6'>
-				<div className='font-bold text-2xl cursor-pointer flex items-center text-white'>
+			<div className='md:flex items-center justify-between bg-p-blue py-4 md:p-3 md:px-10 px-6 text-p-white'>
+				<div className='font-bold text-2xl cursor-pointer flex items-center '>
 					Logo
 				</div>
 				<div
@@ -30,14 +30,14 @@ const Navbar = () => {
 					<li className='md:ml-4 text-xl md:my-0 my-7 flex sm:flex-col md:flex-row md:w-auto sm:w-32 gap-4'>
 						<Link
 							to='/register'
-							className='text-white bg-silver text-center font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2'
+							className=' bg-p-silver text-center font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2'
 							onClick={() => setOpen(!open)}
 						>
 							Registrarme
 						</Link>
 						<Link
 							to='/'
-							className='text-white bg-purple text-center font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2'
+							className=' bg-p-purple text-center font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2'
 							onClick={() => setOpen(!open)}
 						>
 							Iniciar sesión

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Home from '../layout/Home'
+import Layout from '../layout/Layout'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 
@@ -9,7 +9,7 @@ const MainRoutes = () => {
 		<Routes>
 			<Route
 				path='/'
-				element={<Home />}
+				element={<Layout />}
 			>
 				<Route
 					index
