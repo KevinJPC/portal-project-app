@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ActivesProcesses = () => {
-	return <div>ActivesProcesses</div>
+	return <></>
 }
 
 export default ActivesProcesses
