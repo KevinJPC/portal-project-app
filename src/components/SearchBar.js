@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-const SearchBar = () => {
-	const [open, setOpen] = useState(false)
+
+function SearchBar({ title, buttonText, route }) {
 	return (
 		<div>
-			<div className='shadow-md w-full fixed top-16 left-0'>
-				<div className='md:flex items-center justify-between bg-silver py-4 md:p-3 md:px-10 px-6'>
-					<div className='text-1xl flex items-center text-grey right-4'>
-						Roles
+			<div className='shadow-md w-full top-16 left-0'>
+				<div className='flex items-center justify-between bg-silver py-2 px-3 sm:py-4 md:p-3 md:px-10 '>
+					<div className=' text-xs sm:text-base lg:text-xl  items-center text-blue '>
+						{title}
 					</div>
-					<form className='flex items-center'>
-						<div className='relative w-full'>
+					<div className='flex items-center'>
+						<div className=''>
 							<input
-								className='bg-white h-10 px-2 text-sm outline-none rounded-l-lg w-80'
+								className='bg-white h-10 px-2 text-sm outline-none rounded-l-lg w-36 sm:w-80'
 								type='search'
 								name='search'
 								placeholder='Buscar'
@@ -25,16 +26,23 @@ const SearchBar = () => {
 						>
 							<MagnifyingGlassIcon className='h-5 w-5 text-blue ' />
 						</button>
-					</form>
+					</div>
 					<Link
-						to='/'
-						className='text-white bg-purple text-center font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2'
-						onClick={() => setOpen(!open)}
+						to={route}
+						className='text-white bg-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 sm:px-4 sm:py-2 ml-4 md:mr-2'
 					>
-						Nuevo Rol
+						{buttonText}
 					</Link>
 				</div>
 			</div>
 		</div>
 	)
 }
+
+SearchBar.propTypes = {
+	title: PropTypes.string,
+	buttonText: PropTypes.string,
+	route: PropTypes.string,
+}
+
+export default SearchBar

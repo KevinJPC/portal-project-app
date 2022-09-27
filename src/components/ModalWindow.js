@@ -6,7 +6,7 @@ function ModalWindow({ setShowModal }) {
 	return (
 		<div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 backdrop-blur-sm backdrop-brightness-75'>
 			<div className='relative p-8 sm:p-0 w-full max-w-md h-auto md:h-auto'>
-				<div className='relative bg-white shadow rounded-lg'>
+				<div className=' bg-white shadow rounded-lg'>
 					<div className='flex flex-col items-center '>
 						<div className='mt-8 mb-3'>
 							<ExclamationTriangleIcon className='h-8 w-8 text-red ' />
