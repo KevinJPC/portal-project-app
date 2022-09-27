@@ -33,7 +33,6 @@ const MainRoutes = () => {
 				<Route path='admin'>
 					<Route path='processes'>
 						<Route
-							index
 							path='actives'
 							element={<ActivesProcesses />}
 						/>
@@ -52,7 +51,6 @@ const MainRoutes = () => {
 					</Route>
 					<Route path='roles'>
 						<Route
-							index
 							path='actives'
 							element={<ActivesRoles />}
 						/>
