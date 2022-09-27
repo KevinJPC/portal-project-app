@@ -65,7 +65,7 @@ const MainRoutes = () => {
 							element={<RegisterRole />}
 						/>
 						<Route
-							path=':id'
+							path='edit'
 							element={<UpdateRole />}
 						/>
 					</Route>
