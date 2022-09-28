@@ -1,11 +1,16 @@
 import React from 'react'
+import Roles from '../../components/Roles'
+import SearchBar from '../../components/SearchBar'
 
 const ActivesRoles = () => {
 	return (
 		<div>
-			<div className=' mt-16'>
-				<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'></div>
-			</div>
+			<SearchBar
+				title='Roles'
+				buttonText='Nuevo rol'
+				route='admin/register'
+			/>
+			<Roles />
 		</div>
 	)
 }
