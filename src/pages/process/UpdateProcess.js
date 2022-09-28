@@ -9,7 +9,7 @@ const UpdateProcess = () => {
 		<div className=''>
 			<div className='flex flex-col items-center pt-6 sm:pt-0 mt-24'>
 				<div>
-					<h3 className='text-3xl text-blue'>Registrar proceso</h3>
+					<h3 className='text-3xl text-blue'>Modificar proceso</h3>
 				</div>
 				<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
 					<form>
@@ -96,7 +96,7 @@ const UpdateProcess = () => {
 							type='submit'
 							className='text-white bg-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
 						>
-							Registrar
+							Modificar
 						</button>
 					</form>
 				</div>
