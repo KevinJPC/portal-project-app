@@ -1,6 +1,7 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import ModalWindow from '../../components/ModalWindow'
 const UpdateRole = () => {
+	const [showModal, setShowModal] = useState(false)
 	return (
 		<div>
 			<div className=' mt-16'>
@@ -35,7 +36,7 @@ const UpdateRole = () => {
 									Descripción
 								</label>
 								<div className='flex flex-col items-start relative'>
-									<textarea 
+									<textarea
 										type='text'
 										name='description'
 										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
@@ -44,11 +45,13 @@ const UpdateRole = () => {
 								</div>
 							</div>
 							<button
-								type='submit'
+								type='button'
 								className='text-white bg-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+								onClick={() => setShowModal(true)}
 							>
 								Desactivar
 							</button>
+							{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
 							<button
 								type='submit'
 								className='text-white bg-purple mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
