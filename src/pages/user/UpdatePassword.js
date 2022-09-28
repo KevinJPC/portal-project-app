@@ -26,7 +26,7 @@ const UpdatePassword = () => {
 								<input
 									type={isOldPasswordVisible ? 'password' : 'text'}
 									name='old_password'
-									className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+									className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2 pr-12'
 									placeholder='Contraseña actual'
 								/>
 								<div
@@ -52,7 +52,7 @@ const UpdatePassword = () => {
 								<input
 									type={isNewPasswordVisible ? 'password' : 'text'}
 									name='new_password'
-									className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+									className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2 pr-12'
 									placeholder='Nueva contraseña'
 								/>
 								<div
@@ -78,7 +78,7 @@ const UpdatePassword = () => {
 								<input
 									type={isPasswordConfirmVisible ? 'password' : 'text'}
 									name='password_confirmation'
-									className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+									className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2 pr-12'
 									placeholder='Confirmar contraseña'
 								/>
 								<div

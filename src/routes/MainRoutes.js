@@ -13,6 +13,10 @@ import ActivesRoles from '../pages/role/ActivesRoles'
 import InactivesRoles from '../pages/role/InactivesRoles'
 import RegisterRole from '../pages/role/RegisterRole'
 import UpdateRole from '../pages/role/UpdateRole'
+import RegisterAdmin from '../pages/admin/RegisterAdmin'
+import ActivesAdmins from '../pages/admin/ActivesAdmins'
+import InactivesAdmins from '../pages/admin/InactivesAdmins'
+import UpdateAdmin from '../pages/admin/UpdateAdmin'
 
 const MainRoutes = () => {
 	return (
@@ -31,6 +35,22 @@ const MainRoutes = () => {
 				/>
 				<Route path='dashboard'></Route>
 				<Route path='admin'>
+					<Route
+						path='register'
+						element={<RegisterAdmin />}
+					/>
+					<Route
+						path=':id'
+						element={<UpdateAdmin />}
+					/>
+					<Route
+						path='actives'
+						element={<ActivesAdmins />}
+					/>
+					<Route
+						path='inactives'
+						element={<InactivesAdmins />}
+					/>
 					<Route path='processes'>
 						<Route
 							path='actives'

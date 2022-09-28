@@ -7,7 +7,7 @@ const ActivesProcesses = () => {
 			<SearchBar
 				title='Listado procesos'
 				buttonText='Nuevo proceso'
-				route='/'
+				route='/admin/processes/register'
 			/>
 			{/* <Processes/> */}
 		</>
