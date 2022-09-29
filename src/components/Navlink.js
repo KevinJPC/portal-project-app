@@ -7,7 +7,7 @@ function Navlink({ to, children, ...props }) {
 			to={to}
 			{...props}
 			className={({ isActive }) =>
-				isActive ? 'text-p-red pointer-events-none' : undefined
+				isActive ? 'text-p-white' : 'text-p-silver'
 			}
 		>
 			{children}

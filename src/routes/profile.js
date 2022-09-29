@@ -4,14 +4,14 @@ import UpdatePassword from '../pages/user/UpdatePassword'
 import UpdateUser from '../pages/user/UpdateUser'
 
 export const profileRoutes = (
-	<Route path='profile'>
+	<>
 		<Route
-			index
+			path='usuario/editar-perfil'
 			element={<UpdateUser />}
 		/>
 		<Route
-			path='update-password'
+			path='usuario/cambiar-contrasena'
 			element={<UpdatePassword />}
 		/>
-	</Route>
+	</>
 )

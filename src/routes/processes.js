@@ -7,16 +7,15 @@ import UpdateProcess from '../pages/process/UpdateProcess'
 export const processesRoutes = (
 	<>
 		<Route
-			path='processes'
+			path='admin/procesos'
 			element={<ActivesProcesses />}
 		/>
-
 		<Route
-			path='processes/register'
+			path='admin/procesos/registrar'
 			element={<RegisterProcess />}
 		/>
 		<Route
-			path='processes/:id'
+			path='admin/procesos/editar/:id'
 			element={<UpdateProcess />}
 		/>
 	</>

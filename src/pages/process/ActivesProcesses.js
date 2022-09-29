@@ -1,24 +1,17 @@
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import SearchBar from '../../components/SearchBar'
 
 const ActivesProcesses = () => {
-	const [searchParams, setSearchParams] = useSearchParams()
-	let state = 'actives'
-	switch (searchParams.get('state')) {
-		case 'actives':
-			state = 'actives'
-			break
-		case 'inactives':
-			state = 'inactives'
-			break
-		default:
-			state = 'actives'
-			break
-	}
-
-	console.log(state)
-
-	return <div>{state} processes</div>
+	return (
+		<>
+			<SearchBar
+				title='Listado procesos'
+				buttonText='Nuevo proceso'
+				route='/admin/processes/register'
+			/>
+			{/* <Processes/> */}
+		</>
+	)
 }
 
 export default ActivesProcesses

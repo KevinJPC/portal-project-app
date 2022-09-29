@@ -2,8 +2,8 @@ import React from 'react'
 
 const RegisterProcess = () => {
 	return (
-		<div className=' mt-24'>
-			<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'>
+		<div className=' '>
+			<div className='flex flex-col items-center pt-6 justify-center sm:pt-0 mt-24'>
 				<div>
 					<h3 className='text-3xl text-blue'>Registrar proceso</h3>
 				</div>

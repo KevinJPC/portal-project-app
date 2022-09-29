@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ModalWindow from '../../components/ModalWindow'
 // import { useParams } from 'react-router-dom'
 
 const UpdateProcess = () => {
+	const [showModal, setShowModal] = useState(false)
+
 	return (
-		<div className=' mt-24'>
-			<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'>
+		<div className=''>
+			<div className='flex flex-col items-center pt-6 sm:pt-0 mt-24'>
 				<div>
-					<h3 className='text-3xl text-blue'>Registrar proceso</h3>
+					<h3 className='text-3xl text-blue'>Modificar proceso</h3>
 				</div>
 				<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
 					<form>
@@ -77,15 +80,23 @@ const UpdateProcess = () => {
 									id='visible'
 									type='checkbox'
 									value=''
-									className='w-5 h-5 text-silver rounded'
+									className='w-5 h-5 rounded'
 								/>
 							</div>
 						</div>
 						<button
-							type='submit'
-							className='text-white bg-purple mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+							type='button'
+							className='text-white bg-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+							onClick={() => setShowModal(true)}
 						>
-							Registrar
+							Desactivar
+						</button>
+						{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
+						<button
+							type='submit'
+							className='text-white bg-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+						>
+							Modificar
 						</button>
 					</form>
 				</div>

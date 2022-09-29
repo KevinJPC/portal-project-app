@@ -4,14 +4,14 @@ import Login from '../pages/Login'
 import Register from '../pages/Register'
 
 export const authRoutes = (
-	<Route path='/'>
+	<>
 		<Route
-			index
+			path='/'
 			element={<Login />}
 		></Route>
 		<Route
-			path='register'
+			path='registrarse'
 			element={<Register />}
 		/>
-	</Route>
+	</>
 )
