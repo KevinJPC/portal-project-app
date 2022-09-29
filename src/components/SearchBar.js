@@ -7,8 +7,14 @@ function SearchBar({ title, buttonText, route }) {
 	return (
 		<div className='shadow-md w-full fixed top-30 left-0'>
 			<div className='md:flex items-center justify-between bg-silver py-4 md:p-3 md:px-10 px-6'>
-				<div className=' text-xs sm:text-base lg:text-xl  items-center text-blue '>
-					{title}
+				<div className=''>
+					<select
+						id={title}
+						className='bg-silver text-sm outline-none rounded-l-lg'
+					>
+						<option value='active'>{title} activos</option>
+						<option value='inactive'>{title} inactivos</option>
+					</select>
 				</div>
 				<div className='flex items-center'>
 					<div className=''>

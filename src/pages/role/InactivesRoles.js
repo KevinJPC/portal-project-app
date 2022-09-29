@@ -15,7 +15,7 @@ function InactivesRoles() {
 			<div className='mb-10'>
 				<Roles
 					name='Servicio al cliente'
-					description='Rol de servicio al cliente vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'
+					description='Rol de servicio al cliente'
 					date='28/09/2022'vvv
 					buttonText='Modificar'
 					route='register'

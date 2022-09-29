@@ -10,7 +10,7 @@ function Roles({ name, description, date, buttonText, route }) {
 						<div className='md:grid md:grid-cols-4 text-center gap-4 '>
 							<div className='p-6 px-1 break-words'>
 								<p className='text-xl font-medium leading-5'>Nombre</p>
-								<p className='text-sm leading-normal pt-6'>{name} </p>
+								<p className='text-center leading-normal pt-2'>{name} </p>
 							</div>
 							<div className='p-6 px-1 break-words'>
 								<p className='text-xl font-medium leading-5'>Descripción</p>
