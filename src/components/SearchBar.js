@@ -5,8 +5,8 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 function SearchBar({ title, buttonText, route }) {
 	return (
-		<div className='shadow-md w-full top-16 left-0'>
-			<div className='flex items-center justify-between bg-silver py-2 px-3 sm:py-4 md:p-3 md:px-10 '>
+		<div className='shadow-md w-full fixed top-30 left-0'>
+			<div className='md:flex items-center justify-between bg-silver py-4 md:p-3 md:px-10 px-6'>
 				<div className=' text-xs sm:text-base lg:text-xl  items-center text-blue '>
 					{title}
 				</div>
