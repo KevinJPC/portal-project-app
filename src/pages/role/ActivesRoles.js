@@ -10,41 +10,34 @@ const ActivesRoles = () => {
 					<SearchBar
 						title='Roles'
 						buttonText='Nuevo rol'
-						route='register'
+						route='registrar'
 					/>
 				</div>
 				<div className='mb-10'>
 					<Roles
 						name='Servicio al cliente'
-						description='Rol de servicio al clientevvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'
+						description='Rol de servicio al cliente'
 						date='28/09/2022'
 						buttonText='Modificar'
 						route='register'
 					/>
 					<Roles
-						name='Cliente'
-						description='Rol del cliente'
+						name='Servicio al cliente'
+						description='Rol de servicio al cliente'
 						date='28/09/2022'
 						buttonText='Modificar'
 						route='register'
 					/>
 					<Roles
-						name='Proveedor'
-						description='Rol del proveedor'
+						name='Servicio al cliente'
+						description='Rol de servicio al cliente'
 						date='28/09/2022'
 						buttonText='Modificar'
 						route='register'
 					/>
 					<Roles
-						name='Proveedor'
-						description='Rol del proveedor'
-						date='28/09/2022'
-						buttonText='Modificar'
-						route='register'
-					/>
-					<Roles
-						name='Proveedor'
-						description='Rol del proveedor'
+						name='Servicio al cliente'
+						description='Rol de servicio al cliente'
 						date='28/09/2022'
 						buttonText='Modificar'
 						route='register'
