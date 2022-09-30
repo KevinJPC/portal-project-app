@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 
 function Admins({
 	name,
-	percentageAdvance,
+	email,
 	creationDate,
-	activitynow,
+	dni,
 	buttonText,
 	route,
 }) {
@@ -25,19 +25,19 @@ function Admins({
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Correo electronico
 							</p>
-							<p className='text-center leading-normal pt-2'>{creationDate}</p>
+							<p className='text-center leading-normal pt-2'>{email}</p>
 						</div>
 						<div className='p-6 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Cédula
 							</p>
-							<p className='text-sm leading-normal pt-2'>{activitynow}</p>
+							<p className='text-sm leading-normal pt-2'>{dni}</p>
 						</div>
 						<div className='p-6 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
-								Avance porcentual
+								Fecha de creación
 							</p>
-							<p className='text-sm leading-normal pt-2'>{percentageAdvance}</p>
+							<p className='text-sm leading-normal pt-2'>{creationDate}</p>
 						</div>
 						<div className='p-8 text-center'>
 							<Link
@@ -57,8 +57,8 @@ function Admins({
 Admins.propTypes = {
 	name: PropTypes.string,
 	description: PropTypes.string,
-	activitynow: PropTypes.string,
-	percentageAdvance: PropTypes.string,
+	dni: PropTypes.string,
+	email: PropTypes.string,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }
