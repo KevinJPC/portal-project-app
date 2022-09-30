@@ -15,8 +15,8 @@ function InactivesRoles() {
 			<div className='mb-10'>
 				<Roles
 					name='Servicio al cliente'
-					description='Rol de servicio al clientevvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'
-					date='28/09/2022'
+					description='Rol de servicio al cliente'
+					date='28/09/2022'vvv
 					buttonText='Modificar'
 					route='register'
 				/>
@@ -35,15 +35,15 @@ function InactivesRoles() {
 					route='register'
 				/>
 				<Roles
-					name='Proveedor'
-					description='Rol del proveedor'
+					name='Mercadeo'
+					description='Rol del Mercadeo'
 					date='28/09/2022'
 					buttonText='Modificar'
 					route='register'
 				/>
 				<Roles
-					name='Proveedor'
-					description='Rol del proveedor'
+					name='Distribuidor'
+					description='Rol del distribuidor'
 					date='28/09/2022'
 					buttonText='Modificar'
 					route='register'
