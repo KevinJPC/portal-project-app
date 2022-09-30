@@ -8,7 +8,7 @@ const UpdateAdmin = () => {
 		<div className=''>
 			<div className='flex flex-col items-center pt-10 md:pt-2 mt-14'>
 				<div>
-					<h3 className='text-3xl text-blue'>Modificar usuario</h3>
+					<h3 className='text-3xl text-p-blue'>Modificar usuario</h3>
 				</div>
 				<div className='w-full py-4 mt-1 px-4 overflow-hidde max-w-xs md:max-w-3xl'>
 					<form>
@@ -16,7 +16,7 @@ const UpdateAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Nombre
 								</label>
@@ -24,7 +24,7 @@ const UpdateAdmin = () => {
 									<input
 										type='text'
 										name='name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Nombre del usuario'
 									/>
 								</div>
@@ -32,7 +32,7 @@ const UpdateAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='first_last_name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Primer apellido
 								</label>
@@ -40,7 +40,7 @@ const UpdateAdmin = () => {
 									<input
 										type='text'
 										name='first_last_name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Primer apellido'
 									/>
 								</div>
@@ -48,7 +48,7 @@ const UpdateAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='second_last_name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Segundo apellido
 								</label>
@@ -56,7 +56,7 @@ const UpdateAdmin = () => {
 									<input
 										type='text'
 										name='second_last_name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Segundo apellido'
 									/>
 								</div>
@@ -64,7 +64,7 @@ const UpdateAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='second_last_name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Correo electrónico
 								</label>
@@ -72,7 +72,7 @@ const UpdateAdmin = () => {
 									<input
 										type='email'
 										name='second_last_name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Correo electrónico'
 									/>
 								</div>
@@ -81,7 +81,7 @@ const UpdateAdmin = () => {
 						<div className='md:px-36'>
 							<button
 								type='button'
-								className='text-white bg-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+								className='text-p-white bg-p-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
 								onClick={() => setShowModal(true)}
 							>
 								Desactivar
@@ -89,7 +89,7 @@ const UpdateAdmin = () => {
 							{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
 							<button
 								type='submit'
-								className='text-white bg-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+								className='text-p-white bg-p-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
 							>
 								Modificar
 							</button>
