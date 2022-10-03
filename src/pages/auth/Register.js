@@ -2,7 +2,6 @@ import React from 'react'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from '../../components/inputs/PasswordInput'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import Select from '../../components/inputs/Select'
 
 const Register = () => {
