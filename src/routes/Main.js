@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes } from 'react-router-dom'
 import { authRoutes } from './auth'
 import { profileRoutes } from './profile'
 import { rolesRoutes } from './roles'

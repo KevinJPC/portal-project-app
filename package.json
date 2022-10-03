@@ -31,6 +31,9 @@
       "react-app/jest",
       "eslint-config-prettier"
     ],
+    "rules": {
+      "react/prop-types": 2
+    },
     "overrides": []
   },
   "browserslist": {

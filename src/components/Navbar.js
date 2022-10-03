@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid'
-import Navlink from './Navlink'
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false)
@@ -28,8 +27,6 @@ const Navbar = () => {
 					}`}
 				>
 					<li className='md:ml-4 text-xl md:my-0 my-7 flex sm:flex-col md:flex-row md:w-auto sm:w-32 gap-4'>
-						<Navlink to='admin/procesos'>procesos</Navlink>
-						<Navlink to='admin/roles'>roles</Navlink>
 						<Link
 							to='/registrarse'
 							className=' bg-p-silver text-center font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2'
