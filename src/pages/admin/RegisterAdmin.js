@@ -11,7 +11,7 @@ const RegisterAdmin = () => {
 		<div className=''>
 			<div className='flex flex-col items-center pt-10 md:pt-14 mt-14'>
 				<div>
-					<h3 className='text-3xl text-blue'>Registrar administrador</h3>
+					<h3 className='text-3xl text-p-blue'>Registrar administrador</h3>
 				</div>
 				<div className='w-full py-4 mt-1 px-4 overflow-hidde max-w-xs md:max-w-3xl'>
 					<form>
@@ -19,7 +19,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='dni'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Cédula
 								</label>
@@ -27,7 +27,7 @@ const RegisterAdmin = () => {
 									<input
 										type='text'
 										name='dni'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Nombre del usuario'
 									/>
 								</div>
@@ -35,7 +35,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Nombre
 								</label>
@@ -43,7 +43,7 @@ const RegisterAdmin = () => {
 									<input
 										type='text'
 										name='name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Nombre del usuario'
 									/>
 								</div>
@@ -51,7 +51,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='first_last_name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Primer apellido
 								</label>
@@ -59,7 +59,7 @@ const RegisterAdmin = () => {
 									<input
 										type='text'
 										name='first_last_name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Primer apellido'
 									/>
 								</div>
@@ -67,7 +67,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='second_last_name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Segundo apellido
 								</label>
@@ -75,7 +75,7 @@ const RegisterAdmin = () => {
 									<input
 										type='text'
 										name='second_last_name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Segundo apellido'
 									/>
 								</div>
@@ -83,7 +83,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4 '>
 								<label
 									htmlFor='second_last_name'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Correo electrónico
 								</label>
@@ -91,7 +91,7 @@ const RegisterAdmin = () => {
 									<input
 										type='email'
 										name='second_last_name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Correo electrónico'
 									/>
 								</div>
@@ -99,7 +99,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4'>
 								<label
 									htmlFor='new_password'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Contraseña
 								</label>
@@ -107,7 +107,7 @@ const RegisterAdmin = () => {
 									<input
 										type={isPasswordVisible ? 'password' : 'text'}
 										name='new_password'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2 pr-12'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2 pr-12'
 										placeholder='Contraseña'
 									/>
 									<div
@@ -115,9 +115,9 @@ const RegisterAdmin = () => {
 										onClick={() => setIsPasswordVisible(!isPasswordVisible)}
 									>
 										{isPasswordVisible ? (
-											<EyeSlashIcon className='h-6 w-6 text-blue' />
+											<EyeSlashIcon className='h-6 w-6 text-p-blue' />
 										) : (
-											<EyeIcon className='h-6 w-6 text-blue' />
+											<EyeIcon className='h-6 w-6 text-p-blue' />
 										)}
 									</div>
 								</div>
@@ -125,7 +125,7 @@ const RegisterAdmin = () => {
 							<div className='mt-4'>
 								<label
 									htmlFor='password_confirmation'
-									className='block text-sm font-medium text-blue mb-2'
+									className='block text-sm font-medium text-p-blue mb-2'
 								>
 									Confirmar contraseña
 								</label>
@@ -133,7 +133,7 @@ const RegisterAdmin = () => {
 									<input
 										type={isPasswordConfirmVisible ? 'password' : 'text'}
 										name='password_confirmation'
-										className=' w-full mt-1 rounded-md shadow-sm bg-silver p-2 pr-12'
+										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2 pr-12'
 										placeholder='Confirmar contraseña'
 									/>
 									<div
@@ -143,7 +143,7 @@ const RegisterAdmin = () => {
 										}
 									>
 										{isPasswordConfirmVisible ? (
-											<EyeSlashIcon className='h-6 w-6 text-blue' />
+											<EyeSlashIcon className='h-6 w-6 text-p-blue' />
 										) : (
 											<EyeIcon className='h-6 w-6 text-blue' />
 										)}
@@ -155,7 +155,7 @@ const RegisterAdmin = () => {
 							{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
 							<button
 								type='submit'
-								className='text-white bg-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
+								className='text-p-white bg-p-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
 							>
 								Registrar
 							</button>

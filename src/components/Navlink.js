@@ -7,7 +7,9 @@ function Navlink({ to, children, ...props }) {
 			to={to}
 			{...props}
 			className={({ isActive }) =>
-				isActive ? 'text-p-white' : 'text-p-silver'
+				isActive
+					? 'text-p-white block px-4 py-2'
+					: 'text-p-silver hover:text-p-blue block px-4 py-2 hover:bg-p-silver rounded'
 			}
 		>
 			{children}
