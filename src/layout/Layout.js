@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import InitialNavbar from '../components/navbars/InitialNavbar'
-import GeneralUserNavbar from '../components/navbars/GeneralUserNavbar'
-import AdminUserNavbar from '../components/navbars/AdminUserNavbar'
+import NavbarContainer from '../components/navbars/NavbarContainer'
 
 const Layout = ({ children }) => {
 	return (
 		<div className='flex flex-col h-screen font-fira'>
-			<header className='md:h-18 h-16 text-white'>
-				{/* <InitialNavbar /> */}
-				{/* <GeneralUserNavbar /> */}
-				<AdminUserNavbar />
+			<header className='md:h-18 h-16 text-white absolute w-full'>
+				<NavbarContainer />
 			</header>
-			<main className='mt-5'>{children}</main>
+			<main className='mt-16 h-full overflow-y-auto'>{children}</main>
 			<footer></footer>
 		</div>
 	)

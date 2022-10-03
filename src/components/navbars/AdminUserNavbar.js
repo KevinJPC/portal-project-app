@@ -28,11 +28,11 @@ function AdminUserNavbar() {
 	return (
 		<Disclosure
 			as='nav'
-			className='bg-p-blue text-p-white'
+			className='bg-p-blue text-p-white '
 		>
 			{({ open }) => (
 				<>
-					<div className='mx-auto px-2 sm:px-6 lg:px-8'>
+					<div className='mx-auto px-2 sm:px-6 lg:px-8 '>
 						<div className='relative flex h-16 items-center justify-between'>
 							<div className=' inset-y-0 left-0 flex items-center sm:hidden'>
 								<Disclosure.Button className='inline-flex items-center justify-center rounded-md p-2 hover:bg-p-silver focus:outline-none focus:ring-1 focus:ring-inset'>
@@ -49,20 +49,18 @@ function AdminUserNavbar() {
 									)}
 								</Disclosure.Button>
 							</div>
-							<div className='flex flex-1 items-center  sm:items-stretch sm:justify-start'>
-								<div className='flex flex-shrink-0 items-center ml-2'>Logo</div>
+							<div className='flex flex-1 items-center sm:items-stretch sm:justify-start'>
+								<div className='flex flex-shrink-0 items-center ml-3'>Logo</div>
 								<div className='hidden sm:ml-6 sm:block'>
-									<div className=' px-2 pt-2 pb-3'>
-										<div className='flex flex-row gap-2 '>
-											{adminUserLinks.map(link => (
-												<div
-													key={link.label}
-													className='px-3 py-1 hover:bg-p-silver rounded '
-												>
-													<Navlink to={link.to}>{link.label}</Navlink>
-												</div>
-											))}
-										</div>
+									<div className='flex flex-row '>
+										{adminUserLinks.map(link => (
+											<div
+												key={link.label}
+												className='px-3 py-10 text-sm lg:text-lg'
+											>
+												<Navlink to={link.to}>{link.label}</Navlink>
+											</div>
+										))}
 									</div>
 								</div>
 							</div>
@@ -72,7 +70,7 @@ function AdminUserNavbar() {
 									className='relative ml-3'
 								>
 									<div>
-										<Menu.Button className='flex items-center text-sm focus:outline-none rounded-full focus:ring-1 focus:ring-offset-1 '>
+										<Menu.Button className='flex items-center focus:outline-none rounded-full focus:ring-1 focus:ring-offset-1 '>
 											<UserCircleIcon className='h-8 w-8 rounded-full' />
 											<ChevronDownIcon className='h-3 w-3' />
 										</Menu.Button>
@@ -103,24 +101,22 @@ function AdminUserNavbar() {
 							</div>
 						</div>
 					</div>
-					<Disclosure.Panel className='sm:hidden backdrop-blur-sm'>
-						{({ close }) => (
-							<div className=' px-2 pt-2 pb-3'>
-								<div className='flex flex-col gap-2 w-full'>
-									{adminUserLinks.map(link => (
-										<Disclosure.Button
-											key={link.label}
-											as={NavLink}
-											to={link.to}
-										>
-											<div className='px-3 py-2 hover:bg-p-silver rounded'>
-												{link.label}
-											</div>
-										</Disclosure.Button>
-									))}
-								</div>
+					<Disclosure.Panel className='sm:hidden backdrop-blur-sm '>
+						<div className=' px-2 pt-2 pb-3'>
+							<div className='flex flex-col gap-2 w-full'>
+								{adminUserLinks.map(link => (
+									<Disclosure.Button
+										key={link.label}
+										as={NavLink}
+										to={link.to}
+									>
+										<div className='px-3 py-2 hover:bg-p-silver rounded'>
+											{link.label}
+										</div>
+									</Disclosure.Button>
+								))}
 							</div>
-						)}
+						</div>
 					</Disclosure.Panel>
 				</>
 			)}

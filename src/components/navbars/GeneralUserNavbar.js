@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
 	Bars3Icon,
@@ -12,6 +12,8 @@ import { NavLink } from 'react-router-dom'
 // import { Link } from 'react-router-dom'
 
 function GeneralUserNavbar() {
+	// const [isOpen, setIsOpen] = useState(false)
+
 	/* An array of objects that are being used to create the links in the profile menu. */
 	const profileLinks = [
 		{ to: 'usuario/editar-perfil', label: 'Editar perfil' },
@@ -106,7 +108,7 @@ function GeneralUserNavbar() {
 										leaveFrom='transform scale-100 opacity-100'
 										leaveTo='transform scale-95 opacity-0'
 									>
-										<Menu.Items className='absolute divide-y border px-5 right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+										<Menu.Items className='fixed sm:absolute divide-y border px-5 right-5 sm:right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
 											{notifications.map(notification => (
 												<Menu.Item key={notification.label}>
 													<div>
@@ -159,23 +161,21 @@ function GeneralUserNavbar() {
 						</div>
 					</div>
 					<Disclosure.Panel className='sm:hidden backdrop-blur-sm'>
-						{({ close }) => (
-							<div className=' px-2 pt-2 pb-3'>
-								<div className='flex flex-col gap-2 w-full'>
-									{generalUserLinks.map(link => (
-										<Disclosure.Button
-											key={link.label}
-											as={NavLink}
-											to={link.to}
-										>
-											<div className='px-3 py-2 hover:bg-p-silver rounded'>
-												{link.label}
-											</div>
-										</Disclosure.Button>
-									))}
-								</div>
+						<div className=' px-2 pt-2 pb-3'>
+							<div className='flex flex-col gap-2 w-full'>
+								{generalUserLinks.map(link => (
+									<Disclosure.Button
+										key={link.label}
+										as={NavLink}
+										to={link.to}
+									>
+										<div className='px-3 py-2 hover:bg-p-silver rounded'>
+											{link.label}
+										</div>
+									</Disclosure.Button>
+								))}
 							</div>
-						)}
+						</div>
 					</Disclosure.Panel>
 				</>
 			)}

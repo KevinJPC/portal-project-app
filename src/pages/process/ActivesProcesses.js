@@ -5,14 +5,14 @@ import SearchBar from '../../components/SearchBar'
 const ActivesProcesses = () => {
 	return (
 		<div>
-			<div className='h-24 mt-14 py-2'>
+			<div className='h-24 '>
 				<SearchBar
-					title='Roles'
-					buttonText='Nuevo rol'
-					route='register'
+					title='Procesos'
+					buttonText='Nuevo proceso'
+					route='admin/procesos/registrar'
 				/>
 			</div>
-			<div className='mb-10'>
+			<div className='mb-10 '>
 				<Processes
 					name='Servicio al cliente'
 					creationDate='25/09/2022'
