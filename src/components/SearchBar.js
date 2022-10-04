@@ -6,11 +6,11 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 function SearchBar({ title, buttonText, route }) {
 	return (
 		<div className='shadow-md w-full'>
-			<div className='flex items-center justify-between bg-p-silver py-4 md:p-3 md:px-2 sm:text-sm'>
-				<div className=''>
+			<div className='flex items-center justify-between bg-p-silver py-4 md:p-3 md:px-2 '>
+				<div className='text-sm'>
 					<select
 						id={title}
-						className=' bg-p-silver text-p-blue font-fira-medium text-xs lg:text-lg outline-none sm:w-auto w-20'
+						className=' bg-p-silver text-p-blue font-fira-medium lg:text-lg outline-none text-sm sm:w-auto w-20'
 					>
 						<option value='active'>{title} activos</option>
 						<option value='inactive'>{title} inactivos</option>
