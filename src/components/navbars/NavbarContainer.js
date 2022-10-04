@@ -7,8 +7,8 @@ function NavbarContainer() {
 	return (
 		<>
 			{/* <InitialNavbar /> */}
-			<GeneralUserNavbar />
-			{/* <AdminUserNavbar /> */}
+			{/* <GeneralUserNavbar /> */}
+			<AdminUserNavbar />
 		</>
 	)
 }
