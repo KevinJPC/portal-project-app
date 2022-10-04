@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
+import { portalApi } from './services/portalApi'
 
 export const store = configureStore({
 	reducer: {
-		counter: counterReducer,
+		[portalApi.reducerPath]: portalApi.reducer,
 	},
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware().concat(portalApi.middleware),
+	devTools: true,
 })
