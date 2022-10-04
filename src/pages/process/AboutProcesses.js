@@ -9,7 +9,7 @@ function AboutProcesses({
 	percentageAdvance,
 }) {
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 '>
+		<div className='flex flex-col pt-2 sm:pt-0'>
 			<div className='flex justify-center py-4'>
 				<div className='w-3/4 bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-2 justify-items-start text-center gap-4 '>
