@@ -11,6 +11,40 @@ export const adminApi = portalApi.injectEndpoints({
 			query: () => 'admin/inactives',
 			providesTags: result => providesList(result, 'Admin'),
 		}),
+		getAdminById: builder.query({
+			query: adminId => `admin/${adminId}`,
+			providesTags: (result, error, arg) => [{ type: 'Admin', id: arg }],
+		}),
+		addNewAdmin: builder.mutation({
+			query: admin => ({
+				url: 'admin/register',
+				method: 'POST',
+				body: { ...admin },
+			}),
+			invalidatesTags: [{ type: 'Admin', id: 'LIST' }],
+		}),
+		updateAdmin: builder.mutation({
+			query: admin => ({
+				url: `admin/${admin.id}`,
+				method: 'PATCH',
+				body: { ...admin },
+			}),
+			invalidatesTags: (result, error, arg) => [{ type: 'Admin', id: arg.id }],
+		}),
+		inactivateAdmin: builder.mutation({
+			query: adminId => ({
+				url: `admin/${adminId}/inactivate`,
+				method: 'PATCH',
+			}),
+			invalidatesTags: (result, error, adminId) => [{ type: 'Admin', adminId }],
+		}),
+		activateAdmin: builder.mutation({
+			query: adminId => ({
+				url: `admin/${adminId}/activate`,
+				method: 'PATCH',
+			}),
+			invalidatesTags: (result, error, adminId) => [{ type: 'Admin', adminId }],
+		}),
 	}),
 })
 
