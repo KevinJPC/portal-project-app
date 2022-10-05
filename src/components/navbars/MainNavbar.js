@@ -18,7 +18,7 @@ import {
 // import { Link } from 'react-router-dom'
 
 function AdminUserNavbar() {
-	const role = 'Prov'
+	const role = 'Admin'
 
 	return (
 		<Disclosure
