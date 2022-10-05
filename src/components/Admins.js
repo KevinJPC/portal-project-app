@@ -4,29 +4,29 @@ import PropTypes from 'prop-types'
 
 function Admins({ name, email, creationDate, dni, buttonText, route }) {
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 '>
+		<div className='flex flex-col pt-2 sm:pt-0'>
 			<div className='flex justify-center py-4'>
 				<div className='w-3/4 bg-p-gray rounded'>
-					<div className='md:grid md:grid-cols-4 text-center justify-center items-center justify-items-center gap-4 sm:pr-auto'>
-						<div className='p-6 px-1 break-words text-p-blue'>
+					<div className='md:grid md:grid-cols-4 text-center items-center justify-items-center px-2 py-6 md:py-3'>
+						<div className='p-4 px-1 break-words text-p-blue'>
 							<p className='text-ms  font-fira-medium font-medium leading-5'>
 								Nombre completo
 							</p>
 							<p className='text-center leading-normal pt-2'>{name}</p>
 						</div>
-						<div className='p-6 px-1 break-words text-p-blue'>
+						<div className='p-4 px-1 break-words text-p-blue'>
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Correo electronico
 							</p>
 							<p className='text-center leading-normal pt-2'>{email}</p>
 						</div>
-						<div className='p-6 px-1 break-words text-p-blue '>
+						<div className='p-4 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Cédula
 							</p>
 							<p className='text-sm leading-normal pt-2'>{dni}</p>
 						</div>
-						<div className='p-6 px-1 break-words text-p-blue '>
+						<div className='p-4 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creación
 							</p>

@@ -12,7 +12,7 @@ export const processesRoutes = (
 			element={<ActivesProcesses />}
 		/>
 		<Route
-			path='admin/about'
+			path='admin/informacion-proceso/:id'
 			element={<AboutProcesses />}
 		/>
 		<Route

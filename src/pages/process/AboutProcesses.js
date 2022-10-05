@@ -11,8 +11,8 @@ function AboutProcesses({
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0'>
 			<div className='flex justify-center py-4'>
-				<div className='w-3/4 bg-p-gray rounded'>
-					<div className='md:grid md:grid-cols-2 justify-items-start text-center gap-4 '>
+				<div className='w-auto bg-p-gray rounded px-6'>
+					<div className='md:grid md:grid-cols-2 justify-items-start text-center py-6 '>
 						<div>
 							<div className='p-6 px-1 break-words text-p-blue'>
 								<p className='text-ms  font-fira-medium font-medium leading-5'>
@@ -43,7 +43,7 @@ function AboutProcesses({
 								</p>
 							</div>
 						</div>
-						<div>
+						<div className=''>
 							<div className='p-6 justify-items-center px-1 break-words text-p-blue'>
 								<p className='text-ms  font-fira-medium font-medium leading-5'>
 									Actividades
