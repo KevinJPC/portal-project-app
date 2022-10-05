@@ -5,6 +5,6 @@ export const portalApi = createApi({
 	refetchOnFocus: true,
 	refetchOnReconnect: true,
 	baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/api/v1/' }),
-	tagTypes: ['User', 'Process', 'Role', 'Admin'],
+	tagTypes: ['User', 'Process', 'Role', 'Admin', 'Insider'],
 	endpoints: builder => ({}),
 })
