@@ -1,23 +1,26 @@
 import { portalApi } from './portalApi'
+import { providesList } from './tagProvider'
 
 export const processApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getActivesProcess: builder.query({
 			query: () => 'processes/actives',
-			providesTags: (result, error, arg) => [
-				{ type: 'Process', id: 'LIST' },
-				...result.ids.map(id => ({ type: 'Process', id })),
-			],
+			providesTags: result => providesList(result, 'Process'),
 		}),
 		getInactivesProcess: builder.query({
 			query: () => 'processes/inactives',
-			providesTags: (result, error, arg) => [
-				{ type: 'Process', id: 'LIST' },
-				...result.ids.map(id => ({ type: 'Process', id })),
-			],
+			providesTags: result => providesList(result, 'Process'),
 		}),
 	}),
 })
 
-export const { useGetActivesProcessQuery, useGetInactivesProcessQuery } =
-	processApi
+export const {
+	useGetActivesProcessQuery,
+	useGetInactivesProcessQuery,
+	useGetProcessByIdQuery,
+	useGetVisiblesProcessQuery,
+	useAddNewProcessMutation,
+	useUpdateProcessMutation,
+	useInactivateProcessMutation,
+	useActivateProcessMutation,
+} = processApi
