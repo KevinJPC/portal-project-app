@@ -11,21 +11,38 @@ export const roleApi = portalApi.injectEndpoints({
 			query: () => 'roles/inactives',
 			providesTags: result => providesList(result, 'Role'),
 		}),
-		updateRole: builder.query({
-			query: roleId => ({
-				url: `role/${roleId}`,
+		getRoleById: builder.query({
+			query: roleId => `role/${roleId}`,
+			providesTags: (result, error, arg) => [{ type: 'Role', id: arg }],
+		}),
+		addNewRole: builder.query({
+			query: role => ({
+				url: `role/`,
 				method: 'PATCH',
-				body: { ...roleId },
+				body: { ...role },
 			}),
-            invalidatesTags: (result, error, arg) => [{ type: 'Role', id: arg.id }]
 		}),
-        activateRoleById: builder.query({
-			query: roleId => `role/${roleId}/activate`,
-			providesTags: (result, error, arg) => [{ type: 'Role', id: arg }],
+		updateRole: builder.query({
+			query: role => ({
+				url: `role/${role.id}`,
+				method: 'PATCH',
+				body: { ...role },
+			}),
+			invalidatesTags: (result, error, arg) => [{ type: 'Role', id: arg.id }],
 		}),
-		inactivateRoleById: builder.query({
-			query: roleId => `role/${roleId}/inactivate`,
-			providesTags: (result, error, arg) => [{ type: 'Role', id: arg }],
+		inactivateRole: builder.mutation({
+			query: roleId => ({
+				url: `role/${roleId}/inactivate`,
+				method: 'PATCH',
+			}),
+			invalidatesTags: (result, error, roleId) => [{ type: 'Role', roleId }],
+		}),
+		activateRole: builder.mutation({
+			query: roleId => ({
+				url: `role/${roleId}/activate`,
+				method: 'PATCH',
+			}),
+			invalidatesTags: (result, error, roleId) => [{ type: 'Role', roleId }],
 		}),
 	}),
 })
@@ -33,10 +50,9 @@ export const roleApi = portalApi.injectEndpoints({
 export const {
 	useGetActivesRolesQuery,
 	useGetInactivesRolesQuery,
-	useGetRolesByIdQuery,
-	useGetVisiblesRolesQuery,
-	useAddNewRolesMutation,
-	useUpdateRoleMutation,
-	useInactivesRolesMutation,
-	useActivesRolesMutation,
+	useGetRoleByIdQuery,
+	useAddNewRoleQuery,
+	useUpdateRoleQuery,
+	useInactivateRoleMutation,
+	useActivateRoleMutation,
 } = roleApi
