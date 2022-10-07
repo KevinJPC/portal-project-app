@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
-function PasswordInput({ label, id, name, placeholder, ...props }) {
+function PasswordInput({ label, id, placeholder, value, onChange, ...props }) {
 	const [showPassword, setShowPassword] = useState(false)
 
 	return (
@@ -16,10 +16,11 @@ function PasswordInput({ label, id, name, placeholder, ...props }) {
 			<div className='flex flex-col relative'>
 				<input
 					id={id}
-					name={name}
 					type={showPassword ? 'text' : 'password'}
 					placeholder={placeholder}
 					className='px-5 text-p-blue bg-p-silver h-12 rounded-lg focus:outline-none hover:ring-1 hover:ring-p-purple focus:ring-2 focus:ring-p-purple placeholder-p-blue'
+					value={value}
+					onChange={onChange}
 					{...props}
 				/>
 				{showPassword ? (
@@ -41,8 +42,9 @@ function PasswordInput({ label, id, name, placeholder, ...props }) {
 PasswordInput.propTypes = {
 	label: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
 	placeholder: PropTypes.string.isRequired,
+	value: PropTypes.string,
+	onChange: PropTypes.func,
 	props: PropTypes.object,
 }
 
