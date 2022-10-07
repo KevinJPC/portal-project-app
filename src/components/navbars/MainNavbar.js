@@ -16,7 +16,7 @@ import {
 } from './navbarLinks'
 
 function AdminUserNavbar() {
-	const role = 'Admin'
+	const role = 'general'
 
 	return (
 		<Disclosure
@@ -56,7 +56,7 @@ function AdminUserNavbar() {
 											leaveTo='transform scale-95 opacity-0'
 										>
 											<Menu.Items className='fixed sm:absolute sm:text-left text-center space-y-2 sm:space-y-1 h-screen sm:h-auto mt-3 right-0 px-2 z-10 sm:mt-2 w-screen sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-												{role === 'Admin'
+												{role === 'admin'
 													? adminUserLinks.map(link => (
 															<Menu.Item key={link.label}>
 																<Navlink to={link.to}>{link.label}</Navlink>
