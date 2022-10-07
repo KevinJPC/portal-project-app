@@ -8,14 +8,12 @@ import {
 } from '@heroicons/react/24/outline'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import Navlink from '../Navlink'
-import { NavLink } from 'react-router-dom'
 import {
 	adminUserLinks,
 	generalUserLinks,
 	notifications,
 	profileLinks,
 } from './navbarLinks'
-// import { Link } from 'react-router-dom'
 
 function AdminUserNavbar() {
 	const role = 'Admin'
