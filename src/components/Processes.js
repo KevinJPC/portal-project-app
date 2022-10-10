@@ -46,6 +46,7 @@ Processes.propTypes = {
 	description: PropTypes.string,
 	modifyDate: PropTypes.string,
 	buttonText: PropTypes.string,
+	creationDate: PropTypes.string,
 	route: PropTypes.string,
 }
 
