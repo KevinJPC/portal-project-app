@@ -1,41 +1,46 @@
-import { useState, useEffect } from 'react'
-import {
-	selectIsAuthenticated,
-	selectRole,
-	selectRoleForRoutes,
-	selectToken,
-	selectUser,
-	setCredentials,
-} from '../features/authSlice'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useReconnectMutation } from '../app/services/authApi'
+import {
+	removeCredentials,
+	selectIsAuthenticated,
+	selectIsTokenValidated,
+	selectRoleForRoutes,
+	selectToken,
+	setCredentials,
+	setIsTokenValidated,
+} from '../features/authSlice'
 
 function useAuth() {
-	const dispatch = useDispatch()
 	const isAuthenticated = useSelector(selectIsAuthenticated)
+	const isTokenValidated = useSelector(selectIsTokenValidated)
+	const roleForRoutes = useSelector(selectRoleForRoutes)
+
+	const [reconnect] = useReconnectMutation()
+	const dispatch = useDispatch()
 	const token = useSelector(selectToken)
-	const role = useSelector(selectRole)
-	const roleForRoutes = role === 'admin' ? role : 'general'
 
-	const [reconnect, { isSuccess, data }] = useReconnectMutation()
+	const handleCheckAuth = async () => {
+		try {
+			if (!isAuthenticated && token) {
+				console.log('reconectando...')
+				const { data } = await reconnect().unwrap()
+				console.log(data)
+				dispatch(setCredentials(data))
+			} else {
+				dispatch(setIsTokenValidated(true))
+			}
+		} catch (error) {
+			dispatch(removeCredentials())
+			console.log(error)
+		}
+	}
 
 	useEffect(() => {
-		console.log(isSuccess)
-		if (isSuccess) {
-			console.log('reconectado ✅')
-			console.log(data)
-			// dispatch(setCredentials(data.data))
-		}
-	}, [isSuccess])
+		handleCheckAuth()
+	}, [])
 
-	useEffect(() => {
-		if (!isAuthenticated && token) {
-			console.log('reconectando...')
-			reconnect(token)
-		}
-	}, [isAuthenticated])
-
-	return { isAuthenticated, roleForRoutes }
+	return { isAuthenticated, isTokenValidated, roleForRoutes }
 }
 
 export default useAuth

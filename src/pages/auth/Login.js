@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import loginImg from '../../assets/img/login.png'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from './../../components/inputs/PasswordInput'
@@ -11,7 +11,6 @@ import { setCredentials } from '../../features/authSlice'
 
 function Login() {
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 
 	const [login, { isLoading, isSuccess, data, isError, error }] =
 		useLoginMutation()
@@ -24,7 +23,6 @@ function Login() {
 	useEffect(() => {
 		if (isSuccess) {
 			dispatch(setCredentials(data.data))
-			navigate('mis-procesos')
 		}
 	}, [isSuccess])
 

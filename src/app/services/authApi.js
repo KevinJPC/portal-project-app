@@ -10,12 +10,9 @@ export const authApi = portalApi.injectEndpoints({
 			}),
 		}),
 		reconnect: builder.mutation({
-			query: token => ({
+			query: () => ({
 				url: '/auth/reconnect',
 				method: 'POST',
-				headers: {
-					authorization: `Bearer ${token}`,
-				},
 			}),
 		}),
 	}),

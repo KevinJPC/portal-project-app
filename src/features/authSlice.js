@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+	isTokenValidated: false,
 	isAuthenticated: false,
 	user: {
 		id: null,
@@ -20,18 +21,24 @@ export const authSlice = createSlice({
 			state.user = action.payload.user
 			state.token = action.payload.token
 			state.isAuthenticated = true
+			state.isTokenValidated = true
 			sessionStorage.setItem('token', state.token)
 		},
 		removeCredentials: state => {
 			state.user = null
 			state.token = null
 			state.isAuthenticated = false
+			state.isTokenValidated = false
 			sessionStorage.removeItem('token')
+		},
+		setIsTokenValidated: (state, action) => {
+			state.isTokenValidated = action.payload
 		},
 	},
 })
 
-export const { setCredentials, removeCredentials } = authSlice.actions
+export const { setCredentials, removeCredentials, setIsTokenValidated } =
+	authSlice.actions
 
 export const selectToken = state => state.auth.token
 export const selectFullName = state =>
@@ -42,5 +49,9 @@ export const selectFullName = state =>
 	].join(' ')
 export const selectRole = state => state.auth.user.role
 export const selectUser = state => state.auth.user
+export const selectRoleForRoutes = state =>
+	state.auth.user.role === 'admin' ? 'admin' : 'general'
+export const selectIsTokenValidated = state => state.auth.isTokenValidated
 export const selectIsAuthenticated = state => state.auth.isAuthenticated
+
 export default authSlice.reducer
