@@ -13,3 +13,8 @@
 		src: url('../public/fonts/FiraSans/FiraSans-Medium.ttf');
 	}
 }
+
+/* A CSS hack to hide the password reveal button in IE. */
+::-ms-reveal {
+	display: none;
+}
