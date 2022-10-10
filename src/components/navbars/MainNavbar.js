@@ -14,11 +14,16 @@ import {
 	notifications,
 	profileLinks,
 } from './navbarLinks'
+import { useSelector } from 'react-redux'
+import {
+	selectIsAuthenticated,
+	selectRoleForRoutes,
+} from '../../features/authSlice'
 
 function AdminUserNavbar() {
-	const role = 'admin'
-
-	return (
+	const role = useSelector(selectRoleForRoutes)
+	const isAuthenticated = useSelector(selectIsAuthenticated)
+	return isAuthenticated ? (
 		<Disclosure
 			as='nav'
 			className='bg-p-blue text-p-white '
@@ -59,12 +64,18 @@ function AdminUserNavbar() {
 												{role === 'admin'
 													? adminUserLinks.map(link => (
 															<Menu.Item key={link.label}>
-																<Navlink to={link.to}>{link.label}</Navlink>
+																<Navlink
+																	to={link.to}
+																	text={link.label}
+																/>
 															</Menu.Item>
 													  ))
 													: generalUserLinks.map(link => (
 															<Menu.Item key={link.label}>
-																<Navlink to={link.to}>{link.label}</Navlink>
+																<Navlink
+																	to={link.to}
+																	text={link.label}
+																/>
 															</Menu.Item>
 													  ))}
 											</Menu.Items>
@@ -98,7 +109,7 @@ function AdminUserNavbar() {
 							</div>
 						</div>
 						<div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-							{role !== 'Admin' ? (
+							{role !== 'admin' ? (
 								<Menu
 									as='div'
 									className='relative ml-3'
@@ -166,7 +177,10 @@ function AdminUserNavbar() {
 										</Menu.Item>
 										{profileLinks.map(link => (
 											<Menu.Item key={link.label}>
-												<Navlink to={link.to}>{link.label}</Navlink>
+												<Navlink
+													to={link.to}
+													text={link.label}
+												/>
 											</Menu.Item>
 										))}
 									</Menu.Items>
@@ -177,7 +191,7 @@ function AdminUserNavbar() {
 				</div>
 			</>
 		</Disclosure>
-	)
+	) : null
 }
 
 export default AdminUserNavbar

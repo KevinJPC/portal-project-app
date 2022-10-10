@@ -10,7 +10,7 @@ import {
 import Admins from '../components/Admins'
 import React, { useState } from 'react'
 
-export const useGetActivesAdmins = () => {
+export function GetActivesAdmins() {
 	const { data: actives } = useGetActivesAdminQuery()
 	actives?.data.active_users.data.map(admin => (
 		<Admins

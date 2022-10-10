@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
-function SearchBar({ title, buttonText, route }) {
-	const [state, setState] = useState('actives')
-
+function SearchBar({ title, buttonText, route, setAdminState }) {
 	const changeState = e => {
-		setState(e)
+		setAdminState(e)
 	}
 
 	return (
@@ -50,6 +48,7 @@ function SearchBar({ title, buttonText, route }) {
 
 SearchBar.propTypes = {
 	title: PropTypes.string,
+	setAdminState: PropTypes.func,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }

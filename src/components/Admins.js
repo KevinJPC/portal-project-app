@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-function Admins({ admin }) {
-	const { id, name, email, dni, created_at } = admin
+function Admins({ id, name, email, dni, createdAt }) {
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0'>
 			<div className='flex justify-center py-4'>
@@ -31,7 +30,7 @@ function Admins({ admin }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creación
 							</p>
-							<p className='text-sm leading-normal pt-2'>{created_at}</p>
+							<p className='text-sm leading-normal pt-2'>{createdAt}</p>
 						</div>
 						<div className='p-8 text-center'>
 							<Link
@@ -49,11 +48,11 @@ function Admins({ admin }) {
 }
 
 Admins.propTypes = {
+	id: PropTypes.string,
 	name: PropTypes.string,
-	description: PropTypes.string,
+	createdAt: PropTypes.string,
 	dni: PropTypes.string,
 	email: PropTypes.string,
 	buttonText: PropTypes.string,
-	route: PropTypes.string,
 }
 export default Admins
