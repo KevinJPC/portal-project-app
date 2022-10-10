@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate, Route } from 'react-router-dom'
-import ActivesAdmins from '../pages/admin/ActivesAdmins'
+import ListAdmins from '../pages/admin/ListAdmins'
 import RegisterAdmin from '../pages/admin/RegisterAdmin'
 import UpdateAdmin from '../pages/admin/UpdateAdmin'
 
@@ -12,7 +12,7 @@ export const userAdminsRoutes = (
 		/>
 		<Route
 			path='admin/usuarios'
-			element={<ActivesAdmins />}
+			element={<ListAdmins />}
 		/>
 		<Route
 			path='admin/usuarios/registrar'

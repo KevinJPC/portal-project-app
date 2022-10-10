@@ -16,7 +16,7 @@ import {
 } from './navbarLinks'
 
 function AdminUserNavbar() {
-	const role = 'general'
+	const role = 'admin'
 
 	return (
 		<Disclosure
@@ -77,7 +77,7 @@ function AdminUserNavbar() {
 							<div className='flex flex-shrink-0 items-center ml-3'>Logo</div>
 							<div className='hidden sm:ml-6 sm:block'>
 								<div className='flex flex-row '>
-									{role === 'Admin'
+									{role === 'admin'
 										? adminUserLinks.map(link => (
 												<div
 													key={link.label}

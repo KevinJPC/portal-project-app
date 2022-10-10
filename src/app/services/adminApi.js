@@ -10,10 +10,11 @@ export const adminApi = portalApi.injectEndpoints({
 		}),
 		getInactivesAdmin: builder.query({
 			query: () => 'admin/inactives',
-			providesTags: result => providesList(result, 'Admin'),
+			providesTags: result =>
+				providesList(result.data.inactive_users.data, 'Admin'),
 		}),
 		getAdminById: builder.query({
-			query: adminId => `admin/${adminId}`,
+			query: adminId => `users/${adminId}`,
 			providesTags: (result, error, arg) => [{ type: 'Admin', id: arg }],
 		}),
 		addNewAdmin: builder.mutation({
