@@ -1,14 +1,12 @@
 import React from 'react'
 import InitialNavbar from './InitialNavbar'
-import GeneralUserNavbar from './GeneralUserNavbar'
-import AdminUserNavbar from './AdminUserNavbar'
+import MainNavbar from './MainNavbar'
 
 function NavbarContainer() {
 	return (
 		<>
 			{/* <InitialNavbar /> */}
-			<GeneralUserNavbar />
-			{/* <AdminUserNavbar /> */}
+			<MainNavbar />
 		</>
 	)
 }
