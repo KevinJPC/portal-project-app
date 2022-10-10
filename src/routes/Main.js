@@ -11,6 +11,7 @@ import { userProcessesRoutes } from './userProcesses'
 import RequireAuth from '../components/auth/RequireAuth'
 import NonRequireAuth from '../components/auth/NonRequireAuth'
 import useAuth from '../hooks/useAuth'
+import { adminProfileRoutes } from './adminProfile'
 
 const MainRoutes = () => {
 	const { isAuthenticated, isTokenValidated, roleForRoutes } = useAuth()
@@ -63,6 +64,7 @@ const MainRoutes = () => {
 					/>
 				}
 			>
+				{adminProfileRoutes}
 				{userAdminsRoutes}
 				{processesRoutes}
 				{rolesRoutes}

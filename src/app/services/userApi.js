@@ -24,3 +24,9 @@ export const userApi = portalApi.injectEndpoints({
 		}),
 	}),
 })
+
+export const {
+	useGetUserByIdQuery,
+	useUpdateUserProfileMutation,
+	useUpdateUserPasswordMutation,
+} = userApi

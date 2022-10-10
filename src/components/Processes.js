@@ -31,7 +31,7 @@ function Processes({ name, creationDate, modifyDate, buttonText, route }) {
 								to={route}
 								className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
 							>
-								{buttonText}
+								Iniciar
 							</Link>
 						</div>
 					</div>

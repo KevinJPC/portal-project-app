@@ -4,7 +4,7 @@ import SearchBar from '../../components/SearchBar'
 
 const ActivesRoles = () => {
 	return (
-		<div>
+		<div className='w-full'>
 			<div className='h-24'>
 				<SearchBar
 					title='Roles'

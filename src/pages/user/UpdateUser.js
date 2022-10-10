@@ -2,7 +2,7 @@ import React from 'react'
 
 const UpdateUser = () => {
 	return (
-		<div className=' mt-16'>
+		<div className=' mt-16 w-full'>
 			<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'>
 				<div>
 					<h3 className='text-3xl text-p-blue'>Editar perfil</h3>

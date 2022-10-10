@@ -1,19 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
-function SearchBar({ title, buttonText, route }) {
+function SearchBar({ title, buttonText, route, setAdminState }) {
+	const changeState = e => {
+		setAdminState(e)
+	}
+
 	return (
 		<div className='shadow-md w-full'>
 			<div className='flex items-center justify-between bg-p-silver py-4 md:p-3 md:px-2 '>
 				<div className='text-sm'>
 					<select
 						id={title}
+						onChange={e => changeState(e.target.value)}
 						className=' bg-p-silver text-p-blue font-fira-medium lg:text-lg outline-none text-sm sm:w-auto w-20'
 					>
-						<option value='active'>{title} activos</option>
-						<option value='inactive'>{title} inactivos</option>
+						<option value='actives'>{title} activos</option>
+						<option value='inactives'>{title} inactivos</option>
 					</select>
 				</div>
 				<div className='flex '>
@@ -43,6 +48,7 @@ function SearchBar({ title, buttonText, route }) {
 
 SearchBar.propTypes = {
 	title: PropTypes.string,
+	setAdminState: PropTypes.func,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }
