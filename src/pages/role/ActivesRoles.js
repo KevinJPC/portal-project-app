@@ -1,8 +1,11 @@
 import React from 'react'
-import Roles from '../../components/Roles'
+import { useGetActivesRolesQuery } from '../../app/services/roleApi'
 import SearchBar from '../../components/SearchBar'
+import Roles from '../../components/Roles'
 
 const ActivesRoles = () => {
+	const { data: roles } = useGetActivesRolesQuery()
+	console.log(roles)
 	return (
 		<div>
 			<div className='h-24'>
@@ -13,34 +16,12 @@ const ActivesRoles = () => {
 				/>
 			</div>
 			<div className='mb-10'>
-				<Roles
-					name='Servicio al cliente'
-					description='Rol de servicio al cliente'
-					date='28/09/2022'
-					buttonText='Modificar'
-					route='register'
-				/>
-				<Roles
-					name='Servicio al cliente'
-					description='Rol de servicio al cliente'
-					date='28/09/2022'
-					buttonText='Modificar'
-					route='register'
-				/>
-				<Roles
-					name='Servicio al cliente'
-					description='Rol de servicio al cliente'
-					date='28/09/2022'
-					buttonText='Modificar'
-					route='register'
-				/>
-				<Roles
-					name='Servicio al cliente'
-					description='Rol de servicio al cliente'
-					date='28/09/2022'
-					buttonText='Modificar'
-					route='register'
-				/>
+				{roles?.roles.data.map(rol => (
+					<Roles
+						key={rol.id}
+						data={rol}
+					/>
+				))}
 			</div>
 		</div>
 	)

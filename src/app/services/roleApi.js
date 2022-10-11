@@ -5,15 +5,15 @@ export const roleApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getActivesRoles: builder.query({
 			query: () => 'roles/actives',
-			providesTags: result => providesList(result, 'Role'),
+			providesTags: result => providesList(result.roles.data, 'Role'),
 		}),
 		getInactivesRoles: builder.query({
 			query: () => 'roles/inactives',
-			providesTags: result => providesList(result, 'Role'),
+			providesTags: result => providesList(result.role.data, 'Role'),
 		}),
 		getRoleById: builder.query({
-			query: roleId => `role/${roleId}`,
-			providesTags: (result, error, arg) => [{ type: 'Role', id: arg }],
+			query: roleId => `roles/${roleId}`,
+			providesTags: result => providesList(result.role.data, 'Role'),
 		}),
 		addNewRole: builder.query({
 			query: role => ({
@@ -24,7 +24,7 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 		updateRole: builder.query({
 			query: role => ({
-				url: `role/${role.id}`,
+				url: `/${role.id}`,
 				method: 'PATCH',
 				body: { ...role },
 			}),
@@ -32,7 +32,7 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 		inactivateRole: builder.mutation({
 			query: roleId => ({
-				url: `role/${roleId}/inactivate`,
+				url: `roles/${roleId}/inactivate`,
 				method: 'PATCH',
 			}),
 			invalidatesTags: (result, error, roleId) => [{ type: 'Role', roleId }],
@@ -46,7 +46,6 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 	}),
 })
-
 export const {
 	useGetActivesRolesQuery,
 	useGetInactivesRolesQuery,

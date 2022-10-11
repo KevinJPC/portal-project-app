@@ -48,7 +48,7 @@ export const adminApi = portalApi.injectEndpoints({
 	}),
 })
 
-const {
+export const {
 	useGetActivesAdminQuery,
 	useGetInactivesAdminQuery,
 	useGetAdminByIdQuery,

@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-function Roles({ name, description, date, buttonText, route }) {
+
+function Roles({ data }) {
+	const { name, description, created_at, id } = data
+
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0'>
 			<div className='flex justify-center py-4'>
@@ -23,14 +26,14 @@ function Roles({ name, description, date, buttonText, route }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creacción
 							</p>
-							<p className='text-sm leading-normal pt-2'>{date}</p>
+							<p className='text-sm leading-normal pt-2'>{created_at}</p>
 						</div>
 						<div className='text-center'>
 							<Link
-								to={route}
+								to={`editar/${id}`}
 								className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
 							>
-								{buttonText}
+								Modificar
 							</Link>
 						</div>
 					</div>
