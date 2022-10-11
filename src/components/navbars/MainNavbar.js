@@ -8,19 +8,22 @@ import {
 } from '@heroicons/react/24/outline'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import Navlink from '../Navlink'
-import { NavLink } from 'react-router-dom'
 import {
 	adminUserLinks,
 	generalUserLinks,
 	notifications,
 	profileLinks,
 } from './navbarLinks'
-// import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import {
+	selectIsAuthenticated,
+	selectRoleForRoutes,
+} from '../../features/authSlice'
 
 function AdminUserNavbar() {
-	const role = 'Admin'
-
-	return (
+	const role = useSelector(selectRoleForRoutes)
+	const isAuthenticated = useSelector(selectIsAuthenticated)
+	return isAuthenticated ? (
 		<Disclosure
 			as='nav'
 			className='bg-p-blue text-p-white '
@@ -58,15 +61,21 @@ function AdminUserNavbar() {
 											leaveTo='transform scale-95 opacity-0'
 										>
 											<Menu.Items className='fixed sm:absolute sm:text-left text-center space-y-2 sm:space-y-1 h-screen sm:h-auto mt-3 right-0 px-2 z-10 sm:mt-2 w-screen sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-												{role === 'Admin'
+												{role === 'admin'
 													? adminUserLinks.map(link => (
 															<Menu.Item key={link.label}>
-																<Navlink to={link.to}>{link.label}</Navlink>
+																<Navlink
+																	to={link.to}
+																	text={link.label}
+																/>
 															</Menu.Item>
 													  ))
 													: generalUserLinks.map(link => (
 															<Menu.Item key={link.label}>
-																<Navlink to={link.to}>{link.label}</Navlink>
+																<Navlink
+																	to={link.to}
+																	text={link.label}
+																/>
 															</Menu.Item>
 													  ))}
 											</Menu.Items>
@@ -79,7 +88,7 @@ function AdminUserNavbar() {
 							<div className='flex flex-shrink-0 items-center ml-3'>Logo</div>
 							<div className='hidden sm:ml-6 sm:block'>
 								<div className='flex flex-row '>
-									{role === 'Admin'
+									{role === 'admin'
 										? adminUserLinks.map(link => (
 												<div
 													key={link.label}
@@ -100,7 +109,7 @@ function AdminUserNavbar() {
 							</div>
 						</div>
 						<div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-							{role !== 'Admin' ? (
+							{role !== 'admin' ? (
 								<Menu
 									as='div'
 									className='relative ml-3'
@@ -168,7 +177,10 @@ function AdminUserNavbar() {
 										</Menu.Item>
 										{profileLinks.map(link => (
 											<Menu.Item key={link.label}>
-												<Navlink to={link.to}>{link.label}</Navlink>
+												<Navlink
+													to={link.to}
+													text={link.label}
+												/>
 											</Menu.Item>
 										))}
 									</Menu.Items>
@@ -179,7 +191,7 @@ function AdminUserNavbar() {
 				</div>
 			</>
 		</Disclosure>
-	)
+	) : null
 }
 
 export default AdminUserNavbar

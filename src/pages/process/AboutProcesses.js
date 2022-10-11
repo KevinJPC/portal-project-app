@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowDownIcon } from '@heroicons/react/24/solid'
+import PropTypes from 'prop-types'
 
 function AboutProcesses({
 	name,
@@ -114,6 +115,13 @@ function AboutProcesses({
 			</div>
 		</div>
 	)
+}
+
+AboutProcesses.propTypes = {
+	name: PropTypes.string,
+	creationDate: PropTypes.string,
+	activitynow: PropTypes.string,
+	percentageAdvance: PropTypes.string,
 }
 
 export default AboutProcesses

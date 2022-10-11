@@ -7,6 +7,10 @@ module.exports = {
 				fira: ['FiraSans', 'sans-serif'],
 				'fira-medium': ['FiraSans-Medium', 'sans-serif'],
 			},
+			boxShadow: {
+				purple: '0px 4px 15px rgba(94, 114, 228, 0.75)',
+				red: '0px 4px 15px rgba(255, 74, 74, 1)',
+			},
 		},
 		colors: {
 			'p-blue': '#334155',

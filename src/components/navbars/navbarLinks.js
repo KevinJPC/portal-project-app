@@ -1,7 +1,7 @@
 /* An array of objects that are being used to create the links in the profile menu. */
 export const profileLinks = [
-	{ to: 'usuario/editar-perfil', label: 'Editar perfil' },
-	{ to: 'usuario/cambiar-contrasena', label: 'Cambiar contraseña' },
+	{ to: 'admin/usuario/editar-perfil', label: 'Editar perfil' },
+	{ to: 'admin/usuario/cambiar-contrasena', label: 'Cambiar contraseña' },
 	{ to: '/', label: 'Cerrar sesión' },
 ]
 

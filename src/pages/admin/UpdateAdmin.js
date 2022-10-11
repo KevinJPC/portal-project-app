@@ -1,8 +1,42 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import {
+	useGetAdminByIdQuery,
+	useUpdateAdminMutation,
+} from '../../app/services/adminApi'
 import ModalWindow from '../../components/ModalWindow'
 
 const UpdateAdmin = () => {
 	const [showModal, setShowModal] = useState(false)
+	const { id } = useParams()
+	const navigate = useNavigate()
+
+	const { data: result } = useGetAdminByIdQuery(Number(id))
+	const [updateAdmin, { isLoading }] = useUpdateAdminMutation()
+
+	const [name, setName] = useState(result?.data.user.name)
+	const [firstLastName, setFirstLastName] = useState(
+		result?.data.user.first_last_name
+	)
+	const [secondLastName, setSecondLastName] = useState(
+		result?.data.user.second_last_name
+	)
+	const [email, setEmail] = useState(result?.data.user.email)
+
+	const updatedAdmin = [id, name, firstLastName, secondLastName, email]
+	console.log(updatedAdmin)
+	const canSave =
+		[name, firstLastName, secondLastName, email].every(Boolean) && !isLoading
+
+	const onSaveAdmin = async () => {
+		if (canSave) {
+			try {
+				await updateAdmin(updatedAdmin).unwrap()
+				navigate(-1)
+			} catch (err) {}
+		}
+	}
 
 	return (
 		<div className=''>
@@ -24,6 +58,8 @@ const UpdateAdmin = () => {
 									<input
 										type='text'
 										name='name'
+										value={name}
+										onChange={e => setName(e.target.value)}
 										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Nombre del usuario'
 									/>
@@ -40,6 +76,8 @@ const UpdateAdmin = () => {
 									<input
 										type='text'
 										name='first_last_name'
+										value={firstLastName}
+										onChange={e => setFirstLastName(e.target.value)}
 										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Primer apellido'
 									/>
@@ -56,6 +94,8 @@ const UpdateAdmin = () => {
 									<input
 										type='text'
 										name='second_last_name'
+										value={secondLastName}
+										onChange={e => setSecondLastName(e.target.value)}
 										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Segundo apellido'
 									/>
@@ -72,6 +112,8 @@ const UpdateAdmin = () => {
 									<input
 										type='email'
 										name='second_last_name'
+										value={email}
+										onChange={e => setEmail(e.target.value)}
 										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Correo electrónico'
 									/>
@@ -89,6 +131,7 @@ const UpdateAdmin = () => {
 							{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
 							<button
 								type='submit'
+								onClick={onSaveAdmin}
 								className='text-p-white bg-p-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
 							>
 								Modificar

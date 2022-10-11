@@ -7,7 +7,7 @@ const ActivesRoles = () => {
 	const { data: roles } = useGetActivesRolesQuery()
 	console.log(roles)
 	return (
-		<div>
+		<div className='w-full'>
 			<div className='h-24'>
 				<SearchBar
 					title='Roles'
