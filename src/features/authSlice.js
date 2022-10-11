@@ -9,6 +9,7 @@ const initialState = {
 		firstLastName: null,
 		secondLastName: null,
 		role: null,
+		email: null,
 	},
 	token: sessionStorage.getItem('token') || null,
 }
@@ -42,11 +43,7 @@ export const { setCredentials, removeCredentials, setIsTokenValidated } =
 
 export const selectToken = state => state.auth.token
 export const selectFullName = state =>
-	[
-		state.auth.user.name,
-		state.auth.user.firstLastName,
-		state.auth.user.secondLastName,
-	].join(' ')
+	[state.auth.user.name, state.auth.user.firstLastName].join(' ')
 export const selectRole = state => state.auth.user.role
 export const selectUser = state => state.auth.user
 export const selectRoleForRoutes = state =>
