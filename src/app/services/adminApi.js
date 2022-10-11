@@ -4,14 +4,14 @@ import { providesList } from './tagProvider'
 export const adminApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getActivesAdmin: builder.query({
-			query: () => 'admin/actives?page=1',
+			query: () => 'admin/actives',
 			providesTags: result =>
-				providesList(result.data.active_users.data, 'Admin'),
+				providesList(result.data.activeUsers.data, 'Admin'),
 		}),
 		getInactivesAdmin: builder.query({
 			query: () => 'admin/inactives',
 			providesTags: result =>
-				providesList(result.data.inactive_users.data, 'Admin'),
+				providesList(result.data.inactiveUsers.data, 'Admin'),
 		}),
 		getAdminById: builder.query({
 			query: adminId => `users/${adminId}`,

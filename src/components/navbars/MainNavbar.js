@@ -16,6 +16,7 @@ import {
 } from './navbarLinks'
 import { useSelector } from 'react-redux'
 import {
+	selectFullName,
 	selectIsAuthenticated,
 	selectRoleForRoutes,
 } from '../../features/authSlice'
@@ -23,6 +24,7 @@ import {
 function AdminUserNavbar() {
 	const role = useSelector(selectRoleForRoutes)
 	const isAuthenticated = useSelector(selectIsAuthenticated)
+	const userName = useSelector(selectFullName)
 	return isAuthenticated ? (
 		<Disclosure
 			as='nav'
@@ -94,7 +96,10 @@ function AdminUserNavbar() {
 													key={link.label}
 													className='px-3 py-10 text-sm lg:text-lg'
 												>
-													<Navlink to={link.to}>{link.label}</Navlink>
+													<Navlink
+														to={link.to}
+														text={link.label}
+													/>
 												</div>
 										  ))
 										: generalUserLinks.map(link => (
@@ -102,7 +107,10 @@ function AdminUserNavbar() {
 													key={link.label}
 													className='px-3 py-1 hover:bg-p-silver rounded '
 												>
-													<Navlink to={link.to}>{link.label}</Navlink>
+													<Navlink
+														to={link.to}
+														text={link.label}
+													/>
 												</div>
 										  ))}
 								</div>
@@ -116,7 +124,7 @@ function AdminUserNavbar() {
 								>
 									<Menu.Button
 										type='button'
-										className='flex rounded-full p-1 focus:outline-none focus:ring-1 focus:ring-offset-1'
+										className='flex rounded-full p-1 hover:bg-p-silver'
 									>
 										<BellAlertIcon
 											className='h-6 w-6'
@@ -155,9 +163,10 @@ function AdminUserNavbar() {
 								className='relative ml-3'
 							>
 								<div>
-									<Menu.Button className='flex items-center focus:outline-none rounded-full focus:ring-1 focus:ring-offset-1 '>
+									<Menu.Button className='flex  items-center focus:outline-none rounded-full hover:bg-p-silver'>
 										<UserCircleIcon className='h-8 w-8 rounded-full' />
-										<ChevronDownIcon className='h-3 w-3' />
+										<p className='mx-1 lg:text-base text-sm '>{userName}</p>
+										<ChevronDownIcon className='h-4 w-4' />
 									</Menu.Button>
 								</div>
 								<Transition
@@ -170,11 +179,6 @@ function AdminUserNavbar() {
 									leaveTo='transform scale-95 opacity-0'
 								>
 									<Menu.Items className='fixed sm:absolute text-center space-y-2 sm:space-y-1 divide-y sm:border h-screen sm:h-auto right-0 z-10 mt-4 sm:mt-2 w-screen sm:w-48 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-										<Menu.Item>
-											<div className='block px-4 py-2 hover:bg-p-silver rounded mb-2'>
-												<p>Pancho panchito</p>
-											</div>
-										</Menu.Item>
 										{profileLinks.map(link => (
 											<Menu.Item key={link.label}>
 												<Navlink
