@@ -23,7 +23,7 @@ const baseQuery = fetchBaseQuery({
  * @returns The result of the baseQuery function.
  */
 const baseQueryWithTransformations = async (args, api, extraOptions) => {
-	args.body = decamelizeKeys(args.body)
+	if (args.body) args.body = decamelizeKeys(args.body)
 
 	let result = await baseQuery(args, api, extraOptions)
 

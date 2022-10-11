@@ -4,38 +4,59 @@ import { useNavigate, useParams } from 'react-router-dom'
 import {
 	useGetAdminByIdQuery,
 	useUpdateAdminMutation,
+	useInactivateAdminMutation,
 } from '../../app/services/adminApi'
+import ClickButton from '../../components/buttons/ClickButton'
+import SubmitButton from '../../components/buttons/SubmitButton'
+import Input from '../../components/inputs/TextInput'
 import ModalWindow from '../../components/ModalWindow'
 
 const UpdateAdmin = () => {
 	const [showModal, setShowModal] = useState(false)
+	const [isInactivate, setIsInactivate] = useState(false)
 	const { id } = useParams()
 	const navigate = useNavigate()
 
-	const { data: result } = useGetAdminByIdQuery(Number(id))
-	const [updateAdmin, { isLoading }] = useUpdateAdminMutation()
+	const { data: result, isSuccess } = useGetAdminByIdQuery(Number(id))
+	const [updateaAdmin, { isLoading: isLoadingUpdate }] =
+		useUpdateAdminMutation()
 
-	const [name, setName] = useState(result?.data.user.name)
-	const [firstLastName, setFirstLastName] = useState(
-		result?.data.user.first_last_name
-	)
-	const [secondLastName, setSecondLastName] = useState(
-		result?.data.user.second_last_name
-	)
-	const [email, setEmail] = useState(result?.data.user.email)
+	const [inactivateAdmin, { isLoading: isLoadingInactivate }] =
+		useInactivateAdminMutation()
 
-	const updatedAdmin = [id, name, firstLastName, secondLastName, email]
-	console.log(updatedAdmin)
-	const canSave =
-		[name, firstLastName, secondLastName, email].every(Boolean) && !isLoading
+	const [values, setValues] = useState({
+		id: id,
+		name: '',
+		email: '',
+		firstLastName: '',
+		secondLastName: '',
+	})
 
-	const onSaveAdmin = async () => {
-		if (canSave) {
-			try {
-				await updateAdmin(updatedAdmin).unwrap()
-				navigate(-1)
-			} catch (err) {}
+	useEffect(() => {
+		if (isSuccess) {
+			setValues({
+				name: result?.data.user.name,
+				email: result?.data.user.email,
+				firstLastName: result?.data.user.firstLastName,
+				secondLastName: result?.data.user.secondLastName,
+			})
 		}
+	}, [isSuccess])
+
+	const inactivate = e => {
+		setShowModal(true)
+		if (isInactivate) {
+			inactivateAdmin(id).unwrap()
+			navigate(-1)
+		}
+	}
+
+	const update = async e => {
+		e.preventDefault()
+		try {
+			await updateaAdmin(values)
+			// navigate(-1)
+		} catch (err) {}
 	}
 
 	return (
@@ -45,97 +66,70 @@ const UpdateAdmin = () => {
 					<h3 className='text-3xl text-p-blue'>Modificar usuario</h3>
 				</div>
 				<div className='w-full py-4 mt-1 px-4 overflow-hidde max-w-xs md:max-w-3xl'>
-					<form>
+					<form onSubmit={update}>
 						<div className='md:grid md:grid-cols-2 gap-5 '>
 							<div className='mt-4 '>
-								<label
-									htmlFor='name'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Nombre
-								</label>
-								<div className='flex flex-col items-start '>
-									<input
-										type='text'
-										name='name'
-										value={name}
-										onChange={e => setName(e.target.value)}
-										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-										placeholder='Nombre del usuario'
-									/>
-								</div>
+								<Input
+									id='name'
+									label='Nombre'
+									placeholder='Nombre'
+									value={values.name}
+									onChange={e => setValues({ ...values, name: e.target.value })}
+								/>
 							</div>
 							<div className='mt-4 '>
-								<label
-									htmlFor='first_last_name'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Primer apellido
-								</label>
-								<div className='flex flex-col items-start '>
-									<input
-										type='text'
-										name='first_last_name'
-										value={firstLastName}
-										onChange={e => setFirstLastName(e.target.value)}
-										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-										placeholder='Primer apellido'
-									/>
-								</div>
+								<Input
+									id='firstLastName'
+									label='Primer apellido'
+									placeholder='Primer apellido'
+									value={values.firstLastName}
+									onChange={e =>
+										setValues({ ...values, firstLastName: e.target.value })
+									}
+								/>
 							</div>
 							<div className='mt-4 '>
-								<label
-									htmlFor='second_last_name'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Segundo apellido
-								</label>
-								<div className='flex flex-col items-start '>
-									<input
-										type='text'
-										name='second_last_name'
-										value={secondLastName}
-										onChange={e => setSecondLastName(e.target.value)}
-										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-										placeholder='Segundo apellido'
-									/>
-								</div>
+								<Input
+									id='secondLastName'
+									label='Segundo apellido'
+									placeholder='Segundo apellido'
+									value={values.secondLastName}
+									onChange={e =>
+										setValues({ ...values, secondLastName: e.target.value })
+									}
+								/>
 							</div>
 							<div className='mt-4 '>
-								<label
-									htmlFor='second_last_name'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Correo electrónico
-								</label>
-								<div className='flex flex-col items-start '>
-									<input
-										type='email'
-										name='second_last_name'
-										value={email}
-										onChange={e => setEmail(e.target.value)}
-										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-										placeholder='Correo electrónico'
-									/>
-								</div>
+								<Input
+									id='email'
+									label='Correo electrónico'
+									placeholder='Correo electrónico'
+									value={values.email}
+									onChange={e =>
+										setValues({ ...values, email: e.target.value })
+									}
+								/>
 							</div>
 						</div>
 						<div className='md:px-36'>
-							<button
-								type='button'
-								className='text-p-white bg-p-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-								onClick={() => setShowModal(true)}
-							>
-								Desactivar
-							</button>
-							{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
-							<button
-								type='submit'
-								onClick={onSaveAdmin}
-								className='text-p-white bg-p-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-							>
-								Modificar
-							</button>
+							<ClickButton
+								isLoading={isLoadingInactivate}
+								text='Desactivar'
+								func={inactivate}
+								color='red'
+							/>
+							{showModal ? (
+								<ModalWindow
+									setShowModal={setShowModal}
+									setIsInactivate={setIsInactivate}
+								/>
+							) : null}
+							<div className='mt-3'>
+								<SubmitButton
+									isLoading={isLoadingUpdate}
+									text='Guardar cambios'
+								/>
+							</div>
 						</div>
 					</form>
 				</div>

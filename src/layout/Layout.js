@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
 			<header className='md:h-18 h-16 text-white w-full'>
 				<NavbarContainer />
 			</header>
-			<main className='min-h-[calc(100vh-64px)] flex'>{children}</main>
+			<main className='min-h-[calc(100vh-64px)] flex flex-col'>{children}</main>
 			<footer></footer>
 		</div>
 	)

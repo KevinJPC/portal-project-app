@@ -1,13 +1,18 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectIsAuthenticated } from '../../features/authSlice'
 import InitialNavbar from './InitialNavbar'
 import MainNavbar from './MainNavbar'
 
 function NavbarContainer() {
-	return (
+	const isAuthenticated = useSelector(selectIsAuthenticated)
+
+	return isAuthenticated ? (
 		<>
-			{/* <InitialNavbar /> */}
 			<MainNavbar />
 		</>
+	) : (
+		<InitialNavbar />
 	)
 }
 
