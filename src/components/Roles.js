@@ -44,9 +44,7 @@ function Roles({ data }) {
 }
 
 Roles.propTypes = {
-	name: PropTypes.string,
-	description: PropTypes.string,
-	date: PropTypes.string,
+	data: PropTypes.object,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }
