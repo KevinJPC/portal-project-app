@@ -55,7 +55,7 @@ const UpdateAdmin = () => {
 		e.preventDefault()
 		try {
 			await updateaAdmin(values)
-			// navigate(-1)
+			//navigate(-1)
 		} catch (err) {}
 	}
 

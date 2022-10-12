@@ -15,16 +15,16 @@ export const roleApi = portalApi.injectEndpoints({
 			query: roleId => `roles/${roleId}`,
 			providesTags: result => providesList(result.role.data, 'Role'),
 		}),
-		addNewRole: builder.query({
+		addNewRole: builder.mutation({
 			query: role => ({
-				url: `role/`,
+				url: `roles/`,
 				method: 'PATCH',
 				body: { ...role },
 			}),
 		}),
-		updateRole: builder.query({
+		updateRole: builder.mutation({
 			query: role => ({
-				url: `/${role.id}`,
+				url: `roles/${role.id}`,
 				method: 'PATCH',
 				body: { ...role },
 			}),
@@ -50,8 +50,8 @@ export const {
 	useGetActivesRolesQuery,
 	useGetInactivesRolesQuery,
 	useGetRoleByIdQuery,
-	useAddNewRoleQuery,
-	useUpdateRoleQuery,
+	useAddNewRoleMutation,
+	useUpdateRoleMutation,
 	useInactivateRoleMutation,
 	useActivateRoleMutation,
 } = roleApi
