@@ -9,13 +9,16 @@ import Roles from '../../components/Roles'
 const ActivesRoles = () => {
 	const [roleState, setRoleState] = useState('actives')
 	const { data: actives } = useGetActivesRolesQuery()
-	console.log(actives)
 	const { data: inactives } = useGetInactivesRolesQuery()
+	const getState = value =>{
+		setRoleState(value)
+	}
+
 	return (
 		<div className='w-full'>
 			<div className='h-24'>
 				<SearchBar
-					setAdminState={setRoleState}
+					getState={getState}
 					title='Roles'
 					buttonText='Nuevo rol'
 					route='registrar'
@@ -27,12 +30,14 @@ const ActivesRoles = () => {
 							<Roles
 								key={rol.id}
 								data={rol}
+								buttonText='Modificar'
 							/>
 					  ))
 					: inactives?.roles.data.map(rol => (
 							<Roles
 								key={rol.id}
 								data={rol}
+								buttonText='Activar'
 							/>
 					  ))}
 			</div>

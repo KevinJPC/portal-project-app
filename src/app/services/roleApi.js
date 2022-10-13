@@ -39,7 +39,7 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 		activateRole: builder.mutation({
 			query: roleId => ({
-				url: `role/${roleId}/activate`,
+				url: `roles/${roleId}/activate`,
 				method: 'PATCH',
 			}),
 			invalidatesTags: (result, error, roleId) => [{ type: 'Role', roleId }],

@@ -31,6 +31,7 @@ const UpdateRole = () => {
 	useEffect(() => {
 		if (isSuccess) {
 			setValues({
+				...values,
 				id: Number(id),
 				name: result?.role.name,
 				nameSlug: result?.role.nameSlug,
@@ -39,19 +40,31 @@ const UpdateRole = () => {
 		}
 	}, [isSuccess])
 
-	const inactivate = e => {
+	const handleInactivate = () => {
 		setShowModal(true)
-		if (isRoleInactive) {
-			inactivateRole(id).unwrap()
+	}
+
+
+	const areSureInactivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			inactivateRole(id)
 			navigate(-1)
 		}
 	}
 
+	
+
+	/**
+	 * "updateaRole" is a function that takes in an object called "values" and then does something with
+	 * it.
+	 */
 	const update = e => {
 		e.preventDefault()
-		console.log(values.nameSlug)
-		updateaRole(values)
-		//navigate(-1)
+		try {
+			updateaRole(values)
+			//navigate(-1)
+		} catch (err) {}
 	}
 
 	return (
@@ -74,7 +87,9 @@ const UpdateRole = () => {
 											setValues({
 												...values,
 												name: e.target.value,
-												nameSlug: e.target.value.toLowerCase().replaceAll(' ','-'),
+												nameSlug: e.target.value
+													.toLowerCase()
+													.replaceAll(' ', '-'),
 											})
 										}
 									/>
@@ -97,12 +112,13 @@ const UpdateRole = () => {
 							<ClickButton
 								isLoading={isLoadingInactivate}
 								text='Desactivar'
-								func={inactivate}
+								func={handleInactivate}
 								color='red'
 							/>
 							{showModal ? (
 								<ModalWindow
 									setShowModal={setShowModal}
+									areSureInactivate={areSureInactivate}
 									setRoleInactivate={setRoleInactivate}
 								/>
 							) : null}
