@@ -18,7 +18,7 @@ export const roleApi = portalApi.injectEndpoints({
 		addNewRole: builder.mutation({
 			query: role => ({
 				url: `roles/`,
-				method: 'PATCH',
+				method: 'POST',
 				body: { ...role },
 			}),
 		}),

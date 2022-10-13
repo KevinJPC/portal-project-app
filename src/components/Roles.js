@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateRoleMutation } from '../app/services/roleApi'
+import ModalWindow from './ModalWindow'
 
 function Roles({ data, buttonText }) {
+	const [showModal, setShowModal] = useState(false)
+
 	const { name, description, createdAt, id } = data
 	const [activateRole, { isLoading: isLoadingActivate }] =
 		useActivateRoleMutation()
-	const handleActivate = e => {
-		e.preventDefault()
-		activateRole(id)
+
+	const areSureActivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			activateRole(id)
+		}
+	}
+	const handleActivate = () => {
+		setShowModal(true)
 	}
 
 	return (
@@ -50,6 +59,14 @@ function Roles({ data, buttonText }) {
 									text={buttonText}
 									func={handleActivate}
 									color='purple'
+								/>
+							)}
+							{showModal && (
+								<ModalWindow
+									text='¿Está seguro de activar este registro?'
+									buttonText='Activar'
+									setShowModal={setShowModal}
+									onDialog={areSureActivate}
 								/>
 							)}
 						</div>

@@ -63,7 +63,7 @@ const UpdateRole = () => {
 		e.preventDefault()
 		try {
 			updateaRole(values)
-			//navigate(-1)
+			navigate(-1)
 		} catch (err) {}
 	}
 
@@ -117,10 +117,11 @@ const UpdateRole = () => {
 							/>
 							{showModal ? (
 								<ModalWindow
-									setShowModal={setShowModal}
-									areSureInactivate={areSureInactivate}
-									setRoleInactivate={setRoleInactivate}
-								/>
+								text='¿Está seguro de inactivar este registro?'
+								buttonText='Desactivar'
+								setShowModal={setShowModal}
+								onDialog={areSureInactivate}
+							/>
 							) : null}
 							<div className='mt-3'>
 								<SubmitButton
