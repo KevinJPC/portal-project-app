@@ -1,22 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateAdminMutation } from '../app/services/adminApi'
+import ModalWindow from './ModalWindow'
 
 function Admins({ admins, buttonText }) {
+	const [showModal, setShowModal] = useState(false)
+
 	const [activateAdmin, { isLoading: isLoadingActivate }] =
 		useActivateAdminMutation()
 	const { name, firstLastName, secondLastName, email, dni, createdAt, id } =
 		admins
 
-	const handleActivate = e => {
-		e.preventDefault()
-		activateAdmin(id)
+	/**
+	 * When the user clicks on the button, the modal is set to show.
+	 */
+	const handleActivate = () => {
+		setShowModal(true)
+	}
+
+	/**
+	 * If the user clicks "Activar" in the modal, then the modal is closed and the admin is activated.
+	 */
+	const areSureActivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			activateAdmin(id)
+		}
 	}
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 md:px-10'>
+		<div className='flex flex-col pt-2 sm:pt-0 md:px-10 mt-4'>
 			<div className='flex justify-center py-4'>
 				<div className='w-auto bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-5 text-center items-center justify-items-center px-2 py-6 md:py-3'>
@@ -60,6 +75,14 @@ function Admins({ admins, buttonText }) {
 									text={buttonText}
 									func={handleActivate}
 									color='purple'
+								/>
+							)}
+							{showModal && (
+								<ModalWindow
+									text='¿Está seguro de activar este registro?'
+									buttonText='Activar'
+									setShowModal={setShowModal}
+									onDialog={areSureActivate}
 								/>
 							)}
 						</div>

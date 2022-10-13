@@ -131,12 +131,14 @@ const UpdateAdmin = () => {
 								func={handleInactivate}
 								color='red'
 							/>
-							{showModal ? (
+							{showModal && (
 								<ModalWindow
+									text='¿Está seguro de inactivar este registro?'
+									buttonText='Desactivar'
 									setShowModal={setShowModal}
-									areSureInactivate={areSureInactivate}
+									onDialog={areSureInactivate}
 								/>
-							) : null}
+							)}
 							<div className='mt-3'>
 								<SubmitButton
 									isLoading={isLoadingUpdate}

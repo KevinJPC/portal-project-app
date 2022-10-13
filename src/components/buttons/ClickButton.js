@@ -6,8 +6,9 @@ function ClickButton({ text, color, func, isLoading }) {
 	return (
 		<div className='text-center'>
 			<button
-				className={`text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2
-			${text === 'Activar' ? 'p-1.5 px-10 py-3 ml-4 md:mr-2' : null}
+				className={`text-p-white text-center font-medium rounded-lg 
+			${text === 'Activar' ? 'text-xs sm:text-sm p-1.5 px-10 py-3 md:mr-2' : null}
+			${text === 'Desactivar' ? 'h-12 rounded-lg w-full mt-7' : null}
 			${color === 'red' ? 'bg-p-red shadow-p-red' : null}
 			${color === 'purple' ? 'bg-p-purple shadow-p-purple' : null}
 

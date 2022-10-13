@@ -1,23 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateProcessMutation } from '../app/services/processApi'
+import ModalWindow from './ModalWindow'
 
 function Processes({ processes, buttonText }) {
+	const [showModal, setShowModal] = useState(false)
 	const { id, name, createdAt, updatedAt } = processes
+
 	const [activateProcess, { isLoading: isLoadingActivate }] =
 		useActivateProcessMutation()
 
-	const activate = e => {
-		e.preventDefault()
-		activateProcess(id)
+	/**
+	 * When the user clicks on the button, the modal is set to show.
+	 */
+	const handleActivate = () => {
+		setShowModal(true)
+	}
+
+	/**
+	 * If the user clicks "Activar" in the modal, then the modal is closed and the process is activated.
+	 */
+	const areSureActivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			activateProcess(id)
+		}
 	}
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0'>
+		<div className='flex flex-col pt-2 sm:pt-0 mt-4'>
 			<div className='flex justify-center py-4'>
-				<div className='w-auto bg-p-gray rounded'>
+				<div className='w-3/4 bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-4 text-center items-center justify-items-center px-2 py-6 md:py-3'>
 						<div className='p-4 px-1 break-words text-p-blue'>
 							<p className='text-ms  font-fira-medium font-medium leading-5'>
@@ -49,8 +64,16 @@ function Processes({ processes, buttonText }) {
 								<ClickButton
 									isLoading={isLoadingActivate}
 									text={buttonText}
-									func={activate}
+									func={handleActivate}
 									color='purple'
+								/>
+							)}
+							{showModal && (
+								<ModalWindow
+									text='¿Está seguro de activar este registro?'
+									buttonText='Activar'
+									setShowModal={setShowModal}
+									onDialog={areSureActivate}
 								/>
 							)}
 						</div>

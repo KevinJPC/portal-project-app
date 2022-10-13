@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ModalWindow from '../../components/ModalWindow'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Input from '../../components/inputs/TextInput'
 import {
 	useGetProcessByIdQuery,
@@ -8,12 +8,20 @@ import {
 	useInactivateProcessMutation,
 } from '../../app/services/processApi'
 import { useGetActivesRolesQuery } from '../../app/services/roleApi'
+import ClickButton from '../../components/buttons/ClickButton'
+import SubmitButton from '../../components/buttons/SubmitButton'
 
 const UpdateProcess = () => {
 	const [showModal, setShowModal] = useState(false)
 	const { id } = useParams()
+	const navigate = useNavigate()
+
 	const { data: process, isSuccess } = useGetProcessByIdQuery(Number(id))
 	const { data: roles } = useGetActivesRolesQuery()
+	const [updateProcess, { isLoading: isLoadingUpdate }] =
+		useUpdateProcessMutation()
+	const [inactivateProcess, { isLoading: isLoadingInactivate }] =
+		useInactivateProcessMutation()
 
 	const [values, setValues] = useState({
 		id: id,
@@ -40,6 +48,37 @@ const UpdateProcess = () => {
 		}
 	}, [isSuccess])
 
+	/**
+	 * When the user clicks the button, the modal is set to show.
+	 */
+	const handleInactivate = () => {
+		setShowModal(true)
+	}
+
+	/**
+	 * If the user chooses to inactivate the process, then close the modal, inactivate the process, and
+	 * navigate to the previous page.
+	 */
+	const areSureInactivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			inactivateProcess(id)
+			navigate(-1)
+		}
+	}
+
+	/**
+	 * When the form is submitted, try to update the process, and if
+	 * successful, navigate to the previous page.
+	 */
+	const update = e => {
+		e.preventDefault()
+		try {
+			updateProcess(values)
+			navigate(-1)
+		} catch (err) {}
+	}
+
 	return (
 		<div className=''>
 			<div className='flex flex-col items-center pt-6 sm:pt-0 mt-24'>
@@ -47,7 +86,7 @@ const UpdateProcess = () => {
 					<h3 className='text-3xl text-p-blue'>Modificar proceso</h3>
 				</div>
 				<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-					<form>
+					<form onSubmit={update}>
 						<div className='mt-4 '>
 							<Input
 								id='name'
@@ -117,20 +156,26 @@ const UpdateProcess = () => {
 								/>
 							</div>
 						</div>
-						<button
-							type='button'
-							className='text-p-white bg-p-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-							onClick={() => setShowModal(true)}
-						>
-							Desactivar
-						</button>
-						{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
-						<button
-							type='submit'
-							className='text-p-white bg-p-purple mt-6 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-						>
-							Modificar
-						</button>
+						<ClickButton
+							isLoading={isLoadingInactivate}
+							text='Desactivar'
+							func={handleInactivate}
+							color='red'
+						/>
+						{showModal && (
+							<ModalWindow
+								text='¿Está seguro de inactivar este registro?'
+								buttonText='Desactivar'
+								setShowModal={setShowModal}
+								onDialog={areSureInactivate}
+							/>
+						)}
+						<div className='mt-3'>
+							<SubmitButton
+								isLoading={isLoadingUpdate}
+								text='Guardar cambios'
+							/>
+						</div>
 					</form>
 				</div>
 			</div>

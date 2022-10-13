@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import ModalWindow from '../../components/ModalWindow'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 import { useAddNewAdminMutation } from '../../app/services/adminApi'
 import Input from '../../components/inputs/TextInput'
