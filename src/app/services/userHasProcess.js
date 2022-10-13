@@ -5,7 +5,8 @@ const userHasProcess = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getUserProcesses: builder.query({
 			query: () => 'user-has-process/insiders',
-			providesTags: result => providesList(result, 'Insider'),
+			providesTags: result =>
+				providesList(result.data.processStarted.data, 'Insider'),
 		}),
 		startNewProcess: builder.mutation({
 			query: process => ({

@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
-function SearchBar({ title, buttonText, route, setAdminState }) {
+function SearchBar({ title, buttonText, route, getState }) {
 	const changeState = e => {
-		setAdminState(e)
+		getState(e)
+		// setProcessState(e)
 	}
 
 	return (
@@ -14,7 +15,7 @@ function SearchBar({ title, buttonText, route, setAdminState }) {
 				<div className='text-sm'>
 					<select
 						id={title}
-						onChange={e => changeState(e.target.value)}
+						onChange={e => getState(e.target.value)}
 						className=' bg-p-silver text-p-blue font-fira-medium lg:text-lg outline-none text-sm sm:w-auto w-20'
 					>
 						<option value='actives'>{title} activos</option>
@@ -48,7 +49,7 @@ function SearchBar({ title, buttonText, route, setAdminState }) {
 
 SearchBar.propTypes = {
 	title: PropTypes.string,
-	setAdminState: PropTypes.func,
+	getState: PropTypes.func,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }

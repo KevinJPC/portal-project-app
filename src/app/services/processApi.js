@@ -6,12 +6,12 @@ export const processApi = portalApi.injectEndpoints({
 		getActivesProcess: builder.query({
 			query: () => 'processes/actives',
 			providesTags: result =>
-				providesList(result.data.active_processes.data, 'Process'),
+				providesList(result.data.activeProcesses.data, 'Process'),
 		}),
 		getInactivesProcess: builder.query({
 			query: () => 'processes/inactives',
 			providesTags: result =>
-				providesList(result.data.inactive_processes.data, 'Process'),
+				providesList(result.data.inactiveProcesses.data, 'Process'),
 		}),
 		getProcessById: builder.query({
 			query: processId => `processes/${processId}`,
