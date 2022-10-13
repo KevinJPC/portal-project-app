@@ -1,4 +1,5 @@
 import React from 'react'
+import Input from '../../components/inputs/TextInput'
 
 const RegisterRole = () => {
 	return (
@@ -11,35 +12,25 @@ const RegisterRole = () => {
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
 						<form>
 							<div className='mt-4 '>
-								<label
-									htmlFor='name'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Nombre
-								</label>
 								<div className='flex flex-col items-start relative'>
-									<input
-										type='text'
-										name='name'
+									<Input
+										value={''}
+										id='name'
 										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Nombre'
+										onChange={() => {}}
 									/>
 								</div>
 							</div>
 
 							<div className='mt-4 '>
-								<label
-									htmlFor='description'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Descripción
-								</label>
 								<div className='flex flex-col items-start relative'>
-									<textarea
-										type='text'
-										name='description'
+									<Input
+										value={''}
+										id='description'
 										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
 										placeholder='Descripción'
+										onChange={() => {}}
 									/>
 								</div>
 							</div>

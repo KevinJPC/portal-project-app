@@ -23,7 +23,7 @@ const ActivesRoles = () => {
 			</div>
 			<div className='mb-10'>
 				{roleState === 'actives'
-					? inactives?.roles.data.map(rol => (
+					? actives?.roles.data.map(rol => (
 							<Roles
 								key={rol.id}
 								data={rol}

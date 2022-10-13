@@ -9,7 +9,7 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 		getInactivesRoles: builder.query({
 			query: () => 'roles/inactives',
-			providesTags: result => providesList(result.role.data, 'Role'),
+			providesTags: result => providesList(result.roles.data, 'Role'),
 		}),
 		getRoleById: builder.query({
 			query: roleId => `roles/${roleId}`,
