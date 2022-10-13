@@ -16,15 +16,13 @@ const ActivesProcesses = () => {
 	}
 
 	return (
-		<div className='w-full'>
-			<div className='h-24 '>
-				<SearchBar
-					getState={getState}
-					title='Procesos'
-					buttonText='Nuevo proceso'
-					route='registrar'
-				/>
-			</div>
+		<>
+			<SearchBar
+				getState={getState}
+				title='Procesos'
+				buttonText='Nuevo proceso'
+				route='registrar'
+			/>
 			{processsState === 'actives'
 				? actives?.data.activeProcesses.data.map(process => (
 						<Processes
@@ -40,7 +38,7 @@ const ActivesProcesses = () => {
 							buttonText='Activar'
 						/>
 				  ))}
-		</div>
+		</>
 	)
 }
 
