@@ -2,11 +2,7 @@ import React from 'react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import PropTypes from 'prop-types'
 
-function ModalWindow({ setShowModal, setIsInactivate }) {
-	const inactivate = () => {
-		setIsInactivate(true)
-	}
-
+function ModalWindow({ setShowModal, areSureInactivate }) {
 	return (
 		<div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 backdrop-blur-sm backdrop-brightness-75'>
 			<div className='relative p-8 sm:p-0 w-full max-w-md h-auto md:h-auto'>
@@ -30,10 +26,7 @@ function ModalWindow({ setShowModal, setIsInactivate }) {
 								<button
 									type='button'
 									className='text-p-white bg-p-red rounded-md text-sm font-medium px-6 py-2 '
-									onClick={() => {
-										setShowModal(false)
-										inactivate()
-									}}
+									onClick={() => areSureInactivate(true)}
 								>
 									Desactivar
 								</button>
@@ -48,7 +41,7 @@ function ModalWindow({ setShowModal, setIsInactivate }) {
 
 ModalWindow.propTypes = {
 	setShowModal: PropTypes.func,
-	setIsInactivate: PropTypes.func,
+	areSureInactivate: PropTypes.func,
 }
 
 export default ModalWindow

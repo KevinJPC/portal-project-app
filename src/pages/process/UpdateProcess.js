@@ -1,9 +1,44 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ModalWindow from '../../components/ModalWindow'
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import Input from '../../components/inputs/TextInput'
+import {
+	useGetProcessByIdQuery,
+	useUpdateProcessMutation,
+	useInactivateProcessMutation,
+} from '../../app/services/processApi'
+import { useGetActivesRolesQuery } from '../../app/services/roleApi'
 
 const UpdateProcess = () => {
 	const [showModal, setShowModal] = useState(false)
+	const { id } = useParams()
+	const { data: process, isSuccess } = useGetProcessByIdQuery(Number(id))
+	const { data: roles } = useGetActivesRolesQuery()
+
+	const [values, setValues] = useState({
+		id: id,
+		name: '',
+		visible: '',
+	})
+
+	const [secondValues, setSecondValues] = useState({
+		seOid: '',
+		seName: '',
+	})
+
+	useEffect(() => {
+		if (isSuccess) {
+			setValues({
+				...values,
+				name: process?.data.process.name,
+				visible: Boolean(process?.data.process.visible),
+			})
+			setSecondValues({
+				seOid: process?.data.process.seOid,
+				seName: process?.data.process.seName,
+			})
+		}
+	}, [isSuccess])
 
 	return (
 		<div className=''>
@@ -14,31 +49,25 @@ const UpdateProcess = () => {
 				<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
 					<form>
 						<div className='mt-4 '>
-							<label
-								htmlFor='name'
-								className='block text-sm font-medium text-p-blue mb-2'
-							>
-								Nombre del proceso
-							</label>
-							<div className='flex flex-col items-start '>
-								<input
-									type='text'
-									name='name'
-									className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-									placeholder='Nombre del proceso'
-								/>
-							</div>
+							<Input
+								id='name'
+								label='Nombre del proceso'
+								placeholder='Nombre'
+								value={values.name}
+								onChange={e => setValues({ ...values, name: e.target.value })}
+							/>
 						</div>
 						<div className='mt-4 '>
 							<label className='block text-sm font-medium text-p-blue mb-2'>
 								Proceso
 							</label>
 							<select
-								id='countries'
 								className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 								disabled
 							>
-								<option value=''>Choose a country</option>
+								<option>
+									{secondValues.seOid} - {secondValues.seName}
+								</option>
 							</select>
 						</div>
 						<div className='mt-4 '>
@@ -49,15 +78,15 @@ const UpdateProcess = () => {
 								Roles
 							</label>
 							<div className='flex items-center gap-3 md:gap-4'>
-								<select
-									id='countries'
-									className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
-								>
-									<option defaultValue>Choose a country</option>
-									<option value='US'>United States</option>
-									<option value='CA'>Canada</option>
-									<option value='FR'>France</option>
-									<option value='DE'>Germany</option>
+								<select className='bg-p-silver text-sm rounded-lg block w-full p-2.5'>
+									{roles?.roles.data.map(role => (
+										<option
+											key={role.id}
+											value={role.id}
+										>
+											{role.name}
+										</option>
+									))}
 								</select>
 								<button
 									type='button'
@@ -79,7 +108,11 @@ const UpdateProcess = () => {
 								<input
 									id='visible'
 									type='checkbox'
-									value=''
+									// value={values.visible}
+									// checked={values.visible}
+									// onClick={e =>
+									// 	setValues({ ...values, visible: e.target.value })
+									// }
 									className='w-5 h-5 rounded'
 								/>
 							</div>

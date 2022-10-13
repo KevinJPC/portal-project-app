@@ -86,7 +86,7 @@ const UpdateUser = () => {
 						<div className='mt-7'>
 							<SubmitButton
 								isLoading={isLoading}
-								text='Editar'
+								text='Guardar cambios'
 							/>
 						</div>
 					</form>

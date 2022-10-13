@@ -8,8 +8,8 @@ function ClickButton({ text, color, func, isLoading }) {
 			<button
 				className={`text-p-white h-12 rounded-lg w-full mt-7
 			${text === 'Activar' ? 'p-1.5 px-10 py-3 ml-4 md:mr-2' : null}
-			${color === 'red' ? 'bg-p-red shadow-red' : null}
-			${color === 'purple' ? 'bg-p-purple shadow-purple' : null}
+			${color === 'red' ? 'bg-p-red shadow-p-red' : null}
+			${color === 'purple' ? 'bg-p-purple shadow-p-purple' : null}
 
 			`}
 				type='button'
