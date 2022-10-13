@@ -12,10 +12,14 @@ const ActivesAdmins = () => {
 	const { data: actives } = useGetActivesAdminQuery()
 	const { data: inactives } = useGetInactivesAdminQuery()
 
+	const getState = value => {
+		setAdminState(value)
+	}
+
 	return (
 		<>
 			<SearchBar
-				setAdminState={setAdminState}
+				getState={getState}
 				title='Administradores'
 				buttonText='Nuevo administrador'
 				route='registrar'
@@ -24,14 +28,14 @@ const ActivesAdmins = () => {
 				? actives?.data.activeUsers.data.map(admin => (
 						<Admins
 							key={admin.id}
-							admin={admin}
+							admins={admin}
 							buttonText='Modificar'
 						/>
 				  ))
 				: inactives?.data.inactiveUsers.data.map(admin => (
 						<Admins
 							key={admin.id}
-							admin={admin}
+							admins={admin}
 							buttonText='Activar'
 						/>
 				  ))}

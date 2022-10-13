@@ -4,23 +4,19 @@ import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateAdminMutation } from '../app/services/adminApi'
 
-function Admins({ admin, buttonText }) {
+function Admins({ admins, buttonText }) {
 	const [activateAdmin, { isLoading: isLoadingActivate }] =
 		useActivateAdminMutation()
 	const { name, firstLastName, secondLastName, email, dni, createdAt, id } =
-		admin
+		admins
 
-	const activate = async e => {
+	const handleActivate = e => {
 		e.preventDefault()
-		// setShowModal(true)
-		// if (isInactivate) {
-		await activateAdmin(id).unwrap()
-		// navigate(-1)
-		// }
+		activateAdmin(id)
 	}
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0'>
+		<div className='flex flex-col pt-2 sm:pt-0 md:px-10'>
 			<div className='flex justify-center py-4'>
 				<div className='w-auto bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-5 text-center items-center justify-items-center px-2 py-6 md:py-3'>
@@ -62,7 +58,7 @@ function Admins({ admin, buttonText }) {
 								<ClickButton
 									isLoading={isLoadingActivate}
 									text={buttonText}
-									func={activate}
+									func={handleActivate}
 									color='purple'
 								/>
 							)}
@@ -75,7 +71,7 @@ function Admins({ admin, buttonText }) {
 }
 
 Admins.propTypes = {
-	admin: PropTypes.object,
+	admins: PropTypes.object,
 	buttonText: PropTypes.string,
 }
 export default Admins

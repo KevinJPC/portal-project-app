@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
 	useGetAdminByIdQuery,
@@ -13,13 +12,12 @@ import ModalWindow from '../../components/ModalWindow'
 
 const UpdateAdmin = () => {
 	const [showModal, setShowModal] = useState(false)
-	const [isInactivate, setIsInactivate] = useState(false)
+	const [isAdminInactivate, setIsAdminInactivate] = useState(false)
 	const { id } = useParams()
 	const navigate = useNavigate()
 
 	const { data: result, isSuccess } = useGetAdminByIdQuery(Number(id))
-	const [updateaAdmin, { isLoading: isLoadingUpdate }] =
-		useUpdateAdminMutation()
+	const [updateAdmin, { isLoading: isLoadingUpdate }] = useUpdateAdminMutation()
 
 	const [inactivateAdmin, { isLoading: isLoadingInactivate }] =
 		useInactivateAdminMutation()
@@ -35,6 +33,7 @@ const UpdateAdmin = () => {
 	useEffect(() => {
 		if (isSuccess) {
 			setValues({
+				...values,
 				name: result?.data.user.name,
 				email: result?.data.user.email,
 				firstLastName: result?.data.user.firstLastName,
@@ -43,18 +42,33 @@ const UpdateAdmin = () => {
 		}
 	}, [isSuccess])
 
-	const inactivate = e => {
+	/**
+	 * When the user clicks the button, the modal is set to show.
+	 */
+	const handleInactivate = () => {
 		setShowModal(true)
-		if (isInactivate) {
-			inactivateAdmin(id).unwrap()
+	}
+
+	/**
+	 * If the user chooses to inactivate the admin, then close the modal, inactivate the admin, and
+	 * navigate to the previous page.
+	 */
+	const areSureInactivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			inactivateAdmin(id)
 			navigate(-1)
 		}
 	}
 
-	const update = async e => {
+	/**
+	 * When the form is submitted, try to update the admin, and if
+	 * successful, navigate to the previous page.
+	 */
+	const update = e => {
 		e.preventDefault()
 		try {
-			await updateaAdmin(values)
+			 updateaAdmin(values)
 			//navigate(-1)
 		} catch (err) {}
 	}
@@ -115,13 +129,14 @@ const UpdateAdmin = () => {
 							<ClickButton
 								isLoading={isLoadingInactivate}
 								text='Desactivar'
-								func={inactivate}
+								func={handleInactivate}
 								color='red'
 							/>
 							{showModal ? (
 								<ModalWindow
 									setShowModal={setShowModal}
-									setIsInactivate={setIsInactivate}
+									areSureInactivate={areSureInactivate}
+									setIsAdminInactivate={setIsAdminInactivate}
 								/>
 							) : null}
 							<div className='mt-3'>
