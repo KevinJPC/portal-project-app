@@ -12,19 +12,19 @@ export const roleApi = portalApi.injectEndpoints({
 			providesTags: result => providesList(result.roles.data, 'Role'),
 		}),
 		getRoleById: builder.query({
-			query: roleId => `role/${roleId}`,
-			providesTags: (result, error, arg) => [{ type: 'Role', id: arg }],
+			query: roleId => `roles/${roleId}`,
+			providesTags: result => providesList(result.role.data, 'Role'),
 		}),
-		addNewRole: builder.query({
+		addNewRole: builder.mutation({
 			query: role => ({
-				url: `role/`,
+				url: `roles/`,
 				method: 'PATCH',
 				body: { ...role },
 			}),
 		}),
-		updateRole: builder.query({
+		updateRole: builder.mutation({
 			query: role => ({
-				url: `role/${role.id}`,
+				url: `roles/${role.id}`,
 				method: 'PATCH',
 				body: { ...role },
 			}),
@@ -32,27 +32,26 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 		inactivateRole: builder.mutation({
 			query: roleId => ({
-				url: `role/${roleId}/inactivate`,
+				url: `roles/${roleId}/inactivate`,
 				method: 'PATCH',
 			}),
 			invalidatesTags: (result, error, roleId) => [{ type: 'Role', roleId }],
 		}),
 		activateRole: builder.mutation({
 			query: roleId => ({
-				url: `role/${roleId}/activate`,
+				url: `roles/${roleId}/activate`,
 				method: 'PATCH',
 			}),
 			invalidatesTags: (result, error, roleId) => [{ type: 'Role', roleId }],
 		}),
 	}),
 })
-
 export const {
 	useGetActivesRolesQuery,
 	useGetInactivesRolesQuery,
 	useGetRoleByIdQuery,
-	useAddNewRoleQuery,
-	useUpdateRoleQuery,
+	useAddNewRoleMutation,
+	useUpdateRoleMutation,
 	useInactivateRoleMutation,
 	useActivateRoleMutation,
 } = roleApi

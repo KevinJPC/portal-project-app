@@ -67,8 +67,8 @@ const UpdateAdmin = () => {
 	const update = e => {
 		e.preventDefault()
 		try {
-			updateAdmin(values)
-			navigate(-1)
+			 updateAdmin(values)
+			//navigate(-1)
 		} catch (err) {}
 	}
 
