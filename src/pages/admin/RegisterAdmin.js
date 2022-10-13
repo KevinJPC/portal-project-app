@@ -23,10 +23,10 @@ const RegisterAdmin = () => {
 		passwordConfirmation: '',
 	})
 
-	const registerNewAdmin = async e => {
+	const registerNewAdmin = e => {
 		e.preventDefault()
 		try {
-			await addNewAdmin(values)
+			addNewAdmin(values)
 			navigate(-1)
 		} catch (err) {}
 	}

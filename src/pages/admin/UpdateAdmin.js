@@ -12,7 +12,6 @@ import ModalWindow from '../../components/ModalWindow'
 
 const UpdateAdmin = () => {
 	const [showModal, setShowModal] = useState(false)
-	const [isAdminInactivate, setIsAdminInactivate] = useState(false)
 	const { id } = useParams()
 	const navigate = useNavigate()
 
@@ -136,7 +135,6 @@ const UpdateAdmin = () => {
 								<ModalWindow
 									setShowModal={setShowModal}
 									areSureInactivate={areSureInactivate}
-									setIsAdminInactivate={setIsAdminInactivate}
 								/>
 							) : null}
 							<div className='mt-3'>
