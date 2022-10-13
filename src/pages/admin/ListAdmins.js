@@ -12,6 +12,9 @@ const ActivesAdmins = () => {
 	const { data: actives } = useGetActivesAdminQuery()
 	const { data: inactives } = useGetInactivesAdminQuery()
 
+	/**
+	 * The function takes a value as an argument and sets the adminState to that value.
+	 */
 	const getState = value => {
 		setAdminState(value)
 	}
