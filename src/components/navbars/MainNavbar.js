@@ -94,7 +94,7 @@ function AdminUserNavbar() {
 										? adminUserLinks.map(link => (
 												<div
 													key={link.label}
-													className='px-3 py-10 text-sm lg:text-lg'
+													className='px-3 text-sm lg:text-lg'
 												>
 													<Navlink
 														to={link.to}
@@ -105,7 +105,7 @@ function AdminUserNavbar() {
 										: generalUserLinks.map(link => (
 												<div
 													key={link.label}
-													className='px-3 py-1 hover:bg-p-silver rounded '
+													className='px-3 hover:bg-p-silver rounded '
 												>
 													<Navlink
 														to={link.to}
