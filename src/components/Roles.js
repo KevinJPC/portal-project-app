@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-function Roles({ name, description, date, buttonText, route }) {
+import ClickButton from './buttons/ClickButton'
+import { useActivateRoleMutation } from '../app/services/roleApi'
+import ModalWindow from './ModalWindow'
+
+function Roles({ data, buttonText }) {
+	const [showModal, setShowModal] = useState(false)
+
+	const { name, description, createdAt, id } = data
+	const [activateRole, { isLoading: isLoadingActivate }] =
+		useActivateRoleMutation()
+
+	const areSureActivate = choose => {
+		if (choose) {
+			setShowModal(false)
+			activateRole(id)
+		}
+	}
+	const handleActivate = () => {
+		setShowModal(true)
+	}
+
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0'>
 			<div className='flex justify-center py-4'>
@@ -23,15 +43,32 @@ function Roles({ name, description, date, buttonText, route }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creacción
 							</p>
-							<p className='text-sm leading-normal pt-2'>{date}</p>
+							<p className='text-sm leading-normal pt-2'>{createdAt}</p>
 						</div>
 						<div className='text-center'>
-							<Link
-								to={route}
-								className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
-							>
-								{buttonText}
-							</Link>
+							{buttonText === 'Modificar' ? (
+								<Link
+									to={`editar/${id}`}
+									className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
+								>
+									{buttonText}
+								</Link>
+							) : (
+								<ClickButton
+									isLoading={isLoadingActivate}
+									text={buttonText}
+									func={handleActivate}
+									color='purple'
+								/>
+							)}
+							{showModal && (
+								<ModalWindow
+									text='¿Está seguro de activar este registro?'
+									buttonText='Activar'
+									setShowModal={setShowModal}
+									onDialog={areSureActivate}
+								/>
+							)}
 						</div>
 					</div>
 				</div>
@@ -41,9 +78,7 @@ function Roles({ name, description, date, buttonText, route }) {
 }
 
 Roles.propTypes = {
-	name: PropTypes.string,
-	description: PropTypes.string,
-	date: PropTypes.string,
+	data: PropTypes.object,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }

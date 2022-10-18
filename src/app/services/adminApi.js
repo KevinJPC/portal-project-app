@@ -3,6 +3,11 @@ import { providesList } from './tagProvider'
 
 export const adminApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
+		getSearchAdmin: builder.query({
+			query: searchParam => `admin/${searchParam}`,
+			providesTags: result =>
+				providesList(result.data.searchUsers, 'Admin'),
+		}),
 		getActivesAdmin: builder.query({
 			query: pageNum => `admin/actives?page=${pageNum}`,
 			providesTags: result =>
@@ -58,4 +63,5 @@ export const {
 	useUpdateAdminMutation,
 	useInactivateAdminMutation,
 	useActivateAdminMutation,
+	useGetSearchAdminQuery,
 } = adminApi
