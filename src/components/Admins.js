@@ -36,7 +36,7 @@ function Admins({ admins, buttonText }) {
 				<div className='w-auto bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-5 text-center items-center justify-items-center px-2 py-6 md:py-3'>
 						<div className='p-4 px-1 break-words text-p-blue'>
-							<p className='text-ms  font-fira-medium font-medium leading-5'>
+							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Nombre completo
 							</p>
 							<p className='text-center leading-normal pt-2'>

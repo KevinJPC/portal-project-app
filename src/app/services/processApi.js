@@ -9,12 +9,12 @@ export const processApi = portalApi.injectEndpoints({
 				providesList(result.data.searchProcess.data, 'Process'),
 		}),
 		getActivesProcess: builder.query({
-			query: () => 'processes/actives',
+			query: pageNum => `processes/actives?page=${pageNum}`,
 			providesTags: result =>
 				providesList(result.data.activeProcesses.data, 'Process'),
 		}),
 		getInactivesProcess: builder.query({
-			query: () => 'processes/inactives',
+			query: pageNum => `processes/inactives?page=${pageNum}`,
 			providesTags: result =>
 				providesList(result.data.inactiveProcesses.data, 'Process'),
 		}),
@@ -68,7 +68,9 @@ export const processApi = portalApi.injectEndpoints({
 export const {
 	useGetSearchProcessQuery,
 	useGetActivesProcessQuery,
+	useLazyGetActivesProcessQuery,
 	useGetInactivesProcessQuery,
+	useLazyGetInactivesProcessQuery,
 	useGetProcessByIdQuery,
 	useGetVisiblesProcessQuery,
 	useAddNewProcessMutation,
