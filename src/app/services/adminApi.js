@@ -6,15 +6,15 @@ export const adminApi = portalApi.injectEndpoints({
 		getSearchAdmin: builder.query({
 			query: searchParam => `admin/${searchParam}`,
 			providesTags: result =>
-				providesList(result.data.searchUsers, 'Admin'),
+				providesList(result.data.searchUsers.data, 'Admin'),
 		}),
 		getActivesAdmin: builder.query({
-			query: () => 'admin/actives',
+			query: pageNum => `admin/actives?page=${pageNum}`,
 			providesTags: result =>
 				providesList(result.data.activeUsers.data, 'Admin'),
 		}),
 		getInactivesAdmin: builder.query({
-			query: () => 'admin/inactives',
+			query: pageNum => `admin/inactives?page=${pageNum}`,
 			providesTags: result =>
 				providesList(result.data.inactiveUsers.data, 'Admin'),
 		}),
@@ -57,7 +57,9 @@ export const adminApi = portalApi.injectEndpoints({
 
 export const {
 	useGetActivesAdminQuery,
+	useLazyGetActivesAdminQuery,
 	useGetInactivesAdminQuery,
+	useLazyGetInactivesAdminQuery,
 	useGetAdminByIdQuery,
 	useAddNewAdminMutation,
 	useUpdateAdminMutation,

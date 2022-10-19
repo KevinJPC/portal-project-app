@@ -5,14 +5,14 @@ export const roleApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getSearchRole: builder.query({
 			query: roleName => `roles/${roleName}`,
-			providesTags: result => providesList(result.roles.data, 'Role'),
+			providesTags: result => providesList(result.data.roles.data, 'Role'),
 		}),
 		getActivesRoles: builder.query({
-			query: () => 'roles/actives',
+			query: pageNum => `roles/actives?page=${pageNum}`,
 			providesTags: result => providesList(result.roles.data, 'Role'),
 		}),
 		getInactivesRoles: builder.query({
-			query: () => 'roles/inactives',
+			query: pageNum => `roles/inactives?page=${pageNum}`,
 			providesTags: result => providesList(result.roles.data, 'Role'),
 		}),
 		getRoleById: builder.query({
@@ -53,7 +53,9 @@ export const roleApi = portalApi.injectEndpoints({
 export const {
 	useGetSearchRoleQuery,
 	useGetActivesRolesQuery,
+	useLazyGetActivesRolesQuery,
 	useGetInactivesRolesQuery,
+	useLazyGetInactivesRolesQuery,
 	useGetRoleByIdQuery,
 	useAddNewRoleMutation,
 	useUpdateRoleMutation,
