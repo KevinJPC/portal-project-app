@@ -17,12 +17,6 @@ function SearchBar({ title, buttonText, route, getState, getdata }) {
 	}
 	
 
-	const empty = event => {
-		if (event.keyCode === 46) {
-			console.log('delete')
-		}
-	}
-
 	return (
 		<div className='shadow-md w-full'>
 			<div className='flex items-center justify-between bg-p-silver py-4 md:p-3 md:px-2 '>

@@ -3,6 +3,7 @@ import {
 	useGetActivesRolesQuery,
 	useGetInactivesRolesQuery,
 	useGetSearchRoleQuery,
+	useLazyGetSearchRoleQuery,
 } from '../../app/services/roleApi'
 import SearchBar from '../../components/SearchBar'
 import Roles from '../../components/Roles'
@@ -14,19 +15,19 @@ const ActivesRoles = () => {
 	const { data: actives } = useGetActivesRolesQuery()
 	const { data: inactives } = useGetInactivesRolesQuery()
 
+	const [trigger, { data: search, isUninitialized, isSuccess }] =
+		useLazyGetSearchRoleQuery(roleSearch)
 	const getState = value => {
 		setRoleState(value)
 	}
 	const getdata = data => {
-		setRoleSearch(data)
+		if (data === '') {
+			console.log('vacio')
+		} else {
+			setRoleSearch(data)
+			trigger(data)
+		}
 	}
-
-	const { data: search } = useGetSearchRoleQuery(roleSearch)
-	
-
-	//if (roleSearch != '') {
-	//	return
-	//}
 
 	return (
 		<div className='w-full'>
@@ -41,7 +42,7 @@ const ActivesRoles = () => {
 			</div>
 			<div className='mb-10'>
 				{roleSearch !== ''
-					? search?.roles.map(rol => (
+					? search?.data.roles.data.map(rol => (
 							<Roles
 								key={rol.id}
 								data={rol}
@@ -49,14 +50,14 @@ const ActivesRoles = () => {
 							/>
 					  ))
 					: roleState === 'actives'
-					? actives?.roles.data.map(rol => (
+					? actives?.data.roles.data.map(rol => (
 							<Roles
 								key={rol.id}
 								data={rol}
 								buttonText='Modificar'
 							/>
 					  ))
-					: inactives?.roles.data.map(rol => (
+					: inactives?.data.roles.data.map(rol => (
 							<Roles
 								key={rol.id}
 								data={rol}

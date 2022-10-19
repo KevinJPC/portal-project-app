@@ -5,15 +5,15 @@ export const roleApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getSearchRole: builder.query({
 			query: roleName => `roles/${roleName}`,
-			providesTags: result => providesList(result.roles.data, 'Role'),
+			providesTags: result => providesList(result.data.roles.data, 'Role'),
 		}),
 		getActivesRoles: builder.query({
 			query: () => 'roles/actives',
-			providesTags: result => providesList(result.roles.data, 'Role'),
+			providesTags: result => providesList(result.data.roles.data, 'Role'),
 		}),
 		getInactivesRoles: builder.query({
 			query: () => 'roles/inactives',
-			providesTags: result => providesList(result.roles.data, 'Role'),
+			providesTags: result => providesList(result.data.roles.data, 'Role'),
 		}),
 		getRoleById: builder.query({
 			query: roleId => `roles/${roleId}`,
@@ -51,6 +51,7 @@ export const roleApi = portalApi.injectEndpoints({
 	}),
 })
 export const {
+	useLazyGetSearchRoleQuery,
 	useGetSearchRoleQuery,
 	useGetActivesRolesQuery,
 	useGetInactivesRolesQuery,
