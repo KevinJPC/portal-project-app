@@ -66,6 +66,7 @@ export const processApi = portalApi.injectEndpoints({
 })
 
 export const {
+	useLazyGetSearchProcessQuery,
 	useGetSearchProcessQuery,
 	useGetActivesProcessQuery,
 	useLazyGetActivesProcessQuery,

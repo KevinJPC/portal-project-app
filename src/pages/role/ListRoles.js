@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-	useGetSearchRoleQuery,
+	useLazyGetSearchRoleQuery,
 	useLazyGetActivesRolesQuery,
 	useLazyGetInactivesRolesQuery,
 } from '../../app/services/roleApi'
@@ -18,6 +18,8 @@ const ListRoles = () => {
 		getInactivesRoles,
 		{ data: inactives, isSuccess: isSuccessInactives },
 	] = useLazyGetInactivesRolesQuery()
+	const [trigger, { data: search, isUninitialized, isSuccess }] =
+		useLazyGetSearchRoleQuery(roleSearch)
 
 	useEffect(() => {
 		getActivesRoles(1)
@@ -44,10 +46,13 @@ const ListRoles = () => {
 	}
 
 	const getdata = data => {
-		setRoleSearch(data)
+		if (data === '') {
+			console.log('vacio')
+		} else {
+			setRoleSearch(data)
+			trigger(data)
+		}
 	}
-
-	const { data: search } = useGetSearchRoleQuery(roleSearch)
 
 	return (
 		<>
@@ -67,8 +72,8 @@ const ListRoles = () => {
 					/>
 				))
 			) : roleState === 'actives' ? (
-				actives?.roles.total > 0 ? (
-					actives?.roles.data.map(rol => (
+				actives?.data.roles.total > 0 ? (
+					actives?.data.roles.data.map(rol => (
 						<Roles
 							key={rol.id}
 							data={rol}
@@ -78,8 +83,8 @@ const ListRoles = () => {
 				) : (
 					<ListEmptyMessage text='El registro de roles activos está vacío' />
 				)
-			) : inactives?.roles.total > 0 ? (
-				inactives?.roles.data.map(rol => (
+			) : inactives?.data.roles.total > 0 ? (
+				inactives?.data.roles.data.map(rol => (
 					<Roles
 						key={rol.id}
 						data={rol}
@@ -94,8 +99,8 @@ const ListRoles = () => {
 					changePage={changePageNumber}
 					pageCount={
 						roleState === 'actives'
-							? Math.ceil(actives?.roles.lastPage)
-							: Math.ceil(inactives?.roles.lastPage)
+							? Math.ceil(actives?.data.roles.lastPage)
+							: Math.ceil(inactives?.data.roles.lastPage)
 					}
 				/>
 			</div>

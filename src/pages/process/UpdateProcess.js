@@ -62,8 +62,8 @@ const UpdateProcess = () => {
 		}
 		if (isSuccessGetRoles) {
 			setSelectedRole({
-				id: roles?.roles.data[0].id,
-				name: roles?.roles.data[0].name,
+				id: roles?.data.roles.data[0].id,
+				name: roles?.data.roles.data[0].name,
 			})
 		}
 	}, [isSucessGetProcess, isSuccessGetRoles])
@@ -107,7 +107,7 @@ const UpdateProcess = () => {
 	 * The matching role is then set as the selected role.
 	 */
 	const handleChangeRole = e => {
-		const value = roles?.roles.data.filter(role => role.id === +e.target.value)
+		const value = roles?.data.roles.data.filter(role => role.id === +e.target.value)
 		setSelectedRole({ id: value[0].id, name: value[0].name })
 	}
 
@@ -177,11 +177,11 @@ const UpdateProcess = () => {
 							</label>
 							<div className='flex items-center gap-3 md:gap-4'>
 								<select
-									selected={roles?.roles.data[0].name}
+									selected={roles?.data.roles.data[0].name}
 									className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 									onChange={handleChangeRole}
 								>
-									{roles?.roles.data.map(role => (
+									{roles?.data.roles.data.map(role => (
 										<option
 											key={role.id}
 											value={role.id}

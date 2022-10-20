@@ -36,8 +36,8 @@ const RegisterProcess = () => {
 	useEffect(() => {
 		if (isSuccessGetRoles) {
 			setSelectedRole({
-				id: roles?.roles.data[0].id,
-				name: roles?.roles.data[0].name,
+				id: roles?.data.roles.data[0].id,
+				name: roles?.data.roles.data[0].name,
 			})
 		}
 		if (isSucessGetProcesses) {
@@ -55,7 +55,7 @@ const RegisterProcess = () => {
 	 * found.
 	 */
 	const handleChangeRole = e => {
-		const value = roles?.roles.data.filter(role => role.id === +e.target.value)
+		const value = roles?.data.roles.data.filter(role => role.id === +e.target.value)
 		setSelectedRole({ id: value[0].id, name: value[0].name })
 	}
 
@@ -155,7 +155,7 @@ const RegisterProcess = () => {
 									onChange={handleChangeRole}
 									className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 								>
-									{roles?.roles.data.map(role => (
+									{roles?.data.roles.data.map(role => (
 										<option
 											key={role.id}
 											value={role.id}
