@@ -56,6 +56,7 @@ export const adminApi = portalApi.injectEndpoints({
 })
 
 export const {
+	useLazyGetSearchAdminQuery,
 	useGetActivesAdminQuery,
 	useLazyGetActivesAdminQuery,
 	useGetInactivesAdminQuery,

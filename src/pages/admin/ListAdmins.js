@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-	useGetSearchAdminQuery,
+	useLazyGetSearchAdminQuery,
 	useLazyGetActivesAdminQuery,
 	useLazyGetInactivesAdminQuery,
 } from '../../app/services/adminApi'
@@ -18,6 +18,7 @@ const ActivesAdmins = () => {
 		getInactivesAdmins,
 		{ data: inactives, isSuccess: isSuccessInactives },
 	] = useLazyGetInactivesAdminQuery()
+	const [trigger,{ data: search }] = useLazyGetSearchAdminQuery(adminSearch)
 
 	useEffect(() => {
 		getActivesAdmins(1)
@@ -47,10 +48,15 @@ const ActivesAdmins = () => {
 	 * It takes in a parameter called data, and then sets the state of roleSearch to the value of data.
 	 */
 	const getdata = data => {
-		setAdminSearch(data)
+		if (data === '') {
+			console.log('vacio')
+		} else {
+			setAdminSearch(data)
+			trigger(data)
+		}
 	}
 
-	const { data: search } = useGetSearchAdminQuery(adminSearch)
+
 
 	return (
 		<>

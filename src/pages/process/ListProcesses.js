@@ -1,6 +1,8 @@
+import { Result } from 'postcss'
 import React, { useEffect, useState } from 'react'
 
 import {
+	useLazyGetSearchProcessQuery,
 	useGetSearchProcessQuery,
 	useLazyGetActivesProcessQuery,
 	useLazyGetInactivesProcessQuery,
@@ -19,6 +21,8 @@ const ActivesProcesses = () => {
 		getInactivesProcesses,
 		{ data: inactives, isSuccess: isSuccessInactives },
 	] = useLazyGetInactivesProcessQuery()
+	const [trigger, { data: search }] =
+		useLazyGetSearchProcessQuery(processSearch)
 
 	useEffect(() => {
 		getActivesProcesses(1)
@@ -45,10 +49,14 @@ const ActivesProcesses = () => {
 	}
 
 	const getdata = data => {
-		setProcessSearch(data)
+		if (data === '') {
+			console.log('vacio')
+		} else {
+			setProcessSearch(data)
+			trigger(data)
+		}
 	}
-	const { data: search } = useGetSearchProcessQuery(processSearch)
-
+	console.log(search)
 	return (
 		<>
 			<SearchBar
