@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 
 import {
 	useLazyGetSearchProcessQuery,
-	useGetSearchProcessQuery,
 	useLazyGetActivesProcessQuery,
 	useLazyGetInactivesProcessQuery,
 } from '../../app/services/processApi'
@@ -56,7 +55,6 @@ const ActivesProcesses = () => {
 			trigger(data)
 		}
 	}
-
 	return (
 		<>
 			<SearchBar
@@ -67,7 +65,7 @@ const ActivesProcesses = () => {
 				route='registrar'
 			/>
 			{processSearch !== '' ? (
-				search?.data.searchProcess.data.map(process => (
+				search?.data.searchProcesses.data.map(process => (
 					<Processes
 						key={process.id}
 						processes={process}
