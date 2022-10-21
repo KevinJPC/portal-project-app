@@ -107,7 +107,9 @@ const UpdateProcess = () => {
 	 * The matching role is then set as the selected role.
 	 */
 	const handleChangeRole = e => {
-		const value = roles?.data.roles.data.filter(role => role.id === +e.target.value)
+		const value = roles?.data.roles.data.filter(
+			role => role.id === +e.target.value
+		)
 		setSelectedRole({ id: value[0].id, name: value[0].name })
 	}
 

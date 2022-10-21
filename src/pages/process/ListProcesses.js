@@ -82,7 +82,7 @@ const ActivesProcesses = () => {
 						/>
 					))
 				) : (
-					<ListEmptyMessage text='El registro de procesos activos está vacío' />
+					<ListEmptyMessage text='El listado de procesos activos está vacío' />
 				)
 			) : inactives?.data.inactiveProcesses.total > 0 ? (
 				inactives?.data.inactiveProcesses.data.map(process => (
@@ -93,7 +93,7 @@ const ActivesProcesses = () => {
 					/>
 				))
 			) : (
-				<ListEmptyMessage text='El registro de procesos inactivos está vacío' />
+				<ListEmptyMessage text='El listado de procesos inactivos está vacío' />
 			)}
 			<div className='mt-6'>
 				<Pagination

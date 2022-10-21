@@ -2,14 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-function MyProcesses({
-	name,
-	creationDate,
-	activitynow,
-	percentageAdvance,
-	buttonText,
-	route,
-}) {
+function MyProcesses({ userProcesses }) {
+	const { name, creationDate, activitynow, percentageAdvance, id } =
+		userProcesses
+
 	return (
 		<div className='flex flex-col pt-2'>
 			<div className='flex justify-center py-4'>
@@ -41,10 +37,10 @@ function MyProcesses({
 						</div>
 						<div className='p-8 text-center'>
 							<Link
-								to={route}
+								to={`mis-procesos/${id}`}
 								className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm'
 							>
-								{buttonText}
+								Más información
 							</Link>
 						</div>
 					</div>
@@ -54,12 +50,10 @@ function MyProcesses({
 	)
 }
 MyProcesses.propTypes = {
-	name: PropTypes.string,
+	userProcesses: PropTypes.string,
 	description: PropTypes.string,
 	activitynow: PropTypes.string,
 	percentageAdvance: PropTypes.string,
-	buttonText: PropTypes.string,
-	route: PropTypes.string,
 }
 
 export default MyProcesses

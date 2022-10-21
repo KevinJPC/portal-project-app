@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowDownIcon } from '@heroicons/react/24/solid'
 import PropTypes from 'prop-types'
 
-function AboutProcesses({
+function ProcessInformation({
 	name,
 	creationDate,
 	activitynow,
@@ -117,11 +117,11 @@ function AboutProcesses({
 	)
 }
 
-AboutProcesses.propTypes = {
+ProcessInformation.propTypes = {
 	name: PropTypes.string,
 	creationDate: PropTypes.string,
 	activitynow: PropTypes.string,
 	percentageAdvance: PropTypes.string,
 }
 
-export default AboutProcesses
+export default ProcessInformation

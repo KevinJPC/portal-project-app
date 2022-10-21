@@ -4,9 +4,9 @@ import { providesList } from './tagProvider'
 const userHasProcess = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getUserProcesses: builder.query({
-			query: () => 'user-has-process/insiders',
+			query: pageNum => `user-has-process/insiders?page=${pageNum}`,
 			providesTags: result =>
-				providesList(result.data.processStarted.data, 'Insider'),
+				providesList(result.data.userProcesses.data, 'Insider'),
 		}),
 		startNewProcess: builder.mutation({
 			query: process => ({
@@ -19,4 +19,8 @@ const userHasProcess = portalApi.injectEndpoints({
 	}),
 })
 
-const { useGetUserProcessesQuery, useStartNewProcessMutation } = userHasProcess
+export const {
+	useGetUserProcessesQuery,
+	useLazyGetUserProcessesQuery,
+	useStartNewProcessMutation,
+} = userHasProcess

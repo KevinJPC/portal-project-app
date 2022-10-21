@@ -28,8 +28,9 @@ export const processApi = portalApi.injectEndpoints({
 			providesTags: (result, error, arg) => [{ type: 'Process', id: arg }],
 		}),
 		getVisiblesProcess: builder.query({
-			query: () => 'processes/visibles',
-			providesTags: result => providesList(result, 'Process'),
+			query: pageNum => `processes/visibles?page=${pageNum}`,
+			providesTags: result =>
+				providesList(result.data.userProcesses.data, 'Process'),
 		}),
 		addNewProcess: builder.mutation({
 			query: process => ({
@@ -78,7 +79,7 @@ export const {
 	useGetInactivesProcessQuery,
 	useLazyGetInactivesProcessQuery,
 	useGetProcessByIdQuery,
-	useGetVisiblesProcessQuery,
+	useLazyGetVisiblesProcessQuery,
 	useAddNewProcessMutation,
 	useUpdateProcessMutation,
 	useInactivateProcessMutation,
