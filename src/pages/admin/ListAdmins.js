@@ -18,7 +18,7 @@ const ActivesAdmins = () => {
 		getInactivesAdmins,
 		{ data: inactives, isSuccess: isSuccessInactives },
 	] = useLazyGetInactivesAdminQuery()
-	const [trigger,{ data: search }] = useLazyGetSearchAdminQuery(adminSearch)
+	const [trigger, { data: search }] = useLazyGetSearchAdminQuery(adminSearch)
 
 	useEffect(() => {
 		getActivesAdmins(1)
@@ -56,8 +56,6 @@ const ActivesAdmins = () => {
 		}
 	}
 
-
-
 	return (
 		<>
 			<SearchBar
@@ -85,7 +83,7 @@ const ActivesAdmins = () => {
 						/>
 					))
 				) : (
-					<ListEmptyMessage text='El registro de administradores activos está vacío' />
+					<ListEmptyMessage text='El listado de administradores activos está vacío' />
 				)
 			) : inactives?.data.inactiveUsers.total > 0 ? (
 				inactives?.data.inactiveUsers.data.map(admin => (
@@ -96,7 +94,7 @@ const ActivesAdmins = () => {
 					/>
 				))
 			) : (
-				<ListEmptyMessage text='El registro de administradores inactivos está vacío' />
+				<ListEmptyMessage text='El listado de administradores inactivos está vacío' />
 			)}
 			<div className='mt-6'>
 				<Pagination

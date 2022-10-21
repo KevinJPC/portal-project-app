@@ -81,7 +81,7 @@ const ListRoles = () => {
 						/>
 					))
 				) : (
-					<ListEmptyMessage text='El registro de roles activos está vacío' />
+					<ListEmptyMessage text='El listado de roles activos está vacío' />
 				)
 			) : inactives?.data.roles.total > 0 ? (
 				inactives?.data.roles.data.map(rol => (
@@ -92,7 +92,7 @@ const ListRoles = () => {
 					/>
 				))
 			) : (
-				<ListEmptyMessage text='El registro de roles inactivos está vacío' />
+				<ListEmptyMessage text='El listado de roles inactivos está vacío' />
 			)}
 			<div className='mt-6'>
 				<Pagination
