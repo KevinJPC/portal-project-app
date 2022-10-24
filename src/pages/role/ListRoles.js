@@ -47,7 +47,7 @@ const ListRoles = () => {
 
 	const getdata = data => {
 		if (data === '') {
-			console.log('vacio')
+			setRoleSearch(data)
 		} else {
 			setRoleSearch(data)
 			trigger(data)
@@ -64,13 +64,16 @@ const ListRoles = () => {
 				route='registrar'
 			/>
 			{roleSearch !== '' ? (
-				search?.data.roles.data.map(rol => (
-					<Roles
-						key={rol.id}
-						data={rol}
-						buttonText='Modificar'
-					/>
-				))
+				search?.data.roles.total > 0  ? (
+					search?.data.roles.data.map(rol => (
+						<Roles
+							key={rol.id}
+							data={rol}
+							buttonText='Modificar'
+						/>
+					))
+				):
+				<ListEmptyMessage text='No se encontro ningun rol con esos parametros de busqueda' />
 			) : roleState === 'actives' ? (
 				actives?.data.roles.total > 0 ? (
 					actives?.data.roles.data.map(rol => (

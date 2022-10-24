@@ -37,7 +37,7 @@ const RegisterRole = () => {
 									<Input
 										id='name'
 										label='Nombre'
-										placeholder='Nombre'
+										
 										onChange={e =>
 											setValues({
 												...values,
@@ -55,8 +55,8 @@ const RegisterRole = () => {
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='description'
-										Name='Descripción'
-										placeholder='Descripción'
+										name='Descripción'
+										label='Descripción'
 										onChange={e =>
 											setValues({ ...values, description: e.target.value })
 										}

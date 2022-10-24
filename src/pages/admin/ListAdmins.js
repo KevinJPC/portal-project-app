@@ -49,7 +49,7 @@ const ActivesAdmins = () => {
 	 */
 	const getdata = data => {
 		if (data === '') {
-			console.log('vacio')
+			setAdminSearch(data)
 		} else {
 			setAdminSearch(data)
 			trigger(data)
@@ -65,14 +65,18 @@ const ActivesAdmins = () => {
 				buttonText='Nuevo administrador'
 				route='registrar'
 			/>
+			 
 			{adminSearch !== '' ? (
-				search?.data.searchUsers.data.map(admin => (
-					<Admins
-						key={admin.id}
-						admins={admin}
-						buttonText='Modificar'
-					/>
-				))
+				search?.data.searchUsers.total > 0 ? (
+					search?.data.searchUsers.data.map(admin => (
+						<Admins
+							key={admin.id}
+							admins={admin}
+							buttonText='Modificar'
+						/>
+					))
+				):
+				<ListEmptyMessage text='No se encontro ningun administrador con esos parametros de busqueda' />
 			) : adminState === 'actives' ? (
 				actives?.data.activeUsers.total > 0 ? (
 					actives?.data.activeUsers.data.map(admin => (

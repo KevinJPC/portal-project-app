@@ -49,12 +49,15 @@ const ActivesProcesses = () => {
 
 	const getdata = data => {
 		if (data === '') {
-			console.log('vacio')
+			setProcessSearch(data)
 		} else {
 			setProcessSearch(data)
 			trigger(data)
+			
 		}
 	}
+
+
 	return (
 		<>
 			<SearchBar
@@ -65,13 +68,16 @@ const ActivesProcesses = () => {
 				route='registrar'
 			/>
 			{processSearch !== '' ? (
-				search?.data.searchProcesses.data.map(process => (
-					<Processes
-						key={process.id}
-						processes={process}
-						buttonText='Modificar'
-					/>
-				))
+				search?.data.searchProcesses.total > 0 ?(
+					search?.data.searchProcesses.data.map(process => (
+						<Processes
+							key={process.id}
+							processes={process}
+							buttonText='Modificar'
+						/>
+					))
+				):
+				<ListEmptyMessage text='No se encontro ningun proceso con esos parametros de busqueda' />
 			) : processState === 'actives' ? (
 				actives?.data.activeProcesses.total > 0 ? (
 					actives?.data.activeProcesses.data.map(process => (
