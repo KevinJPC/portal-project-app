@@ -4,11 +4,11 @@ import { providesList } from './tagProvider'
 export const processApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getSearchProcess: builder.query({
-			query: processName => `processes/${processName}`,
+			query: processName => `processes/search/${processName}`,
 			providesTags: result =>
 				providesList(result.data.searchProcesses.data, 'Process'),
 		}),
-		getSearchProcess: builder.query({
+		getSearchUserProcess: builder.query({
 			query: processName => `processes/visible/${processName}`,
 			providesTags: result =>
 				providesList(result.data.searchUserProcesses.data, 'Process'),
@@ -72,6 +72,8 @@ export const processApi = portalApi.injectEndpoints({
 })
 
 export const {
+	useGetSearchUserProcessQuery,
+	useLazyGetSearchUserProcessQuery,
 	useLazyGetSearchProcessQuery,
 	useGetSearchProcessQuery,
 	useGetActivesProcessQuery,

@@ -7,6 +7,7 @@ import {
 	useUpdateRoleMutation,
 	useInactivateRoleMutation,
 } from '../../app/services/roleApi'
+import Alert from '../../components/alerts/Alert'
 import ModalWindow from '../../components/ModalWindow'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import ClickButton from '../../components/buttons/ClickButton'
@@ -14,11 +15,19 @@ import ClickButton from '../../components/buttons/ClickButton'
 const UpdateRole = () => {
 	const [showModal, setShowModal] = useState(false)
 	const { id } = useParams()
-	const [isRoleInactive, setRoleInactivate] = useState(false)
+
 	const { data: result, isSuccess } = useGetRoleByIdQuery(Number(id))
 	const [updateaRole, { isLoading: isLoadingUpdate }] = useUpdateRoleMutation()
-	const [inactivateRole, { isLoading: isLoadingInactivate }] =
-		useInactivateRoleMutation()
+	const [
+		inactivateRole,
+		{
+			isUninitialized,
+			isLoading: isLoadingInactivate,
+			isError,
+			error,
+			isSuccess: isSuccesss,
+		},
+	] = useInactivateRoleMutation()
 	const navigate = useNavigate()
 
 	const [values, setValues] = useState({
@@ -33,9 +42,9 @@ const UpdateRole = () => {
 			setValues({
 				...values,
 				id: Number(id),
-				name: result?.role.name,
-				nameSlug: result?.role.nameSlug,
-				description: result?.role.description,
+				name: result?.data.role.name,
+				nameSlug: result?.data.role.nameSlug,
+				description: result?.data.role.description,
 			})
 		}
 	}, [isSuccess])
@@ -44,16 +53,18 @@ const UpdateRole = () => {
 		setShowModal(true)
 	}
 
-
 	const areSureInactivate = choose => {
 		if (choose) {
 			setShowModal(false)
 			inactivateRole(id)
-			navigate(-1)
+			if (isUninitialized) {
+			}
 		}
 	}
 
-	
+	if (isSuccesss) {
+		return navigate(-1)
+	}
 
 	/**
 	 * "updateaRole" is a function that takes in an object called "values" and then does something with
@@ -64,7 +75,7 @@ const UpdateRole = () => {
 		try {
 			updateaRole(values)
 			navigate(-1)
-		} catch (err) {}
+		} catch (error) {}
 	}
 
 	return (
@@ -74,7 +85,14 @@ const UpdateRole = () => {
 					<div>
 						<h3 className='text-3xl text-p-blue'>Modificar Rol</h3>
 					</div>
+
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
+						{isError && (
+							<Alert
+								type='error'
+								message={error.data.message}
+							/>
+						)}
 						<form onSubmit={update}>
 							<div className='mt-4 '>
 								<div className='flex flex-col items-start relative'>
@@ -117,12 +135,13 @@ const UpdateRole = () => {
 							/>
 							{showModal ? (
 								<ModalWindow
-								text='¿Está seguro de inactivar este registro?'
-								buttonText='Desactivar'
-								setShowModal={setShowModal}
-								onDialog={areSureInactivate}
-							/>
+									text='¿Está seguro de inactivar este registro?'
+									buttonText='Desactivar'
+									setShowModal={setShowModal}
+									onDialog={areSureInactivate}
+								/>
 							) : null}
+
 							<div className='mt-3'>
 								<SubmitButton
 									isLoading={isLoadingUpdate}
