@@ -11,6 +11,7 @@ import { useGetActivesRolesQuery } from '../../app/services/roleApi'
 import ClickButton from '../../components/buttons/ClickButton'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import RolesOfProcess from '../../components/rolesOfProcess/RolesOfProcess'
+import Alert from '../../components/alerts/Alert'
 
 const UpdateProcess = () => {
 	const [showModal, setShowModal] = useState(false)
@@ -21,8 +22,16 @@ const UpdateProcess = () => {
 		useGetProcessByIdQuery(Number(id))
 	const { data: roles, isSuccess: isSuccessGetRoles } =
 		useGetActivesRolesQuery()
-	const [updateProcess, { isLoading: isLoadingUpdate }] =
-		useUpdateProcessMutation()
+	const [
+		updateProcess,
+		{
+			isLoading: isLoadingUpdate,
+			isSuccess: isSuccessUpdate,
+			isError: isErrorUpdate,
+			error,
+			data,
+		},
+	] = useUpdateProcessMutation()
 	const [inactivateProcess, { isLoading: isLoadingInactivate }] =
 		useInactivateProcessMutation()
 
@@ -43,6 +52,11 @@ const UpdateProcess = () => {
 	const [selectedRole, setSelectedRole] = useState({
 		id: '',
 		name: '',
+	})
+
+	const [isEmpty, setIsEmpty] = useState({
+		roleContainer: false,
+		roles: false,
 	})
 
 	useEffect(() => {
@@ -83,7 +97,15 @@ const UpdateProcess = () => {
 		if (choose) {
 			setShowModal(false)
 			inactivateProcess(id)
-			navigate(-1)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		}
 	}
 
@@ -94,8 +116,23 @@ const UpdateProcess = () => {
 	const update = e => {
 		e.preventDefault()
 		try {
-			updateProcess(values)
-			navigate(-1)
+			if (processRoles.length > 0) {
+				updateProcess(values)
+					.unwrap()
+					.then(
+						payload =>
+							payload.success &&
+							setTimeout(() => {
+								navigate(-1)
+							}, 2500)
+					)
+					.catch(error)
+			} else {
+				setIsEmpty({ roles: true })
+				setTimeout(() => {
+					setIsEmpty({ roles: false })
+				}, 2500)
+			}
 		} catch (err) {}
 	}
 
@@ -119,7 +156,10 @@ const UpdateProcess = () => {
 	 */
 	const addRoleToProcess = () => {
 		if (processRoles.some(role => role.id === selectedRole.id)) {
-			console.log('ya existe')
+			setIsEmpty({ roleContainer: true })
+			setTimeout(() => {
+				setIsEmpty({ roleContainer: false })
+			}, 2500)
 		} else {
 			setProcessRoles([...processRoles, selectedRole])
 			const ids = processRoles?.map(role => role.id)
@@ -200,6 +240,14 @@ const UpdateProcess = () => {
 									Agregar
 								</button>
 							</div>
+							{isEmpty.roleContainer && (
+								<div className='mt-4'>
+									<Alert
+										type='error'
+										message={'Este rol ya fue agregado'}
+									/>
+								</div>
+							)}
 						</div>
 						<div className='mt-5 bg-p-silver rounded-lg'>
 							<RolesOfProcess
@@ -227,6 +275,34 @@ const UpdateProcess = () => {
 								/>
 							</div>
 						</div>
+						{isErrorUpdate && (
+							<div className='mt-4'>
+								<Alert
+									type='error'
+									message={
+										Object.keys(error.data.errors).length === 1
+											? error.data.message
+											: 'Todos los campos son obligatorios'
+									}
+								/>
+							</div>
+						)}
+						{isSuccessUpdate && (
+							<div className='mt-4'>
+								<Alert
+									type='success'
+									message={data.message}
+								/>
+							</div>
+						)}
+						{isEmpty.roles && (
+							<div className='mt-4'>
+								<Alert
+									type='error'
+									message={'Debe agregarse al menos un rol'}
+								/>
+							</div>
+						)}
 						<ClickButton
 							isLoading={isLoadingInactivate}
 							text='Desactivar'

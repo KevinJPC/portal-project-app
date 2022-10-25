@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import Alert from '../../components/alerts/Alert'
 
 const UpdatePassword = () => {
-	const [updatePassword, { isLoadingUpdate, isSuccess, isError, error }] =
+	const [updatePassword, { isLoadingUpdate, isSuccess, isError, error, data }] =
 		useUpdateUserPasswordMutation()
 	const navigate = useNavigate()
 
@@ -20,12 +20,11 @@ const UpdatePassword = () => {
 		e.preventDefault()
 		try {
 			updatePassword(values)
-			// setValues({
-			// 	oldPassword: '',
-			// 	password: '',
-			// 	passwordConfirmation: '',
-			// })
-			// navigate(-1)
+			setValues({
+				oldPassword: '',
+				password: '',
+				passwordConfirmation: '',
+			})
 		} catch (err) {}
 	}
 
@@ -35,10 +34,15 @@ const UpdatePassword = () => {
 				<div>
 					<h3 className='text-3xl text-p-blue'>Cambiar contraseña</h3>
 				</div>
-
 				<div className='w-full py-4 mt-4 overflow-hidde max-w-xs sm:max-w-md'>
+					{isError && (
+						<Alert
+							type='error'
+							message={error.data.message}
+						/>
+					)}
 					<form onSubmit={update}>
-						<div>
+						<div className='mt-4 '>
 							<PasswordInput
 								id='oldPassword'
 								label='Contraseña actual'
@@ -72,10 +76,10 @@ const UpdatePassword = () => {
 							/>
 						</div>
 						<div className='mt-7'>
-							{isError && (
+							{isSuccess && (
 								<Alert
-									type='error'
-									message={error.data.message}
+									type='success'
+									message={data.message}
 								/>
 							)}
 						</div>

@@ -8,6 +8,7 @@ import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
 import RolesOfProcess from '../../components/rolesOfProcess/RolesOfProcess'
 import { useNavigate } from 'react-router-dom'
+import Alert from '../../components/alerts/Alert'
 
 const RegisterProcess = () => {
 	const { data: roles, isSuccess: isSuccessGetRoles } =
@@ -20,6 +21,7 @@ const RegisterProcess = () => {
 
 	const navigate = useNavigate()
 	const [processRoles, setProcessRoles] = useState([])
+
 	const [selectedRole, setSelectedRole] = useState({
 		id: '',
 		name: '',
@@ -31,6 +33,11 @@ const RegisterProcess = () => {
 		seOid: '',
 		seName: '',
 		roles: [],
+	})
+
+	const [isEmpty, setIsEmpty] = useState({
+		roleContainer: false,
+		roles: false,
 	})
 
 	useEffect(() => {
@@ -55,7 +62,9 @@ const RegisterProcess = () => {
 	 * found.
 	 */
 	const handleChangeRole = e => {
-		const value = roles?.data.roles.data.filter(role => role.id === +e.target.value)
+		const value = roles?.data.roles.data.filter(
+			role => role.id === +e.target.value
+		)
 		setSelectedRole({ id: value[0].id, name: value[0].name })
 	}
 
@@ -77,7 +86,10 @@ const RegisterProcess = () => {
 	 */
 	const addRoleToProcess = () => {
 		if (processRoles.some(role => role.id === selectedRole.id)) {
-			console.log('ya existe')
+			setIsEmpty({ roleContainer: true })
+			setTimeout(() => {
+				setIsEmpty({ roleContainer: false })
+			}, 2500)
 		} else {
 			setProcessRoles([...processRoles, selectedRole])
 			const ids = processRoles?.map(role => role.id)
@@ -101,8 +113,23 @@ const RegisterProcess = () => {
 	const registerNewProcess = e => {
 		e.preventDefault()
 		try {
-			addNewProcess(values)
-			navigate(-1)
+			if (processRoles.length > 0) {
+				addNewProcess(values)
+					.unwrap()
+					.then(
+						payload =>
+							payload.success &&
+							setTimeout(() => {
+								navigate(-1)
+							}, 2500)
+					)
+					.catch(error)
+			} else {
+				setIsEmpty({ roles: true })
+				setTimeout(() => {
+					setIsEmpty({ roles: false })
+				}, 2500)
+			}
 		} catch (err) {}
 	}
 
@@ -172,6 +199,14 @@ const RegisterProcess = () => {
 									Agregar
 								</button>
 							</div>
+							{isEmpty.roleContainer && (
+								<div className='mt-4'>
+									<Alert
+										type='error'
+										message={'Este rol ya fue agregado'}
+									/>
+								</div>
+							)}
 						</div>
 						<div className='mt-5 bg-p-silver rounded-lg'>
 							<RolesOfProcess
@@ -199,6 +234,34 @@ const RegisterProcess = () => {
 								/>
 							</div>
 						</div>
+						{isError && (
+							<div className='mt-4'>
+								<Alert
+									type='error'
+									message={
+										Object.keys(error.data.errors).length === 1
+											? error.data.message
+											: 'Todos los campos son obligatorios'
+									}
+								/>
+							</div>
+						)}
+						{isSuccess && (
+							<div className='mt-4'>
+								<Alert
+									type='success'
+									message={data.message}
+								/>
+							</div>
+						)}
+						{isEmpty.roles && (
+							<div className='mt-4'>
+								<Alert
+									type='error'
+									message={'Debe agregarse al menos un rol'}
+								/>
+							</div>
+						)}
 						<div className=' my-6'>
 							<SubmitButton
 								isLoading={isLoading}

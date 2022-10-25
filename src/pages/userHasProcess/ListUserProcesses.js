@@ -16,7 +16,6 @@ function ListUserProcesses() {
 	const changePageNumber = value => {
 		getUserProcesses(value)
 	}
-
 	return (
 		<>
 			<SearchBar
@@ -24,13 +23,12 @@ function ListUserProcesses() {
 				title='Mis procesos'
 			/>
 			{userProcesses?.data.userProcesses.total > 0 ? (
-				// userProcesses?.data.userProcesses.data.map(process => (
-				// 	<MyProcesses
-				// 		key={process.id}
-				// 		userProcesses={process}
-				// 	/>
-				// ))
-				<p>Sopa do Makaku</p>
+				userProcesses?.data.userProcesses.data.map((process, i) => (
+					<MyProcesses
+						key={i}
+						userProcesses={process}
+					/>
+				))
 			) : (
 				<ListEmptyMessage text='El listado de mis procesos está vacío' />
 			)}

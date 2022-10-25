@@ -4,6 +4,7 @@ import { useAddNewAdminMutation } from '../../app/services/adminApi'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from '../../components/inputs/PasswordInput'
 import SubmitButton from '../../components/buttons/SubmitButton'
+import Alert from '../../components/alerts/Alert'
 
 const RegisterAdmin = () => {
 	const navigate = useNavigate()
@@ -25,7 +26,15 @@ const RegisterAdmin = () => {
 		e.preventDefault()
 		try {
 			addNewAdmin(values)
-			navigate(-1)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		} catch (err) {}
 	}
 
@@ -97,7 +106,7 @@ const RegisterAdmin = () => {
 									}
 								/>
 							</div>
-							<div className='mt-4'>
+							<div className='mt-4 mb-4'>
 								<PasswordInput
 									id='passwordConfirmation'
 									label='Confirmar Contraseña'
@@ -112,7 +121,23 @@ const RegisterAdmin = () => {
 								/>
 							</div>
 						</div>
-						<div className='md:px-36 my-6'>
+						{isError && (
+							<Alert
+								type='error'
+								message={
+									Object.keys(error.data.errors).length === 1
+										? error.data.message
+										: 'Todos los campos son obligatorios'
+								}
+							/>
+						)}
+						{isSuccess && (
+							<Alert
+								type='success'
+								message={data.message}
+							/>
+						)}
+						<div className='md:px-36 my-5'>
 							<SubmitButton
 								isLoading={isLoading}
 								text='Registrar'
