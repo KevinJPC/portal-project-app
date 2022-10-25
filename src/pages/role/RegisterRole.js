@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAddNewRoleMutation } from '../../app/services/roleApi'
 import Input from '../../components/inputs/TextInput'
+import Alert from '../../components/alerts/Alert'
 
 const RegisterRole = () => {
 	const navigate = useNavigate()
@@ -19,9 +20,14 @@ const RegisterRole = () => {
 		e.preventDefault()
 		try {
 			await addNewAdmin(values)
-			navigate(-1)
 		} catch (err) {}
 	}
+
+	setTimeout(() => {
+		if (isSuccess) {
+			return navigate(-1)
+		}
+	}, 3000)
 
 	return (
 		<div>
@@ -33,11 +39,16 @@ const RegisterRole = () => {
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
 						<form onSubmit={RegisterNewRole}>
 							<div className='mt-4 '>
+								{isSuccess && (
+									<Alert
+										type='success'
+										message={data?.message}
+									/>
+								)}
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='name'
 										label='Nombre'
-										
 										onChange={e =>
 											setValues({
 												...values,

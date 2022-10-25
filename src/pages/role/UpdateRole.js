@@ -17,15 +17,22 @@ const UpdateRole = () => {
 	const { id } = useParams()
 
 	const { data: result, isSuccess } = useGetRoleByIdQuery(Number(id))
-	const [updateaRole, { isLoading: isLoadingUpdate }] = useUpdateRoleMutation()
+	const [
+		updateaRole,
+		{
+			isLoading: isLoadingUpdate,
+			data: requestUpdateData,
+			isSuccess: isSuccessUpdate,
+		},
+	] = useUpdateRoleMutation()
 	const [
 		inactivateRole,
 		{
-			isUninitialized,
 			isLoading: isLoadingInactivate,
 			isError,
 			error,
-			isSuccess: isSuccesss,
+			isSuccess: isSuccessInactivate,
+			data: requestInactiveData,
 		},
 	] = useInactivateRoleMutation()
 	const navigate = useNavigate()
@@ -57,13 +64,7 @@ const UpdateRole = () => {
 		if (choose) {
 			setShowModal(false)
 			inactivateRole(id)
-			if (isUninitialized) {
-			}
 		}
-	}
-
-	if (isSuccesss) {
-		return navigate(-1)
 	}
 
 	/**
@@ -74,9 +75,22 @@ const UpdateRole = () => {
 		e.preventDefault()
 		try {
 			updateaRole(values)
-			navigate(-1)
 		} catch (error) {}
 	}
+
+	setTimeout(() => {
+		if (isSuccessInactivate) {
+			return navigate(-1)
+		} else {
+			console.log('entro al if')
+			if (isSuccessUpdate) {
+				return navigate(-1)
+			}
+		}
+	}, 3000)
+
+	
+	
 
 	return (
 		<div>
@@ -91,6 +105,18 @@ const UpdateRole = () => {
 							<Alert
 								type='error'
 								message={error.data.message}
+							/>
+						)}
+						{isSuccessInactivate && (
+							<Alert
+								type='success'
+								message={requestInactiveData?.message}
+							/>
+						)}
+						{isSuccessUpdate && (
+							<Alert
+								type='success'
+								message={requestUpdateData?.message}
 							/>
 						)}
 						<form onSubmit={update}>
