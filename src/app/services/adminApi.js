@@ -4,7 +4,7 @@ import { providesList } from './tagProvider'
 export const adminApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getSearchAdmin: builder.query({
-			query: searchParam => `admin/${searchParam}`,
+			query: searchParam => `admin/search/${searchParam}`,
 			providesTags: result =>
 				providesList(result.data.searchUsers.data, 'Admin'),
 		}),

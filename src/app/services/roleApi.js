@@ -4,7 +4,7 @@ import { providesList } from './tagProvider'
 export const roleApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
 		getSearchRole: builder.query({
-			query: roleName => `roles/${roleName}`,
+			query: roleName => `roles/search/${roleName}`,
 			providesTags: result => providesList(result.data.roles.data, 'Role'),
 		}),
 		getActivesRoles: builder.query({
@@ -17,7 +17,7 @@ export const roleApi = portalApi.injectEndpoints({
 		}),
 		getRoleById: builder.query({
 			query: roleId => `roles/${roleId}`,
-			providesTags: result => providesList(result.role.data, 'Role'),
+			providesTags: result => providesList(result.data.role.data, 'Role'),
 		}),
 		addNewRole: builder.mutation({
 			query: role => ({
