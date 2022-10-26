@@ -12,7 +12,8 @@ import {
 	adminUserLinks,
 	generalUserLinks,
 	notifications,
-	profileLinks,
+	profileAdminLinks,
+	profileGeneralLinks,
 } from './navbarLinks'
 import { useSelector } from 'react-redux'
 import {
@@ -179,14 +180,23 @@ function AdminUserNavbar() {
 									leaveTo='transform scale-95 opacity-0'
 								>
 									<Menu.Items className='fixed sm:absolute text-center space-y-2 sm:space-y-1 divide-y sm:border h-screen sm:h-auto right-0 z-10 mt-4 sm:mt-2 w-screen sm:w-48 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-										{profileLinks.map(link => (
-											<Menu.Item key={link.label}>
-												<Navlink
-													to={link.to}
-													text={link.label}
-												/>
-											</Menu.Item>
-										))}
+										{role === 'admin'
+											? profileAdminLinks.map(link => (
+													<Menu.Item key={link.label}>
+														<Navlink
+															to={link.to}
+															text={link.label}
+														/>
+													</Menu.Item>
+											  ))
+											: profileGeneralLinks.map(link => (
+													<Menu.Item key={link.label}>
+														<Navlink
+															to={link.to}
+															text={link.label}
+														/>
+													</Menu.Item>
+											  ))}
 									</Menu.Items>
 								</Transition>
 							</Menu>

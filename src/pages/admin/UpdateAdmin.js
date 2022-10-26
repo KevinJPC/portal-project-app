@@ -5,6 +5,7 @@ import {
 	useUpdateAdminMutation,
 	useInactivateAdminMutation,
 } from '../../app/services/adminApi'
+import Alert from '../../components/alerts/Alert'
 import ClickButton from '../../components/buttons/ClickButton'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
@@ -16,7 +17,17 @@ const UpdateAdmin = () => {
 	const navigate = useNavigate()
 
 	const { data: result, isSuccess } = useGetAdminByIdQuery(Number(id))
-	const [updateAdmin, { isLoading: isLoadingUpdate }] = useUpdateAdminMutation()
+	const [
+		updateAdmin,
+		{
+			isLoading: isLoadingUpdate,
+			isSuccess: isSuccessNewAdmin,
+			isError,
+			error,
+			data,
+			result: resultUpdate,
+		},
+	] = useUpdateAdminMutation()
 
 	const [inactivateAdmin, { isLoading: isLoadingInactivate }] =
 		useInactivateAdminMutation()
@@ -56,7 +67,15 @@ const UpdateAdmin = () => {
 		if (choose) {
 			setShowModal(false)
 			inactivateAdmin(id)
-			navigate(-1)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		}
 	}
 
@@ -67,8 +86,16 @@ const UpdateAdmin = () => {
 	const update = e => {
 		e.preventDefault()
 		try {
-			 updateAdmin(values)
-			//navigate(-1)
+			updateAdmin(values)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		} catch (err) {}
 	}
 
@@ -125,6 +152,24 @@ const UpdateAdmin = () => {
 							</div>
 						</div>
 						<div className='md:px-36'>
+							<div className='mt-4 '>
+								{isError && (
+									<Alert
+										type='error'
+										message={
+											Object.keys(error.data.errors).length === 1
+												? error.data.message
+												: 'Todos los campos son obligatorios'
+										}
+									/>
+								)}
+								{isSuccessNewAdmin && (
+									<Alert
+										type='success'
+										message={data.message}
+									/>
+								)}
+							</div>
 							<ClickButton
 								isLoading={isLoadingInactivate}
 								text='Desactivar'

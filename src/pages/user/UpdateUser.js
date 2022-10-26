@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useUpdateUserProfileMutation } from '../../app/services/userApi'
+import Alert from '../../components/alerts/Alert'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
 import { selectUser } from '../../features/authSlice'
 
 const UpdateUser = () => {
-	const [updateProfile, { isLoading }] = useUpdateUserProfileMutation()
+	const [updateProfile, { isLoading, isError, error, data, isSuccess }] =
+		useUpdateUserProfileMutation()
 	const user = useSelector(selectUser)
 	const navigate = useNavigate()
 
@@ -28,10 +30,10 @@ const UpdateUser = () => {
 		})
 	}, [])
 
-	const update = async e => {
+	const update = e => {
 		e.preventDefault()
 		try {
-			await updateProfile(values).unwrap()
+			updateProfile(values)
 		} catch (err) {}
 	}
 
@@ -74,7 +76,7 @@ const UpdateUser = () => {
 								}
 							/>
 						</div>
-						<div className='mt-4 '>
+						<div className='mt-4 mb-6'>
 							<Input
 								id='email'
 								label='Correo electrónico'
@@ -83,7 +85,23 @@ const UpdateUser = () => {
 								onChange={e => setValues({ ...values, email: e.target.value })}
 							/>
 						</div>
-						<div className='mt-7'>
+						{isError && (
+							<Alert
+								type='error'
+								message={
+									Object.keys(error.data.errors).length === 1
+										? error.data.message
+										: 'Todos los campos son obligatorios'
+								}
+							/>
+						)}
+						{isSuccess && (
+							<Alert
+								type='success'
+								message={data.message}
+							/>
+						)}
+						<div className='mt-6'>
 							<SubmitButton
 								isLoading={isLoading}
 								text='Guardar cambios'

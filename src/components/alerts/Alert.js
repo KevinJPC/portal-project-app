@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useEffect } from 'react'
 
 function Alert({ type, message }) {
 	const [open, setOpen] = useState(true)
+
+	useEffect(() => {
+		setTimeout(() => {
+			setOpen(false)
+		}, 2500)
+	}, [])
 
 	return (
 		<>

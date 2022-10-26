@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLazyGetVisiblesProcessQuery } from '../../app/services/processApi'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
@@ -11,6 +11,7 @@ function ListVisiblesProcesses() {
 
 	useEffect(() => {
 		getVisiblesProcess(1)
+		// setAllVisiblesProcesses(visiblesProcesses?.data.userProcesses.data)
 	}, [isSuccess])
 
 	/**
@@ -40,6 +41,7 @@ function ListVisiblesProcesses() {
 				visiblesProcesses?.data.userProcesses.data.map(process => (
 					<VisiblesProcesses
 						key={process.id}
+						allVisiblesProcesses={visiblesProcesses?.data.userProcesses.data}
 						visibleProcesses={process}
 					/>
 				))
