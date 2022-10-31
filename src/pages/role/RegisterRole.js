@@ -7,7 +7,7 @@ import Alert from '../../components/alerts/Alert'
 const RegisterRole = () => {
 	const navigate = useNavigate()
 
-	const [addNewAdmin, { isLoading, isSuccess, data, error }] =
+	const [addNewRole, { isLoading, isSuccess, isError, data, error }] =
 		useAddNewRoleMutation()
 
 	const [values, setValues] = useState({
@@ -19,7 +19,16 @@ const RegisterRole = () => {
 	const RegisterNewRole = async e => {
 		e.preventDefault()
 		try {
-			await addNewAdmin(values)
+			await addNewRole(values)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		} catch (err) {}
 	}
 
@@ -44,6 +53,18 @@ const RegisterRole = () => {
 										type='success'
 										message={data?.message}
 									/>
+								)}
+								{isError && (
+									<div className='mt-4'>
+										<Alert
+											type='error'
+											message={
+												Object.keys(error.data.errors).length === 1
+													? error.data.message
+													: 'Todos los campos son obligatorios'
+											}
+										/>
+									</div>
 								)}
 								<div className='flex flex-col items-start relative'>
 									<Input

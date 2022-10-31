@@ -23,13 +23,14 @@ const UpdateRole = () => {
 			isLoading: isLoadingUpdate,
 			data: requestUpdateData,
 			isSuccess: isSuccessUpdate,
+			isError: isErrorUpdate,
 		},
 	] = useUpdateRoleMutation()
 	const [
 		inactivateRole,
 		{
 			isLoading: isLoadingInactivate,
-			isError,
+			isError: isErrorInactivate,
 			error,
 			isSuccess: isSuccessInactivate,
 			data: requestInactiveData,
@@ -64,6 +65,15 @@ const UpdateRole = () => {
 		if (choose) {
 			setShowModal(false)
 			inactivateRole(id)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		}
 	}
 
@@ -75,22 +85,17 @@ const UpdateRole = () => {
 		e.preventDefault()
 		try {
 			updateaRole(values)
+				.unwrap()
+				.then(
+					payload =>
+						payload.success &&
+						setTimeout(() => {
+							navigate(-1)
+						}, 2500)
+				)
+				.catch(error)
 		} catch (error) {}
 	}
-
-	setTimeout(() => {
-		if (isSuccessInactivate) {
-			return navigate(-1)
-		} else {
-			console.log('entro al if')
-			if (isSuccessUpdate) {
-				return navigate(-1)
-			}
-		}
-	}, 3000)
-
-	
-	
 
 	return (
 		<div>
@@ -101,23 +106,41 @@ const UpdateRole = () => {
 					</div>
 
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-						{isError && (
-							<Alert
-								type='error'
-								message={error.data.message}
-							/>
+						{isErrorInactivate && (
+							<div className='mt-4'>
+								<Alert
+									type='error'
+									message={error.data.message}
+								/>
+							</div>
+						)}
+						{isErrorUpdate && (
+							<div className='mt-4'>
+								<Alert
+									type='error'
+									message={
+										Object.keys(error.data.errors).length === 1
+											? error.data.message
+											: 'Todos los campos son obligatorios'
+									}
+								/>
+							</div>
 						)}
 						{isSuccessInactivate && (
-							<Alert
-								type='success'
-								message={requestInactiveData?.message}
-							/>
+							<div className='mt-4'>
+								<Alert
+									type='success'
+									message={requestInactiveData?.message}
+								/>
+							</div>
 						)}
 						{isSuccessUpdate && (
-							<Alert
-								type='success'
-								message={requestUpdateData?.message}
-							/>
+							<div className='mt-4'>
+								<Alert
+									type='success'
+									message={requestUpdateData?.message}
+								/>
+							</div>
 						)}
 						<form onSubmit={update}>
 							<div className='mt-4 '>
