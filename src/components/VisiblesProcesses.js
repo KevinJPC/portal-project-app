@@ -4,10 +4,12 @@ import ClickButton from './buttons/ClickButton'
 import { useStartNewProcessMutation } from '../app/services/userHasProcessApi'
 import ModalWindow from './ModalWindow'
 import Alert from './alerts/Alert'
+import { format } from 'date-fns'
 
 function VisiblesProcesses({ visibleProcesses, allVisiblesProcesses }) {
 	const { name, createdAt, id } = visibleProcesses
 	const [showModal, setShowModal] = useState(false)
+	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
 
 	const [startProcess, { isLoading, isSuccess, data }] =
 		useStartNewProcessMutation()
@@ -59,7 +61,7 @@ function VisiblesProcesses({ visibleProcesses, allVisiblesProcesses }) {
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Fecha creación
 							</p>
-							<p className='text-center leading-normal pt-2'>{createdAt} </p>
+							<p className='text-center leading-normal pt-2'>{createdDate} </p>
 						</div>
 						<div>
 							<ClickButton

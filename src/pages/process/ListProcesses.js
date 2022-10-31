@@ -1,6 +1,4 @@
-import { Result } from 'postcss'
 import React, { useEffect, useState } from 'react'
-
 import {
 	useLazyGetSearchProcessQuery,
 	useLazyGetActivesProcessQuery,
@@ -10,17 +8,24 @@ import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
 import Processes from '../../components/Processes'
 import SearchBar from '../../components/SearchBar'
+import Spinner from '../../components/Spinner'
 
 const ActivesProcesses = () => {
 	const [processSearch, setProcessSearch] = useState('')
 	const [processState, setProcessState] = useState('actives')
-	const [getActivesProcesses, { data: actives, isSuccess: isSuccessActives }] =
-		useLazyGetActivesProcessQuery()
+	const [
+		getActivesProcesses,
+		{ data: actives, isSuccess: isSuccessActives, isLoading: isLoadingActives },
+	] = useLazyGetActivesProcessQuery()
 	const [
 		getInactivesProcesses,
-		{ data: inactives, isSuccess: isSuccessInactives },
+		{
+			data: inactives,
+			isSuccess: isSuccessInactives,
+			isLoading: isLoadingInactives,
+		},
 	] = useLazyGetInactivesProcessQuery()
-	const [trigger, { data: search }] =
+	const [searchProcess, { data: search, isLoading: isLoadingSearch }] =
 		useLazyGetSearchProcessQuery(processSearch)
 
 	useEffect(() => {
@@ -52,11 +57,9 @@ const ActivesProcesses = () => {
 			setProcessSearch(data)
 		} else {
 			setProcessSearch(data)
-			trigger(data)
-			
+			searchProcess(data)
 		}
 	}
-
 
 	return (
 		<>
@@ -68,7 +71,12 @@ const ActivesProcesses = () => {
 				route='registrar'
 			/>
 			{processSearch !== '' ? (
-				search?.data.searchProcesses.total > 0 ?(
+				isLoadingSearch ? (
+					<div className='mt-6 flex justify-center items-center'>
+						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<Spinner />
+					</div>
+				) : search?.data.searchProcesses.total > 0 ? (
 					search?.data.searchProcesses.data.map(process => (
 						<Processes
 							key={process.id}
@@ -76,10 +84,16 @@ const ActivesProcesses = () => {
 							buttonText='Modificar'
 						/>
 					))
-				):
-				<ListEmptyMessage text='No se encontro ningun proceso con esos parametros de busqueda' />
+				) : (
+					<ListEmptyMessage text='No se encontro ningun proceso con esos parametros de busqueda' />
+				)
 			) : processState === 'actives' ? (
-				actives?.data.activeProcesses.total > 0 ? (
+				isLoadingActives ? (
+					<div className='mt-6 flex justify-center items-center'>
+						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<Spinner />
+					</div>
+				) : actives?.data.activeProcesses.total > 0 ? (
 					actives?.data.activeProcesses.data.map(process => (
 						<Processes
 							key={process.id}
@@ -90,6 +104,11 @@ const ActivesProcesses = () => {
 				) : (
 					<ListEmptyMessage text='El listado de procesos activos está vacío' />
 				)
+			) : isLoadingInactives ? (
+				<div className='mt-6 flex justify-center items-center'>
+					<p className='text-p-blue font-fira-medium'>Cargando...</p>
+					<Spinner />
+				</div>
 			) : inactives?.data.inactiveProcesses.total > 0 ? (
 				inactives?.data.inactiveProcesses.data.map(process => (
 					<Processes

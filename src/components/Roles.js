@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateRoleMutation } from '../app/services/roleApi'
 import ModalWindow from './ModalWindow'
+import { format } from 'date-fns'
 
 function Roles({ data, buttonText }) {
 	const [showModal, setShowModal] = useState(false)
@@ -11,6 +12,7 @@ function Roles({ data, buttonText }) {
 	const { name, description, createdAt, id } = data
 	const [activateRole, { isLoading: isLoadingActivate }] =
 		useActivateRoleMutation()
+	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
 
 	const areSureActivate = choose => {
 		if (choose) {
@@ -43,7 +45,7 @@ function Roles({ data, buttonText }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creacción
 							</p>
-							<p className='text-sm leading-normal pt-2'>{createdAt}</p>
+							<p className='text-sm leading-normal pt-2'>{createdDate}</p>
 						</div>
 						<div className='text-center'>
 							{buttonText === 'Modificar' ? (
