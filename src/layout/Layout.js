@@ -9,7 +9,7 @@ import NavbarContainer from '../components/navbars/NavbarContainer'
 const Layout = ({ children }) => {
 	return (
 		<div className='font-fira'>
-			<header className='md:h-18 h-16 text-white w-full'>
+			<header className='md:h-18 h-16 text-white w-full sticky top-0 z-50'>
 				<NavbarContainer />
 			</header>
 			<main className='min-h-[calc(100vh-64px)] flex flex-col'>{children}</main>

@@ -8,17 +8,25 @@ import Admins from '../../components/Admins'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
 import SearchBar from '../../components/SearchBar'
+import Spinner from '../../components/Spinner'
 
 const ActivesAdmins = () => {
 	const [adminSearch, setAdminSearch] = useState('')
 	const [adminState, setAdminState] = useState('actives')
-	const [getActivesAdmins, { data: actives, isSuccess: isSuccessActives }] =
-		useLazyGetActivesAdminQuery()
+	const [
+		getActivesAdmins,
+		{ data: actives, isSuccess: isSuccessActives, isLoading: isLoadingActives },
+	] = useLazyGetActivesAdminQuery()
 	const [
 		getInactivesAdmins,
-		{ data: inactives, isSuccess: isSuccessInactives },
+		{
+			data: inactives,
+			isSuccess: isSuccessInactives,
+			isLoading: isLoadingInactives,
+		},
 	] = useLazyGetInactivesAdminQuery()
-	const [trigger, { data: search }] = useLazyGetSearchAdminQuery(adminSearch)
+	const [searchAdmin, { data: search, isLoading: isLoadingSearch }] =
+		useLazyGetSearchAdminQuery(adminSearch)
 
 	useEffect(() => {
 		getActivesAdmins(1)
@@ -52,7 +60,7 @@ const ActivesAdmins = () => {
 			setAdminSearch(data)
 		} else {
 			setAdminSearch(data)
-			trigger(data)
+			searchAdmin(data)
 		}
 	}
 
@@ -65,9 +73,13 @@ const ActivesAdmins = () => {
 				buttonText='Nuevo administrador'
 				route='registrar'
 			/>
-			 
 			{adminSearch !== '' ? (
-				search?.data.searchUsers.total > 0 ? (
+				isLoadingSearch ? (
+					<div className='mt-6 flex justify-center items-center'>
+						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<Spinner />
+					</div>
+				) : search?.data.searchUsers.total > 0 ? (
 					search?.data.searchUsers.data.map(admin => (
 						<Admins
 							key={admin.id}
@@ -75,10 +87,16 @@ const ActivesAdmins = () => {
 							buttonText='Modificar'
 						/>
 					))
-				):
-				<ListEmptyMessage text='No se encontro ningun administrador con esos parametros de busqueda' />
+				) : (
+					<ListEmptyMessage text='No se encontro ningun administrador con esos parametros de busqueda' />
+				)
 			) : adminState === 'actives' ? (
-				actives?.data.activeUsers.total > 0 ? (
+				isLoadingActives ? (
+					<div className='mt-6 flex justify-center items-center'>
+						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<Spinner />
+					</div>
+				) : actives?.data.activeUsers.total > 0 ? (
 					actives?.data.activeUsers.data.map(admin => (
 						<Admins
 							key={admin.id}
@@ -89,6 +107,11 @@ const ActivesAdmins = () => {
 				) : (
 					<ListEmptyMessage text='El listado de administradores activos está vacío' />
 				)
+			) : isLoadingInactives ? (
+				<div className='mt-6 flex justify-center items-center'>
+					<p className='text-p-blue font-fira-medium'>Cargando...</p>
+					<Spinner />
+				</div>
 			) : inactives?.data.inactiveUsers.total > 0 ? (
 				inactives?.data.inactiveUsers.data.map(admin => (
 					<Admins

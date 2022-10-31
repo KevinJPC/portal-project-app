@@ -25,15 +25,21 @@ const UpdateProcess = () => {
 	const [
 		updateProcess,
 		{
-			isLoading: isLoadingUpdate,
-			isSuccess: isSuccessUpdate,
+			isLoading: isLoadingUpdateAdmin,
+			isSuccess: isSuccessUpdateAmin,
 			isError: isErrorUpdate,
 			error,
-			data,
+			data: dataUpdate,
 		},
 	] = useUpdateProcessMutation()
-	const [inactivateProcess, { isLoading: isLoadingInactivate }] =
-		useInactivateProcessMutation()
+	const [
+		inactivateProcess,
+		{
+			isLoading: isLoadingInactivate,
+			isSuccess: isSuccessInactivate,
+			data: dataInactivate,
+		},
+	] = useInactivateProcessMutation()
 
 	const [processRoles, setProcessRoles] = useState([])
 
@@ -287,11 +293,19 @@ const UpdateProcess = () => {
 								/>
 							</div>
 						)}
-						{isSuccessUpdate && (
+						{isSuccessUpdateAmin && (
 							<div className='mt-4'>
 								<Alert
 									type='success'
-									message={data.message}
+									message={dataUpdate.message}
+								/>
+							</div>
+						)}
+						{isSuccessInactivate && (
+							<div className='mt-4'>
+								<Alert
+									type='success'
+									message={dataInactivate.message}
 								/>
 							</div>
 						)}
@@ -319,7 +333,7 @@ const UpdateProcess = () => {
 						)}
 						<div className='mt-3'>
 							<SubmitButton
-								isLoading={isLoadingUpdate}
+								isLoading={isLoadingUpdateAdmin}
 								text='Guardar cambios'
 							/>
 						</div>
