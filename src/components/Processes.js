@@ -4,10 +4,12 @@ import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateProcessMutation } from '../app/services/processApi'
 import ModalWindow from './ModalWindow'
+import { format } from 'date-fns'
 
 function Processes({ processes, buttonText }) {
 	const [showModal, setShowModal] = useState(false)
 	const { id, name, createdAt, updatedAt } = processes
+	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
 
 	const [activateProcess, { isLoading: isLoadingActivate }] =
 		useActivateProcessMutation()
@@ -44,7 +46,7 @@ function Processes({ processes, buttonText }) {
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Fecha de creacción
 							</p>
-							<p className='text-center leading-normal pt-2'>{createdAt}</p>
+							<p className='text-center leading-normal pt-2'>{createdDate}</p>
 						</div>
 						<div className='p-4 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>

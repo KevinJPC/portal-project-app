@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
 import { useActivateAdminMutation } from '../app/services/adminApi'
 import ModalWindow from './ModalWindow'
+import { format } from 'date-fns'
 
 function Admins({ admins, buttonText }) {
 	const [showModal, setShowModal] = useState(false)
@@ -12,6 +13,7 @@ function Admins({ admins, buttonText }) {
 		useActivateAdminMutation()
 	const { name, firstLastName, secondLastName, email, dni, createdAt, id } =
 		admins
+	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
 
 	/**
 	 * When the user clicks on the button, the modal is set to show.
@@ -59,7 +61,7 @@ function Admins({ admins, buttonText }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creación
 							</p>
-							<p className='text-sm leading-normal pt-2'>{createdAt}</p>
+							<p className='text-sm leading-normal pt-2'>{createdDate}</p>
 						</div>
 						<div className='p-8'>
 							{buttonText === 'Modificar' ? (

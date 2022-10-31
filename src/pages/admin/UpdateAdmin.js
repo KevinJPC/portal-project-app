@@ -16,21 +16,29 @@ const UpdateAdmin = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
-	const { data: result, isSuccess } = useGetAdminByIdQuery(Number(id))
+	const { data: result, isSuccess: isSuccessGetAdmin } = useGetAdminByIdQuery(
+		Number(id)
+	)
+
 	const [
 		updateAdmin,
 		{
 			isLoading: isLoadingUpdate,
-			isSuccess: isSuccessNewAdmin,
+			isSuccess: isSuccessUpdateAdmin,
 			isError,
 			error,
-			data,
-			result: resultUpdate,
+			data: dataUpdate,
 		},
 	] = useUpdateAdminMutation()
 
-	const [inactivateAdmin, { isLoading: isLoadingInactivate }] =
-		useInactivateAdminMutation()
+	const [
+		inactivateAdmin,
+		{
+			isLoading: isLoadingInactivate,
+			isSuccess: isSuccessInactivate,
+			data: dataInactivate,
+		},
+	] = useInactivateAdminMutation()
 
 	const [values, setValues] = useState({
 		id: id,
@@ -41,7 +49,7 @@ const UpdateAdmin = () => {
 	})
 
 	useEffect(() => {
-		if (isSuccess) {
+		if (isSuccessGetAdmin) {
 			setValues({
 				...values,
 				name: result?.data.user.name,
@@ -50,7 +58,7 @@ const UpdateAdmin = () => {
 				secondLastName: result?.data.user.secondLastName,
 			})
 		}
-	}, [isSuccess])
+	}, [isSuccessGetAdmin])
 
 	/**
 	 * When the user clicks the button, the modal is set to show.
@@ -163,10 +171,16 @@ const UpdateAdmin = () => {
 										}
 									/>
 								)}
-								{isSuccessNewAdmin && (
+								{isSuccessUpdateAdmin && (
 									<Alert
 										type='success'
-										message={data.message}
+										message={dataUpdate.message}
+									/>
+								)}
+								{isSuccessInactivate && (
+									<Alert
+										type='success'
+										message={dataInactivate.message}
 									/>
 								)}
 							</div>

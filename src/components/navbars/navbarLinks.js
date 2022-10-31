@@ -42,4 +42,8 @@ export const notifications = [
 		label: 'Peticion de registro bancario 4',
 		description: 'Tiene tareas pendiente en este proceso',
 	},
+	{
+		label: 'Peticion de registro bancario 5',
+		description: 'Tiene tareas pendiente en este proceso',
+	},
 ]

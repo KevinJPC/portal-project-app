@@ -8,18 +8,27 @@ import SearchBar from '../../components/SearchBar'
 import Roles from '../../components/Roles'
 import Pagination from '../../components/pagination/Pagination'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
+import Spinner from '../../components/Spinner'
 
 const ListRoles = () => {
 	const [roleSearch, setRoleSearch] = useState('')
 	const [roleState, setRoleState] = useState('actives')
-	const [getActivesRoles, { data: actives, isSuccess: isSuccessActives }] =
-		useLazyGetActivesRolesQuery()
+	const [
+		getActivesRoles,
+		{ data: actives, isSuccess: isSuccessActives, isLoading: isLoadingActives },
+	] = useLazyGetActivesRolesQuery()
 	const [
 		getInactivesRoles,
-		{ data: inactives, isSuccess: isSuccessInactives },
+		{
+			data: inactives,
+			isSuccess: isSuccessInactives,
+			isLoading: isLoadingInactives,
+		},
 	] = useLazyGetInactivesRolesQuery()
-	const [trigger, { data: search, isUninitialized, isSuccess }] =
-		useLazyGetSearchRoleQuery(roleSearch)
+	const [
+		searchRoles,
+		{ data: search, isUninitialized, isSuccess, isLoading: isLoadingSearch },
+	] = useLazyGetSearchRoleQuery(roleSearch)
 
 	useEffect(() => {
 		getActivesRoles(1)
@@ -50,7 +59,7 @@ const ListRoles = () => {
 			setRoleSearch(data)
 		} else {
 			setRoleSearch(data)
-			trigger(data)
+			searchRoles(data)
 		}
 	}
 
@@ -64,7 +73,12 @@ const ListRoles = () => {
 				route='registrar'
 			/>
 			{roleSearch !== '' ? (
-				search?.data.roles.total > 0  ? (
+				isLoadingSearch ? (
+					<div className='mt-6 flex justify-center items-center'>
+						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<Spinner />
+					</div>
+				) : search?.data.roles.total > 0 ? (
 					search?.data.roles.data.map(rol => (
 						<Roles
 							key={rol.id}
@@ -72,10 +86,16 @@ const ListRoles = () => {
 							buttonText='Modificar'
 						/>
 					))
-				):
-				<ListEmptyMessage text='No se encontro ningun rol con esos parametros de busqueda' />
+				) : (
+					<ListEmptyMessage text='No se encontro ningun rol con esos parametros de busqueda' />
+				)
 			) : roleState === 'actives' ? (
-				actives?.data.roles.total > 0 ? (
+				isLoadingActives ? (
+					<div className='mt-6 flex justify-center items-center'>
+						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<Spinner />
+					</div>
+				) : actives?.data.roles.total > 0 ? (
 					actives?.data.roles.data.map(rol => (
 						<Roles
 							key={rol.id}
@@ -86,6 +106,11 @@ const ListRoles = () => {
 				) : (
 					<ListEmptyMessage text='El listado de roles activos está vacío' />
 				)
+			) : isLoadingInactives ? (
+				<div className='mt-6 flex justify-center items-center'>
+					<p className='text-p-blue font-fira-medium'>Cargando...</p>
+					<Spinner />
+				</div>
 			) : inactives?.data.roles.total > 0 ? (
 				inactives?.data.roles.data.map(rol => (
 					<Roles
