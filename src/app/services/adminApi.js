@@ -61,7 +61,7 @@ export const {
 	useLazyGetActivesAdminQuery,
 	useGetInactivesAdminQuery,
 	useLazyGetInactivesAdminQuery,
-	useGetAdminByIdQuery,
+	useLazyGetAdminByIdQuery,
 	useAddNewAdminMutation,
 	useUpdateAdminMutation,
 	useInactivateAdminMutation,

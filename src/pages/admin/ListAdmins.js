@@ -76,7 +76,7 @@ const ActivesAdmins = () => {
 			{adminSearch !== '' ? (
 				isLoadingSearch ? (
 					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 						<Spinner />
 					</div>
 				) : search?.data.searchUsers.total > 0 ? (

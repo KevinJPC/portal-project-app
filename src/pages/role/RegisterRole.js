@@ -1,27 +1,20 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAddNewRoleMutation } from '../../app/services/roleApi'
+import React from 'react'
+import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
+import useForm from '../../hooks/useForm'
+import useRole from '../../hooks/useRole'
 
 const RegisterRole = () => {
-	const navigate = useNavigate()
+	const { formState, name, description, onInputChange, changeFormState } =
+		useForm({
+			name: '',
+			nameSlug: '',
+			description: '',
+		})
 
-	const [addNewAdmin, { isLoading, isSuccess, data, error }] =
-		useAddNewRoleMutation()
-
-	const [values, setValues] = useState({
-		name: '',
-		nameSlug: '',
-		description: '',
-	})
-
-	const RegisterNewRole = async e => {
-		e.preventDefault()
-		try {
-			await addNewAdmin(values)
-			navigate(-1)
-		} catch (err) {}
-	}
+	const {
+		registerProps: { registerNewRole, isLoadingAddNewRole },
+	} = useRole({ ...formState })
 
 	return (
 		<div>
@@ -31,16 +24,15 @@ const RegisterRole = () => {
 						<h3 className='text-3xl text-p-blue'>Registrar Rol</h3>
 					</div>
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-						<form onSubmit={RegisterNewRole}>
+						<form onSubmit={registerNewRole}>
 							<div className='mt-4 '>
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='name'
 										label='Nombre'
-										
+										value={name}
 										onChange={e =>
-											setValues({
-												...values,
+											changeFormState({
 												name: e.target.value,
 												nameSlug: e.target.value
 													.toLowerCase()
@@ -50,25 +42,23 @@ const RegisterRole = () => {
 									/>
 								</div>
 							</div>
-
 							<div className='mt-4 '>
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='description'
 										name='Descripción'
 										label='Descripción'
-										onChange={e =>
-											setValues({ ...values, description: e.target.value })
-										}
+										value={description}
+										onChange={onInputChange}
 									/>
 								</div>
 							</div>
-							<button
-								type='submit'
-								className='text-p-white bg-p-purple mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-							>
-								Registrar
-							</button>
+							<div className='w-full py-2.5 mt-5'>
+								<SubmitButton
+									isLoading={isLoadingAddNewRole}
+									text='Registrar'
+								/>
+							</div>
 						</form>
 					</div>
 				</div>

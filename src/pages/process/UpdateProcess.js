@@ -6,6 +6,7 @@ import {
 	useGetProcessByIdQuery,
 	useUpdateProcessMutation,
 	useInactivateProcessMutation,
+	useGetSeSuiteProcessesQuery,
 } from '../../app/services/processApi'
 import { useGetActivesRolesQuery } from '../../app/services/roleApi'
 import ClickButton from '../../components/buttons/ClickButton'
@@ -20,6 +21,11 @@ const UpdateProcess = () => {
 
 	const { data: process, isSuccess: isSucessGetProcess } =
 		useGetProcessByIdQuery(Number(id))
+	const {
+		data: seSuiteProcesses,
+		isSuccess: isSucessGetSeSuiteProcesses,
+		isLoading: isLoadingGetSeSuiteProcesses,
+	} = useGetSeSuiteProcessesQuery()
 	const { data: roles, isSuccess: isSuccessGetRoles } =
 		useGetActivesRolesQuery()
 	const [
@@ -74,10 +80,15 @@ const UpdateProcess = () => {
 				visible: Boolean(process?.data.process.visible),
 				roles: ids,
 			})
-			setSecondValues({
-				seOid: process?.data.process.seOid,
-				seName: process?.data.process.seName,
-			})
+			if (isSucessGetSeSuiteProcesses) {
+				const processOfSeSuite = seSuiteProcesses?.data.filter(
+					processSeSuite => processSeSuite.seOid === process?.data.process.seOid
+				)
+				setSecondValues({
+					seOid: processOfSeSuite[0].seOid,
+					seName: processOfSeSuite[0].seName,
+				})
+			}
 			setProcessRoles(process?.data.roles)
 		}
 		if (isSuccessGetRoles) {
@@ -211,9 +222,13 @@ const UpdateProcess = () => {
 								className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 								disabled
 							>
-								<option>
-									{secondValues.seOid} - {secondValues.seName}
-								</option>
+								{isLoadingGetSeSuiteProcesses ? (
+									<option value=''>Cargando...</option>
+								) : (
+									<option>
+										{secondValues.seOid} - {secondValues.seName}
+									</option>
+								)}
 							</select>
 						</div>
 						<div className='mt-4 '>

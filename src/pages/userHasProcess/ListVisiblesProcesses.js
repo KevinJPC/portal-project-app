@@ -32,7 +32,7 @@ function ListVisiblesProcesses() {
 			/>
 			{isLoading ? (
 				<div className='mt-6 flex justify-center items-center'>
-					<p className='text-p-blue font-fira-medium'>Cargando...</p>
+					<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 					<Spinner />
 				</div>
 			) : visiblesProcesses?.data.userProcesses.total > 0 ? (
@@ -40,7 +40,6 @@ function ListVisiblesProcesses() {
 					{visiblesProcesses?.data.userProcesses.data.map(process => (
 						<VisiblesProcesses
 							key={process.id}
-							allVisiblesProcesses={visiblesProcesses?.data.userProcesses.data}
 							visibleProcesses={process}
 						/>
 					))}

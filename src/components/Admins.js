@@ -1,36 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
-import { useActivateAdminMutation } from '../app/services/adminApi'
 import ModalWindow from './ModalWindow'
-import { format } from 'date-fns'
+import useParseTo from '../hooks/useParseTo'
+import useForm from '../hooks/useForm'
+import useAdmin from '../hooks/useAdmin'
 
 function Admins({ admins, buttonText }) {
-	const [showModal, setShowModal] = useState(false)
-
-	const [activateAdmin, { isLoading: isLoadingActivate }] =
-		useActivateAdminMutation()
 	const { name, firstLastName, secondLastName, email, dni, createdAt, id } =
 		admins
-	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
+	const { parseToDate } = useParseTo()
 
-	/**
-	 * When the user clicks on the button, the modal is set to show.
-	 */
-	const handleActivate = () => {
-		setShowModal(true)
-	}
-
-	/**
-	 * If the user clicks "Activar" in the modal, then the modal is closed and the admin is activated.
-	 */
-	const areSureActivate = choose => {
-		if (choose) {
-			setShowModal(false)
-			activateAdmin(id)
-		}
-	}
+	const { showModal, closeModal, openModal } = useForm()
+	const {
+		updateProps: { activateAdminUser, isLoadingActivateAdmin },
+	} = useAdmin()
 
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0 md:px-10 mt-4'>
@@ -61,7 +46,9 @@ function Admins({ admins, buttonText }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creación
 							</p>
-							<p className='text-sm leading-normal pt-2'>{createdDate}</p>
+							<p className='text-sm leading-normal pt-2'>
+								{parseToDate(createdAt)}
+							</p>
 						</div>
 						<div className='p-8'>
 							{buttonText === 'Modificar' ? (
@@ -73,9 +60,9 @@ function Admins({ admins, buttonText }) {
 								</Link>
 							) : (
 								<ClickButton
-									isLoading={isLoadingActivate}
+									isLoading={isLoadingActivateAdmin}
 									text={buttonText}
-									func={handleActivate}
+									func={openModal}
 									color='purple'
 								/>
 							)}
@@ -83,8 +70,8 @@ function Admins({ admins, buttonText }) {
 								<ModalWindow
 									text='¿Está seguro de activar este registro?'
 									buttonText='Activar'
-									setShowModal={setShowModal}
-									onDialog={areSureActivate}
+									setShowModal={closeModal}
+									onDialog={() => activateAdminUser(id)}
 								/>
 							)}
 						</div>

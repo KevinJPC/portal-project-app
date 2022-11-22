@@ -22,7 +22,7 @@ function ModalWindow({ setShowModal, onDialog, text, buttonText }) {
 								<button
 									type='button'
 									className='text-p-blue font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2'
-									onClick={() => setShowModal(false)}
+									onClick={() => setShowModal()}
 								>
 									Cancelar
 								</button>
@@ -31,7 +31,10 @@ function ModalWindow({ setShowModal, onDialog, text, buttonText }) {
 									className={`text-p-white 
 									${buttonText === 'Desactivar' ? 'bg-p-red' : 'bg-p-purple'}
 									rounded-md text-sm font-medium px-6 py-2 `}
-									onClick={() => onDialog(true)}
+									onClick={() => {
+										onDialog()
+										setShowModal()
+									}}
 								>
 									{buttonText}
 								</button>

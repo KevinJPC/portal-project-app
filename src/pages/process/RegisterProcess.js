@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
 	useAddNewProcessMutation,
-	useGetActivesProcessQuery,
+	useGetSeSuiteProcessesQuery,
 } from '../../app/services/processApi'
 import { useGetActivesRolesQuery } from '../../app/services/roleApi'
 import SubmitButton from '../../components/buttons/SubmitButton'
@@ -9,13 +9,16 @@ import Input from '../../components/inputs/TextInput'
 import RolesOfProcess from '../../components/rolesOfProcess/RolesOfProcess'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../../components/alerts/Alert'
+import Spinner from '../../components/Spinner'
 
 const RegisterProcess = () => {
 	const { data: roles, isSuccess: isSuccessGetRoles } =
 		useGetActivesRolesQuery()
-	const { data: processes, isSuccess: isSucessGetProcesses } =
-		useGetActivesProcessQuery()
-
+	const {
+		data: seSuiteProcesses,
+		isSuccess: isSucessGetSeSuiteProcesses,
+		isLoading: isLoadingGetSeSuiteProcesses,
+	} = useGetSeSuiteProcessesQuery()
 	const [addNewProcess, { isLoading, isSuccess, data, isError, error }] =
 		useAddNewProcessMutation()
 
@@ -31,7 +34,6 @@ const RegisterProcess = () => {
 		name: '',
 		visible: false,
 		seOid: '',
-		seName: '',
 		roles: [],
 	})
 
@@ -47,14 +49,13 @@ const RegisterProcess = () => {
 				name: roles?.data.roles.data[0].name,
 			})
 		}
-		if (isSucessGetProcesses) {
+		if (isSucessGetSeSuiteProcesses) {
 			setValues({
 				...values,
-				seOid: processes?.data.activeProcesses.data[0].seOid,
-				seName: processes?.data.activeProcesses.data[0].seName,
+				seOid: seSuiteProcesses?.data[0].seOid,
 			})
 		}
-	}, [isSuccessGetRoles, isSucessGetProcesses])
+	}, [isSuccessGetRoles, isSucessGetSeSuiteProcesses])
 
 	/**
 	 * Filters the roles array to find the role that
@@ -74,10 +75,10 @@ const RegisterProcess = () => {
 	 * found.
 	 */
 	const handleChangeProcess = e => {
-		const value = processes?.data.activeProcesses.data.filter(
-			process => process.id === +e.target.value
+		const value = seSuiteProcesses?.data.filter(
+			process => process.seOid === e.target.value
 		)
-		setValues({ ...values, seOid: value[0].seOid, seName: value[0].seName })
+		setValues({ ...values, seOid: value[0].seOid })
 	}
 
 	/**
@@ -110,6 +111,10 @@ const RegisterProcess = () => {
 		setValues({ ...values, roles: [...ids] })
 	}
 
+	/**
+	 * If the processRoles array has a length greater than 0, then add the new process, unwrap the
+	 * promise, and if the payload is successful, then navigate to the previous page.
+	 */
 	const registerNewProcess = e => {
 		e.preventDefault()
 		try {
@@ -159,14 +164,18 @@ const RegisterProcess = () => {
 								onChange={handleChangeProcess}
 								className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 							>
-								{processes?.data.activeProcesses.data.map(process => (
-									<option
-										key={process.id}
-										value={process.id}
-									>
-										{process.seOid} - {process.seName}
-									</option>
-								))}
+								{isLoadingGetSeSuiteProcesses ? (
+									<option value=''>Cargando...</option>
+								) : (
+									seSuiteProcesses?.data.map(process => (
+										<option
+											key={process.seOid}
+											value={process.seOid}
+										>
+											{process.seOid} - {process.seName}
+										</option>
+									))
+								)}
 							</select>
 						</div>
 						<div className='mt-4 '>

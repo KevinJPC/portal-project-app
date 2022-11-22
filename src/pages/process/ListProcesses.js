@@ -73,7 +73,7 @@ const ActivesProcesses = () => {
 			{processSearch !== '' ? (
 				isLoadingSearch ? (
 					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 						<Spinner />
 					</div>
 				) : search?.data.searchProcesses.total > 0 ? (
@@ -90,7 +90,7 @@ const ActivesProcesses = () => {
 			) : processState === 'actives' ? (
 				isLoadingActives ? (
 					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 						<Spinner />
 					</div>
 				) : actives?.data.activeProcesses.total > 0 ? (
