@@ -3,6 +3,10 @@ import { providesList } from './tagProvider'
 
 export const roleApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
+		getPublicRoles: builder.query({
+			query: () => `roles`,
+			providesTags: result => providesList(result.data.roles.data, 'Role'),
+		}),
 		getSearchRole: builder.query({
 			query: roleName => `roles/search/${roleName}`,
 			providesTags: result => providesList(result.data.roles.data, 'Role'),
@@ -51,6 +55,8 @@ export const roleApi = portalApi.injectEndpoints({
 	}),
 })
 export const {
+	useGetPublicRolesQuery,
+	useLazyGetPublicRolesQuery,
 	useLazyGetSearchRoleQuery,
 	useGetSearchRoleQuery,
 	useGetActivesRolesQuery,

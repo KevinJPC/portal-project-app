@@ -28,11 +28,11 @@ export const generalUserLinks = [
 export const notifications = [
 	{
 		label: 'Peticion de registro bancario',
-		description: 'Tiene tareas pendiente en este proceso',
+		description: 'Acción pendiente en P00003 en la actividad Agregar documentos',
 	},
 	{
 		label: 'Peticion de registro bancario 2',
-		description: 'Tiene tareas pendiente en este proceso',
+		description: 'Acción pendiente en P00003 en la actividad confirmar datos',
 	},
 	{
 		label: 'Peticion de registro bancario 3',

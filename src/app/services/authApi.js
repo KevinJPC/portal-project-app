@@ -15,7 +15,18 @@ export const authApi = portalApi.injectEndpoints({
 				method: 'POST',
 			}),
 		}),
+		registerUser: builder.mutation({
+			query: user => ({
+				url: `auth/register`,
+				method: 'POST',
+				body: { ...user },
+			}),
+		}),
 	}),
 })
 
-export const { useLoginMutation, useReconnectMutation } = authApi
+export const {
+	useLoginMutation,
+	useReconnectMutation,
+	useRegisterUserMutation,
+} = authApi

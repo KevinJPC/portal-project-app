@@ -30,6 +30,7 @@ const ListRoles = () => {
 		{ data: search, isUninitialized, isSuccess, isLoading: isLoadingSearch },
 	] = useLazyGetSearchRoleQuery(roleSearch)
 
+	/* Calling the `getActivesRoles` and `getInactivesRoles` functions when the component is mounted. */
 	useEffect(() => {
 		getActivesRoles(1)
 		getInactivesRoles(1)
