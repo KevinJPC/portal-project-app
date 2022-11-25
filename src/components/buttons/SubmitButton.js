@@ -19,7 +19,7 @@ function SubmitButton({ text, color = 'purple', isLoading }) {
 
 SubmitButton.propTypes = {
 	text: PropTypes.string.isRequired,
-	isLoading: PropTypes.bool.isRequired,
+	isLoading: PropTypes.bool,
 	color: PropTypes.string,
 }
 

@@ -1,32 +1,26 @@
-import React, { useState } from 'react'
 import PasswordInput from '../../components/inputs/PasswordInput'
 import SubmitButton from '../../components/buttons/SubmitButton'
-import { useUpdateUserPasswordMutation } from '../../app/services/userApi'
-import { useNavigate } from 'react-router-dom'
 import Alert from '../../components/alerts/Alert'
+import useForm from '../../hooks/useForm'
+import useUser from '../../hooks/useUser'
 
 const UpdatePassword = () => {
-	const [updatePassword, { isLoadingUpdate, isSuccess, isError, error, data }] =
-		useUpdateUserPasswordMutation()
-	const navigate = useNavigate()
-
-	const [values, setValues] = useState({
+	const {
+		formState,
+		oldPassword,
+		password,
+		passwordConfirmation,
+		onInputChange,
+		onResetForm,
+	} = useForm({
 		oldPassword: '',
 		password: '',
 		passwordConfirmation: '',
 	})
 
-	const update = e => {
-		e.preventDefault()
-		try {
-			updatePassword(values)
-			setValues({
-				oldPassword: '',
-				password: '',
-				passwordConfirmation: '',
-			})
-		} catch (err) {}
-	}
+	const {
+		passwordProps: { isLoadingUpdatePassword, updateUserPassword },
+	} = useUser({ formState, onResetForm })
 
 	return (
 		<div className=' mt-16 w-full'>
@@ -35,22 +29,14 @@ const UpdatePassword = () => {
 					<h3 className='text-3xl text-p-blue'>Cambiar contraseña</h3>
 				</div>
 				<div className='w-full py-4 mt-4 overflow-hidde max-w-xs sm:max-w-md'>
-					{isError && (
-						<Alert
-							type='error'
-							message={error.data.message}
-						/>
-					)}
-					<form onSubmit={update}>
+					<form onSubmit={updateUserPassword}>
 						<div className='mt-4 '>
 							<PasswordInput
 								id='oldPassword'
 								label='Contraseña actual'
 								placeholder='Contraseña actual'
-								value={values.oldPassword}
-								onChange={e =>
-									setValues({ ...values, oldPassword: e.target.value })
-								}
+								value={oldPassword}
+								onChange={onInputChange}
 							/>
 						</div>
 						<div className='mt-4'>
@@ -58,10 +44,8 @@ const UpdatePassword = () => {
 								id='password'
 								label='Nueva contraseña '
 								placeholder='Nueva contraseña'
-								value={values.password}
-								onChange={e =>
-									setValues({ ...values, password: e.target.value })
-								}
+								value={password}
+								onChange={onInputChange}
 							/>
 						</div>
 						<div className='mt-4'>
@@ -69,23 +53,13 @@ const UpdatePassword = () => {
 								id='passwordConfirmation'
 								label='Confirmar contraseña '
 								placeholder='Confirmar contraseña'
-								value={values.passwordConfirmation}
-								onChange={e =>
-									setValues({ ...values, passwordConfirmation: e.target.value })
-								}
+								value={passwordConfirmation}
+								onChange={onInputChange}
 							/>
-						</div>
-						<div className='mt-7'>
-							{isSuccess && (
-								<Alert
-									type='success'
-									message={data.message}
-								/>
-							)}
 						</div>
 						<div className='mt-6'>
 							<SubmitButton
-								isLoading={isLoadingUpdate}
+								isLoading={isLoadingUpdatePassword}
 								text='Restablecer'
 							/>
 						</div>

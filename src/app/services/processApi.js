@@ -27,6 +27,10 @@ export const processApi = portalApi.injectEndpoints({
 			providesTags: result =>
 				providesList(result.data.userProcesses.data, 'Process'),
 		}),
+		getSeSuiteProcesses: builder.query({
+			query: () => `processes/sesuite`,
+			providesTags: result => providesList(result.data, 'Process'),
+		}),
 		addNewProcess: builder.mutation({
 			query: process => ({
 				url: 'processes/register',
@@ -76,7 +80,10 @@ export const {
 	useGetInactivesProcessQuery,
 	useLazyGetInactivesProcessQuery,
 	useGetProcessByIdQuery,
+	useLazyGetProcessByIdQuery,
 	useLazyGetVisiblesProcessQuery,
+	useGetSeSuiteProcessesQuery,
+	useLazyGetSeSuiteProcessesQuery,
 	useAddNewProcessMutation,
 	useUpdateProcessMutation,
 	useInactivateProcessMutation,

@@ -1,28 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import ClickButton from './buttons/ClickButton'
-import { useActivateRoleMutation } from '../app/services/roleApi'
 import ModalWindow from './ModalWindow'
-import { format } from 'date-fns'
+import ClickButton from './buttons/ClickButton'
+import useParseTo from '../hooks/useParseTo'
+import useForm from '../hooks/useForm'
+import useRole from '../hooks/useRole'
 
 function Roles({ data, buttonText }) {
-	const [showModal, setShowModal] = useState(false)
-
 	const { name, description, createdAt, id } = data
-	const [activateRole, { isLoading: isLoadingActivate }] =
-		useActivateRoleMutation()
-	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
+	const { parseToDate } = useParseTo()
 
-	const areSureActivate = choose => {
-		if (choose) {
-			setShowModal(false)
-			activateRole(id)
-		}
-	}
-	const handleActivate = () => {
-		setShowModal(true)
-	}
+	const { showModal, closeModal, openModal } = useForm()
+	const {
+		updateProps: { activateSelectedRole, isLoadingActivateRole },
+	} = useRole()
 
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0 mt-4'>
@@ -45,7 +37,9 @@ function Roles({ data, buttonText }) {
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de creacción
 							</p>
-							<p className='text-sm leading-normal pt-2'>{createdDate}</p>
+							<p className='text-sm leading-normal pt-2'>
+								{parseToDate(createdAt)}
+							</p>
 						</div>
 						<div className='text-center'>
 							{buttonText === 'Modificar' ? (
@@ -57,9 +51,9 @@ function Roles({ data, buttonText }) {
 								</Link>
 							) : (
 								<ClickButton
-									isLoading={isLoadingActivate}
+									isLoading={isLoadingActivateRole}
 									text={buttonText}
-									func={handleActivate}
+									func={openModal}
 									color='purple'
 								/>
 							)}
@@ -67,8 +61,8 @@ function Roles({ data, buttonText }) {
 								<ModalWindow
 									text='¿Está seguro de activar este registro?'
 									buttonText='Activar'
-									setShowModal={setShowModal}
-									onDialog={areSureActivate}
+									setShowModal={closeModal}
+									onDialog={() => activateSelectedRole(id)}
 								/>
 							)}
 						</div>

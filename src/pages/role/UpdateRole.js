@@ -1,101 +1,58 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Input from '../../components/inputs/TextInput'
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import {
-	useGetRoleByIdQuery,
-	useUpdateRoleMutation,
-	useInactivateRoleMutation,
-} from '../../app/services/roleApi'
+import { useParams } from 'react-router-dom'
 import Alert from '../../components/alerts/Alert'
 import ModalWindow from '../../components/ModalWindow'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import ClickButton from '../../components/buttons/ClickButton'
+import useForm from '../../hooks/useForm'
+import useRole from '../../hooks/useRole'
 
 const UpdateRole = () => {
-	const [showModal, setShowModal] = useState(false)
 	const { id } = useParams()
 
-	const { data: result, isSuccess } = useGetRoleByIdQuery(Number(id))
-	const [
-		updateaRole,
-		{
-			isLoading: isLoadingUpdate,
-			data: requestUpdateData,
-			isSuccess: isSuccessUpdate,
-			isError: isErrorUpdate,
-		},
-	] = useUpdateRoleMutation()
-	const [
-		inactivateRole,
-		{
-			isLoading: isLoadingInactivate,
-			isError: isErrorInactivate,
-			error,
-			isSuccess: isSuccessInactivate,
-			data: requestInactiveData,
-		},
-	] = useInactivateRoleMutation()
-	const navigate = useNavigate()
-
-	const [values, setValues] = useState({
-		id: 0,
+	const {
+		formState,
+		name,
+		description,
+		showModal,
+		onInputChange,
+		changeFormState,
+		closeModal,
+		openModal,
+	} = useForm({
+		id,
 		name: '',
 		nameSlug: '',
 		description: '',
 	})
 
+	const {
+		updateProps: {
+			updateRoleData,
+			isLoadingUpdateRole,
+			inactivateSelectedRole,
+			isLoadingInactivateRole,
+		},
+		getRoleInformation,
+		isSuccessGetRole,
+		roleData,
+	} = useRole({ ...formState }, id)
+
 	useEffect(() => {
-		if (isSuccess) {
-			setValues({
-				...values,
-				id: Number(id),
-				name: result?.data.role.name,
-				nameSlug: result?.data.role.nameSlug,
-				description: result?.data.role.description,
+		getRoleInformation()
+	}, [roleData])
+
+	useEffect(() => {
+		if (isSuccessGetRole) {
+			changeFormState({
+				name: roleData?.data.role.name,
+				nameSlug: roleData?.data.role.nameSlug,
+				description: roleData?.data.role.description,
 			})
 		}
-	}, [isSuccess])
-
-	const handleInactivate = () => {
-		setShowModal(true)
-	}
-
-	const areSureInactivate = choose => {
-		if (choose) {
-			setShowModal(false)
-			inactivateRole(id)
-				.unwrap()
-				.then(
-					payload =>
-						payload.success &&
-						setTimeout(() => {
-							navigate(-1)
-						}, 2500)
-				)
-				.catch(error)
-		}
-	}
-
-	/**
-	 * "updateaRole" is a function that takes in an object called "values" and then does something with
-	 * it.
-	 */
-	const update = e => {
-		e.preventDefault()
-		try {
-			updateaRole(values)
-				.unwrap()
-				.then(
-					payload =>
-						payload.success &&
-						setTimeout(() => {
-							navigate(-1)
-						}, 2500)
-				)
-				.catch(error)
-		} catch (error) {}
-	}
+	}, [isSuccessGetRole])
 
 	return (
 		<div>
@@ -104,55 +61,17 @@ const UpdateRole = () => {
 					<div>
 						<h3 className='text-3xl text-p-blue'>Modificar Rol</h3>
 					</div>
-
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-						{isErrorInactivate && (
-							<div className='mt-4'>
-								<Alert
-									type='error'
-									message={error.data.message}
-								/>
-							</div>
-						)}
-						{isErrorUpdate && (
-							<div className='mt-4'>
-								<Alert
-									type='error'
-									message={
-										Object.keys(error.data.errors).length === 1
-											? error.data.message
-											: 'Todos los campos son obligatorios'
-									}
-								/>
-							</div>
-						)}
-						{isSuccessInactivate && (
-							<div className='mt-4'>
-								<Alert
-									type='success'
-									message={requestInactiveData?.message}
-								/>
-							</div>
-						)}
-						{isSuccessUpdate && (
-							<div className='mt-4'>
-								<Alert
-									type='success'
-									message={requestUpdateData?.message}
-								/>
-							</div>
-						)}
-						<form onSubmit={update}>
+						<form onSubmit={updateRoleData}>
 							<div className='mt-4 '>
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='name'
 										label='Nombre'
 										placeholder='Nombre'
-										value={values.name}
+										value={name}
 										onChange={e =>
-											setValues({
-												...values,
+											changeFormState({
 												name: e.target.value,
 												nameSlug: e.target.value
 													.toLowerCase()
@@ -162,38 +81,34 @@ const UpdateRole = () => {
 									/>
 								</div>
 							</div>
-
 							<div className='mt-4 '>
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='description'
-										value={values.description}
+										value={description}
 										label='Descripción'
 										placeholder='Descripción'
-										onChange={e =>
-											setValues({ ...values, description: e.target.value })
-										}
+										onChange={onInputChange}
 									/>
 								</div>
 							</div>
 							<ClickButton
-								isLoading={isLoadingInactivate}
+								isLoading={isLoadingInactivateRole}
 								text='Desactivar'
-								func={handleInactivate}
+								func={openModal}
 								color='red'
 							/>
 							{showModal ? (
 								<ModalWindow
 									text='¿Está seguro de inactivar este registro?'
 									buttonText='Desactivar'
-									setShowModal={setShowModal}
-									onDialog={areSureInactivate}
+									setShowModal={closeModal}
+									onDialog={inactivateSelectedRole}
 								/>
 							) : null}
-
 							<div className='mt-3'>
 								<SubmitButton
-									isLoading={isLoadingUpdate}
+									isLoading={isLoadingUpdateRole}
 									text='Guardar cambios'
 								/>
 							</div>

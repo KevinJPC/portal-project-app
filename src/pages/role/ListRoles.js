@@ -1,86 +1,63 @@
-import React, { useEffect, useState } from 'react'
-import {
-	useLazyGetSearchRoleQuery,
-	useLazyGetActivesRolesQuery,
-	useLazyGetInactivesRolesQuery,
-} from '../../app/services/roleApi'
-import SearchBar from '../../components/SearchBar'
-import Roles from '../../components/Roles'
-import Pagination from '../../components/pagination/Pagination'
+import React, { useEffect } from 'react'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
+import Pagination from '../../components/pagination/Pagination'
+import Roles from '../../components/Roles'
+import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
+import useRole from '../../hooks/useRole'
+import useList from '../../hooks/useList'
 
 const ListRoles = () => {
-	const [roleSearch, setRoleSearch] = useState('')
-	const [roleState, setRoleState] = useState('actives')
-	const [
-		getActivesRoles,
-		{ data: actives, isSuccess: isSuccessActives, isLoading: isLoadingActives },
-	] = useLazyGetActivesRolesQuery()
-	const [
-		getInactivesRoles,
-		{
-			data: inactives,
-			isSuccess: isSuccessInactives,
-			isLoading: isLoadingInactives,
+	const {
+		listProps: {
+			getActivesRolesData,
+			activesRoles,
+			isLoadingGetActivesRoles,
+			isSuccessGetActivesRoles,
+			getInactivesRolesData,
+			inactivesRoles,
+			isLoadingGetInactivesRoles,
+			isSuccessGetInactivesRoles,
+			searchRole,
+			searchRoleData,
+			isLoadingSearchRole,
 		},
-	] = useLazyGetInactivesRolesQuery()
-	const [
-		searchRoles,
-		{ data: search, isUninitialized, isSuccess, isLoading: isLoadingSearch },
-	] = useLazyGetSearchRoleQuery(roleSearch)
+	} = useRole()
+
+	const {
+		listState,
+		searchState,
+		changeListState,
+		changePageNumber,
+		filterSeachData,
+	} = useList(getActivesRolesData, getInactivesRolesData, searchRole)
 
 	/* Calling the `getActivesRoles` and `getInactivesRoles` functions when the component is mounted. */
 	useEffect(() => {
-		getActivesRoles(1)
-		getInactivesRoles(1)
-	}, [, isSuccessActives, isSuccessInactives])
+		getActivesRolesData()
+	}, [isSuccessGetActivesRoles])
 
-	/**
-	 * The function takes a value as an argument and sets the state of the process to that value.
-	 */
-	const getState = value => {
-		setRoleState(value)
-	}
-
-	/**
-	 * takes a value as an argument and sets the pageCount state to
-	 * that value.
-	 */
-	const changePageNumber = value => {
-		if (roleState === 'actives') {
-			getActivesRoles(value)
-		} else {
-			getInactivesRoles(value)
-		}
-	}
-
-	const getdata = data => {
-		if (data === '') {
-			setRoleSearch(data)
-		} else {
-			setRoleSearch(data)
-			searchRoles(data)
-		}
-	}
+	useEffect(() => {
+		getInactivesRolesData()
+	}, [isSuccessGetInactivesRoles])
 
 	return (
 		<>
 			<SearchBar
-				getState={getState}
-				getdata={getdata}
+				getState={changeListState}
+				getdata={filterSeachData}
 				title='Roles'
 				buttonText='Nuevo rol'
 				route='registrar'
 			/>
-			{roleSearch !== '' ? (
-				isLoadingSearch ? (
+			{searchState !== '' ? (
+				isLoadingSearchRole ? (
 					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 						<Spinner />
 					</div>
-				) : search?.data.roles.total > 0 ? (
-					search?.data.roles.data.map(rol => (
+				) : searchRoleData?.data.roles.total > 0 ? (
+					searchRoleData?.data.roles.data.map(rol => (
 						<Roles
 							key={rol.id}
 							data={rol}
@@ -90,14 +67,14 @@ const ListRoles = () => {
 				) : (
 					<ListEmptyMessage text='No se encontro ningun rol con esos parametros de busqueda' />
 				)
-			) : roleState === 'actives' ? (
-				isLoadingActives ? (
+			) : listState === 'actives' ? (
+				isLoadingGetActivesRoles ? (
 					<div className='mt-6 flex justify-center items-center'>
 						<p className='text-p-blue font-fira-medium'>Cargando...</p>
 						<Spinner />
 					</div>
-				) : actives?.data.roles.total > 0 ? (
-					actives?.data.roles.data.map(rol => (
+				) : activesRoles?.data.roles.total > 0 ? (
+					activesRoles?.data.roles.data.map(rol => (
 						<Roles
 							key={rol.id}
 							data={rol}
@@ -107,13 +84,13 @@ const ListRoles = () => {
 				) : (
 					<ListEmptyMessage text='El listado de roles activos está vacío' />
 				)
-			) : isLoadingInactives ? (
+			) : isLoadingGetInactivesRoles ? (
 				<div className='mt-6 flex justify-center items-center'>
 					<p className='text-p-blue font-fira-medium'>Cargando...</p>
 					<Spinner />
 				</div>
-			) : inactives?.data.roles.total > 0 ? (
-				inactives?.data.roles.data.map(rol => (
+			) : inactivesRoles?.data.roles.total > 0 ? (
+				inactivesRoles?.data.roles.data.map(rol => (
 					<Roles
 						key={rol.id}
 						data={rol}
@@ -127,9 +104,9 @@ const ListRoles = () => {
 				<Pagination
 					changePage={changePageNumber}
 					pageCount={
-						roleState === 'actives'
-							? Math.ceil(actives?.data.roles.lastPage)
-							: Math.ceil(inactives?.data.roles.lastPage)
+						listState === 'actives'
+							? Math.ceil(activesRoles?.data.roles.lastPage)
+							: Math.ceil(inactivesRoles?.data.roles.lastPage)
 					}
 				/>
 			</div>

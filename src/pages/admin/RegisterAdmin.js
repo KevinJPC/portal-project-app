@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAddNewAdminMutation } from '../../app/services/adminApi'
+import React from 'react'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from '../../components/inputs/PasswordInput'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Alert from '../../components/alerts/Alert'
+import useForm from '../../hooks/useForm'
+import useAdmin from '../../hooks/useAdmin'
 
 const RegisterAdmin = () => {
-	const navigate = useNavigate()
-
-	const [addNewAdmin, { isLoading, isSuccess, data, isError, error }] =
-		useAddNewAdminMutation()
-
-	const [values, setValues] = useState({
+	const {
+		formState,
+		dni,
+		name,
+		email,
+		firstLastName,
+		secondLastName,
+		password,
+		passwordConfirmation,
+		onInputChange,
+	} = useForm({
 		dni: '',
 		name: '',
 		email: '',
@@ -22,21 +27,9 @@ const RegisterAdmin = () => {
 		passwordConfirmation: '',
 	})
 
-	const registerNewAdmin = e => {
-		e.preventDefault()
-		try {
-			addNewAdmin(values)
-				.unwrap()
-				.then(
-					payload =>
-						payload.success &&
-						setTimeout(() => {
-							navigate(-1)
-						}, 2500)
-				)
-				.catch(error)
-		} catch (err) {}
-	}
+	const {
+		registerProps: { registerNewAdmin, isLoadingAddNewAdmin },
+	} = useAdmin({ ...formState })
 
 	return (
 		<div className=''>
@@ -52,7 +45,8 @@ const RegisterAdmin = () => {
 									id='dni'
 									label='Cédula'
 									placeholder='Cédula'
-									onChange={e => setValues({ ...values, dni: e.target.value })}
+									value={dni}
+									onChange={onInputChange}
 								/>
 							</div>
 							<div className='mt-4 '>
@@ -60,7 +54,8 @@ const RegisterAdmin = () => {
 									id='name'
 									label='Nombre'
 									placeholder='Nombre'
-									onChange={e => setValues({ ...values, name: e.target.value })}
+									value={name}
+									onChange={onInputChange}
 								/>
 							</div>
 							<div className='mt-4 '>
@@ -68,9 +63,8 @@ const RegisterAdmin = () => {
 									id='firstLastName'
 									label='Primer apellido'
 									placeholder='Primer apellido'
-									onChange={e =>
-										setValues({ ...values, firstLastName: e.target.value })
-									}
+									value={firstLastName}
+									onChange={onInputChange}
 								/>
 							</div>
 							<div className='mt-4 '>
@@ -78,10 +72,8 @@ const RegisterAdmin = () => {
 									id='secondLastName'
 									label='Segundo apellido'
 									placeholder='Segundo apellido'
-									value={values.secondLastName}
-									onChange={e =>
-										setValues({ ...values, secondLastName: e.target.value })
-									}
+									value={secondLastName}
+									onChange={onInputChange}
 								/>
 							</div>
 							<div className='mt-4 '>
@@ -89,10 +81,8 @@ const RegisterAdmin = () => {
 									id='email'
 									label='Correo electrónico'
 									placeholder='Correo electrónico'
-									value={values.email}
-									onChange={e =>
-										setValues({ ...values, email: e.target.value })
-									}
+									value={email}
+									onChange={onInputChange}
 								/>
 							</div>
 							<div className='mt-4'>
@@ -100,10 +90,8 @@ const RegisterAdmin = () => {
 									id='password'
 									label='Contraseña'
 									placeholder='Contraseña'
-									value={values.password}
-									onChange={e =>
-										setValues({ ...values, password: e.target.value })
-									}
+									value={password}
+									onChange={onInputChange}
 								/>
 							</div>
 							<div className='mt-4 mb-4'>
@@ -111,35 +99,14 @@ const RegisterAdmin = () => {
 									id='passwordConfirmation'
 									label='Confirmar Contraseña'
 									placeholder='Confirmar Contraseña'
-									value={values.passwordConfirmation}
-									onChange={e =>
-										setValues({
-											...values,
-											passwordConfirmation: e.target.value,
-										})
-									}
+									value={passwordConfirmation}
+									onChange={onInputChange}
 								/>
 							</div>
 						</div>
-						{isError && (
-							<Alert
-								type='error'
-								message={
-									Object.keys(error.data.errors).length === 1
-										? error.data.message
-										: 'Todos los campos son obligatorios'
-								}
-							/>
-						)}
-						{isSuccess && (
-							<Alert
-								type='success'
-								message={data.message}
-							/>
-						)}
 						<div className='md:px-36 my-5'>
 							<SubmitButton
-								isLoading={isLoading}
+								isLoading={isLoadingAddNewAdmin}
 								text='Registrar'
 							/>
 						</div>

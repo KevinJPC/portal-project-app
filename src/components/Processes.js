@@ -1,35 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import ClickButton from './buttons/ClickButton'
-import { useActivateProcessMutation } from '../app/services/processApi'
 import ModalWindow from './ModalWindow'
-import { format } from 'date-fns'
+import ClickButton from './buttons/ClickButton'
+import useProcess from '../hooks/useProcess'
+import useForm from '../hooks/useForm'
+import useParseTo from '../hooks/useParseTo'
 
 function Processes({ processes, buttonText }) {
-	const [showModal, setShowModal] = useState(false)
 	const { id, name, createdAt, updatedAt } = processes
-	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
 
-	const [activateProcess, { isLoading: isLoadingActivate }] =
-		useActivateProcessMutation()
+	const { parseToDate } = useParseTo()
 
-	/**
-	 * When the user clicks on the button, the modal is set to show.
-	 */
-	const handleActivate = () => {
-		setShowModal(true)
-	}
+	const { showModal, closeModal, openModal } = useForm()
 
-	/**
-	 * If the user clicks "Activar" in the modal, then the modal is closed and the process is activated.
-	 */
-	const areSureActivate = choose => {
-		if (choose) {
-			setShowModal(false)
-			activateProcess(id)
-		}
-	}
+	const {
+		updateProps: { activateSelectedProcess, isLoadingActivateProcess },
+	} = useProcess()
 
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0 mt-4'>
@@ -46,13 +33,17 @@ function Processes({ processes, buttonText }) {
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Fecha de creacción
 							</p>
-							<p className='text-center leading-normal pt-2'>{createdDate}</p>
+							<p className='text-center leading-normal pt-2'>
+								{parseToDate(createdAt)}
+							</p>
 						</div>
 						<div className='p-4 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Fecha de modificación
 							</p>
-							<p className='text-sm leading-normal pt-2'>{updatedAt}</p>
+							<p className='text-sm leading-normal pt-2'>
+								{parseToDate(updatedAt)}
+							</p>
 						</div>
 						<div className='text-center'>
 							{buttonText === 'Modificar' ? (
@@ -64,9 +55,9 @@ function Processes({ processes, buttonText }) {
 								</Link>
 							) : (
 								<ClickButton
-									isLoading={isLoadingActivate}
+									isLoading={isLoadingActivateProcess}
 									text={buttonText}
-									func={handleActivate}
+									func={openModal}
 									color='purple'
 								/>
 							)}
@@ -74,8 +65,8 @@ function Processes({ processes, buttonText }) {
 								<ModalWindow
 									text='¿Está seguro de activar este registro?'
 									buttonText='Activar'
-									setShowModal={setShowModal}
-									onDialog={areSureActivate}
+									setShowModal={closeModal}
+									onDialog={() => activateSelectedProcess(id)}
 								/>
 							)}
 						</div>
