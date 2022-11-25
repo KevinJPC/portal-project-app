@@ -16,6 +16,7 @@ function TextInput({ label, id, placeholder, value, onChange, ...props }) {
 				placeholder={placeholder}
 				className='px-5 text-p-blue bg-p-silver h-12 rounded-lg focus:outline-none hover:ring-1 hover:ring-p-purple focus:ring-2 focus:ring-p-purple placeholder-p-blue'
 				{...props}
+				name={id}
 				value={value}
 				onChange={onChange}
 			/>

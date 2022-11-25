@@ -9,75 +9,59 @@ import Pagination from '../../components/pagination/Pagination'
 import Processes from '../../components/Processes'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
+import useList from '../../hooks/useList'
+import useProcess from '../../hooks/useProcess'
 
 const ActivesProcesses = () => {
-	const [processSearch, setProcessSearch] = useState('')
-	const [processState, setProcessState] = useState('actives')
-	const [
-		getActivesProcesses,
-		{ data: actives, isSuccess: isSuccessActives, isLoading: isLoadingActives },
-	] = useLazyGetActivesProcessQuery()
-	const [
-		getInactivesProcesses,
-		{
-			data: inactives,
-			isSuccess: isSuccessInactives,
-			isLoading: isLoadingInactives,
+	const {
+		listProps: {
+			getActivesProcessesData,
+			activesProcesses,
+			isLoadingGetActivesProcesses,
+			isSuccessGetActivesProcesses,
+			getInactivesProcessesData,
+			inactivesProcesses,
+			isLoadingGetInactivesProcesses,
+			isSuccessGetInactivesProcesses,
+			searchProcess,
+			searchProcessData,
+			isLoadingSearchProcess,
 		},
-	] = useLazyGetInactivesProcessQuery()
-	const [searchProcess, { data: search, isLoading: isLoadingSearch }] =
-		useLazyGetSearchProcessQuery(processSearch)
+	} = useProcess()
+
+	const {
+		listState,
+		searchState,
+		changeListState,
+		changePageNumber,
+		filterSeachData,
+	} = useList(getActivesProcessesData, getInactivesProcessesData, searchProcess)
 
 	useEffect(() => {
-		getActivesProcesses(1)
-		getInactivesProcesses(1)
-	}, [isSuccessActives, isSuccessInactives])
+		getActivesProcessesData()
+	}, [isSuccessGetActivesProcesses])
 
-	/**
-	 * The function takes a value as an argument and sets the state of the process to that value.
-	 */
-	const getState = value => {
-		setProcessState(value)
-	}
-
-	/**
-	 * takes a value as an argument and sets the pageCount state to
-	 * that value.
-	 */
-	const changePageNumber = value => {
-		if (processState === 'actives') {
-			getActivesProcesses(value)
-		} else {
-			getInactivesProcesses(value)
-		}
-	}
-
-	const getdata = data => {
-		if (data === '') {
-			setProcessSearch(data)
-		} else {
-			setProcessSearch(data)
-			searchProcess(data)
-		}
-	}
+	useEffect(() => {
+		getInactivesProcessesData()
+	}, [isSuccessGetInactivesProcesses])
 
 	return (
 		<>
 			<SearchBar
-				getState={getState}
-				getdata={getdata}
+				getState={changeListState}
+				getdata={filterSeachData}
 				title='Procesos'
 				buttonText='Nuevo proceso'
 				route='registrar'
 			/>
-			{processSearch !== '' ? (
-				isLoadingSearch ? (
+			{searchState !== '' ? (
+				isLoadingSearchProcess ? (
 					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 						<Spinner />
 					</div>
-				) : search?.data.searchProcesses.total > 0 ? (
-					search?.data.searchProcesses.data.map(process => (
+				) : searchProcessData?.data.searchProcesses.total > 0 ? (
+					searchProcessData?.data.searchProcesses.data.map(process => (
 						<Processes
 							key={process.id}
 							processes={process}
@@ -87,14 +71,14 @@ const ActivesProcesses = () => {
 				) : (
 					<ListEmptyMessage text='No se encontro ningun proceso con esos parametros de busqueda' />
 				)
-			) : processState === 'actives' ? (
-				isLoadingActives ? (
+			) : listState === 'actives' ? (
+				isLoadingGetActivesProcesses ? (
 					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
+						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 						<Spinner />
 					</div>
-				) : actives?.data.activeProcesses.total > 0 ? (
-					actives?.data.activeProcesses.data.map(process => (
+				) : activesProcesses?.data.activeProcesses.total > 0 ? (
+					activesProcesses?.data.activeProcesses.data.map(process => (
 						<Processes
 							key={process.id}
 							processes={process}
@@ -104,13 +88,13 @@ const ActivesProcesses = () => {
 				) : (
 					<ListEmptyMessage text='El listado de procesos activos está vacío' />
 				)
-			) : isLoadingInactives ? (
+			) : isLoadingGetInactivesProcesses ? (
 				<div className='mt-6 flex justify-center items-center'>
 					<p className='text-p-blue font-fira-medium'>Cargando...</p>
 					<Spinner />
 				</div>
-			) : inactives?.data.inactiveProcesses.total > 0 ? (
-				inactives?.data.inactiveProcesses.data.map(process => (
+			) : inactivesProcesses?.data.inactiveProcesses.total > 0 ? (
+				inactivesProcesses?.data.inactiveProcesses.data.map(process => (
 					<Processes
 						key={process.id}
 						processes={process}
@@ -124,9 +108,9 @@ const ActivesProcesses = () => {
 				<Pagination
 					changePage={changePageNumber}
 					pageCount={
-						processState === 'actives'
-							? Math.ceil(actives?.data.activeProcesses.lastPage)
-							: Math.ceil(inactives?.data.inactiveProcesses.lastPage)
+						listState === 'actives'
+							? Math.ceil(activesProcesses?.data.activeProcesses.lastPage)
+							: Math.ceil(inactivesProcesses?.data.inactiveProcesses.lastPage)
 					}
 				/>
 			</div>

@@ -1,57 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { useUpdateUserProfileMutation } from '../../app/services/userApi'
+import React, { useEffect } from 'react'
 import Alert from '../../components/alerts/Alert'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
-import { selectUser } from '../../features/authSlice'
+import useForm from '../../hooks/useForm'
+import useUser from '../../hooks/useUser'
 
 const UpdateUser = () => {
-	const [updateProfile, { isLoading, isError, error, data, isSuccess }] =
-		useUpdateUserProfileMutation()
-	const user = useSelector(selectUser)
-	const navigate = useNavigate()
-
-	const [values, setValues] = useState({
-		// id: id,
+	const {
+		formState,
+		name,
+		email,
+		firstLastName,
+		secondLastName,
+		onInputChange,
+		changeFormState,
+	} = useForm({
 		name: '',
 		email: '',
 		firstLastName: '',
 		secondLastName: '',
 	})
 
-	useEffect(() => {
-		setValues({
-			name: user.name,
-			email: user.email,
-			firstLastName: user.firstLastName,
-			secondLastName: user.secondLastName,
-		})
-	}, [])
+	const {
+		profileProps: { isLoadingUpdateProfile, userData, updateUserProfile },
+	} = useUser({ ...formState })
 
-	const update = e => {
-		e.preventDefault()
-		try {
-			updateProfile(values)
-		} catch (err) {}
-	}
+	useEffect(() => {
+		changeFormState({
+			name: userData?.name,
+			email: userData?.email,
+			firstLastName: userData?.firstLastName,
+			secondLastName: userData?.secondLastName,
+		})
+	}, [userData])
 
 	return (
-		<div className=' mt-16 w-full'>
+		<div className='mt-16 w-full'>
 			<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'>
 				<div>
 					<h3 className='text-3xl text-p-blue'>Editar perfil</h3>
 				</div>
 				<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-					<form onSubmit={update}>
+					<form onSubmit={updateUserProfile}>
 						<div className='mt-4 '>
 							<Input
 								id='name'
 								label='Nombre'
 								placeholder='Nombre'
-								value={values.name}
-								onChange={e => setValues({ ...values, name: e.target.value })}
+								value={name}
+								onChange={onInputChange}
 							/>
 						</div>
 						<div className='mt-4 '>
@@ -59,10 +56,8 @@ const UpdateUser = () => {
 								id='firstLastName'
 								label='Primer apellido'
 								placeholder='Primer apellido'
-								value={values.firstLastName}
-								onChange={e =>
-									setValues({ ...values, firstLastName: e.target.value })
-								}
+								value={firstLastName}
+								onChange={onInputChange}
 							/>
 						</div>
 						<div className='mt-4 '>
@@ -70,10 +65,8 @@ const UpdateUser = () => {
 								id='secondLastName'
 								label='Segundo apellido'
 								placeholder='Segundo apellido'
-								value={values.secondLastName}
-								onChange={e =>
-									setValues({ ...values, secondLastName: e.target.value })
-								}
+								value={secondLastName}
+								onChange={onInputChange}
 							/>
 						</div>
 						<div className='mt-4 mb-6'>
@@ -81,29 +74,13 @@ const UpdateUser = () => {
 								id='email'
 								label='Correo electrónico'
 								placeholder='Correo electrónico'
-								value={values.email}
-								onChange={e => setValues({ ...values, email: e.target.value })}
+								value={email}
+								onChange={onInputChange}
 							/>
 						</div>
-						{isError && (
-							<Alert
-								type='error'
-								message={
-									Object.keys(error.data.errors).length === 1
-										? error.data.message
-										: 'Todos los campos son obligatorios'
-								}
-							/>
-						)}
-						{isSuccess && (
-							<Alert
-								type='success'
-								message={data.message}
-							/>
-						)}
 						<div className='mt-6'>
 							<SubmitButton
-								isLoading={isLoading}
+								isLoading={isLoadingUpdateProfile}
 								text='Guardar cambios'
 							/>
 						</div>

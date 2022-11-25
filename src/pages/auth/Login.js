@@ -8,6 +8,7 @@ import { useLoginMutation } from '../../app/services/authApi'
 import Alert from '../../components/alerts/Alert'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../../features/authSlice'
+import useForm from '../../hooks/useForm'
 
 function Login() {
 	const dispatch = useDispatch()
@@ -15,7 +16,7 @@ function Login() {
 	const [login, { isLoading, isSuccess, data, isError, error }] =
 		useLoginMutation()
 
-	const [values, setValues] = useState({
+	const { formState, email, password, onInputChange } = useForm({
 		email: '',
 		password: '',
 	})
@@ -28,7 +29,7 @@ function Login() {
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		login(values)
+		login(formState)
 	}
 
 	return (
@@ -58,17 +59,15 @@ function Login() {
 								id='email'
 								label='Correo electrónico'
 								placeholder='Correo electrónico'
-								value={values.email}
-								onChange={e => setValues({ ...values, email: e.target.value })}
+								value={email}
+								onChange={onInputChange}
 							/>
 							<PasswordInput
 								id='password'
 								label='Contraseña'
 								placeholder='Contraseña'
-								value={values.password}
-								onChange={e =>
-									setValues({ ...values, password: e.target.value })
-								}
+								value={password}
+								onChange={onInputChange}
 							/>
 						</div>
 						<Link

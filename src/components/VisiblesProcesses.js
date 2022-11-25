@@ -6,37 +6,27 @@ import ModalWindow from './ModalWindow'
 import Alert from './alerts/Alert'
 import { format } from 'date-fns'
 
-function VisiblesProcesses({ visibleProcesses, allVisiblesProcesses }) {
+function VisiblesProcesses({ visibleProcesses }) {
 	const { name, createdAt, id } = visibleProcesses
 	const [showModal, setShowModal] = useState(false)
 	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
-
 	const [startProcess, { isLoading, isSuccess, data }] =
 		useStartNewProcessMutation()
 
-	const [values, setValues] = useState({
-		id: '',
-		status: 1,
-		activity: 'Actividad #',
-	})
-
 	/**
-	 * When the user clicks the start button, the modal is shown and the process id is set to the id of
-	 * the process that was clicked.
+	 * The function sets the state of the showModal variable to true.
 	 */
 	const handleStart = () => {
 		setShowModal(true)
-		const process = allVisiblesProcesses.find(visible => visible.id === id)
-		setValues({ ...values, id: process.processId })
 	}
 
 	/**
-	 * If the user chooses to activate, then the modal is closed and the process is started.
+	 * If the user chooses to start a new process, then the modal is closed and the process is started.
 	 */
-	const areSureActivate = choose => {
+	const areSureStartNewProcess = choose => {
 		if (choose) {
 			setShowModal(false)
-			startProcess(values)
+			startProcess(id)
 		}
 	}
 
@@ -75,7 +65,7 @@ function VisiblesProcesses({ visibleProcesses, allVisiblesProcesses }) {
 									text='¿Está seguro de iniciar este proceso?'
 									buttonText='Iniciar'
 									setShowModal={setShowModal}
-									onDialog={areSureActivate}
+									onDialog={areSureStartNewProcess}
 								/>
 							)}
 						</div>
@@ -88,7 +78,6 @@ function VisiblesProcesses({ visibleProcesses, allVisiblesProcesses }) {
 
 VisiblesProcesses.propTypes = {
 	visibleProcesses: PropTypes.object,
-	allVisiblesProcesses: PropTypes.array,
 	buttonText: PropTypes.string,
 }
 
