@@ -8,11 +8,6 @@ export const processApi = portalApi.injectEndpoints({
 			providesTags: result =>
 				providesList(result.data.searchProcesses.data, 'Process'),
 		}),
-		getSearchUserProcess: builder.query({
-			query: processName => `processes/visible/${processName}`,
-			providesTags: result =>
-				providesList(result.data.searchUserProcesses.data, 'Process'),
-		}),
 		getActivesProcess: builder.query({
 			query: pageNum => `processes/actives?page=${pageNum}`,
 			providesTags: result =>

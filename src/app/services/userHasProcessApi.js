@@ -34,6 +34,11 @@ const userHasProcess = portalApi.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: 'Insider', id: 'LIST' }],
 		}),
+		getSearchUserProcess: builder.query({
+			query: processName => `processes/visible/${processName}`,
+			providesTags: result =>
+				providesList(result.data.searchUserProcesses.data, 'Process'),
+		}),
 	}),
 })
 

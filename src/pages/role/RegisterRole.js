@@ -16,6 +16,12 @@ const RegisterRole = () => {
 		registerProps: { registerNewRole, isLoadingAddNewRole },
 	} = useRole({ ...formState })
 
+	setTimeout(() => {
+		if (isSuccess) {
+			return navigate(-1)
+		}
+	}, 3000)
+
 	return (
 		<div>
 			<div className=' mt-16'>
@@ -26,6 +32,24 @@ const RegisterRole = () => {
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
 						<form onSubmit={registerNewRole}>
 							<div className='mt-4 '>
+								{isSuccess && (
+									<Alert
+										type='success'
+										message={data?.message}
+									/>
+								)}
+								{isError && (
+									<div className='mt-4'>
+										<Alert
+											type='error'
+											message={
+												Object.keys(error.data.errors).length === 1
+													? error.data.message
+													: 'Todos los campos son obligatorios'
+											}
+										/>
+									</div>
+								)}
 								<div className='flex flex-col items-start relative'>
 									<Input
 										id='name'

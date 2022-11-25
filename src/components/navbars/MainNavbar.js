@@ -21,8 +21,16 @@ import {
 	selectIsAuthenticated,
 	selectRoleForRoutes,
 } from '../../features/authSlice'
+import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
+import { useEffect } from 'react'
 
 function AdminUserNavbar() {
+	const [getNotifications, { data: notification, isSuccess, isError }] =
+		useLazyGetNotificationsQuery()
+	useEffect(() => {
+		getNotifications()
+	}, [isSuccess])
+	console.log(notification)
 	const role = useSelector(selectRoleForRoutes)
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const userName = useSelector(selectFullName)
@@ -147,12 +155,22 @@ function AdminUserNavbar() {
 												{notifications.map(notification => (
 													<Menu.Item key={notification.label}>
 														<div>
-															<p className='font-fira-medium'>
-																{notification.label}
-															</p>
-															<span className='font-fira text-p-silver'>
-																{notification.description}
-															</span>
+															<ul>
+																<li>
+																
+																	<a
+																		href='#'
+																		class='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+																	>
+																		<p className='font-fira-medium'>
+																			{notification.label}
+																		</p>
+																		<span className='font-fira text-p-silver'>
+																			{notification.description}
+																		</span>
+																	</a>
+																</li>
+															</ul>
 														</div>
 													</Menu.Item>
 												))}
