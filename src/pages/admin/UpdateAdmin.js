@@ -23,7 +23,7 @@ const UpdateAdmin = () => {
 		closeModal,
 		openModal,
 	} = useForm({
-		id: id,
+		id,
 		name: '',
 		email: '',
 		firstLastName: '',

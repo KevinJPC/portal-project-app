@@ -7,6 +7,9 @@ import {
 	useInactivateAdminMutation,
 	useUpdateAdminMutation,
 	useActivateAdminMutation,
+	useLazyGetActivesAdminQuery,
+	useLazyGetInactivesAdminQuery,
+	useLazyGetSearchAdminQuery,
 } from '../app/services/adminApi'
 import useParseTo from './useParseTo'
 
@@ -27,11 +30,31 @@ function useAdmin(formState = {}, id) {
 		useInactivateAdminMutation()
 	const [activateAdmin, { isLoading: isLoadingActivateAdmin }] =
 		useActivateAdminMutation()
+	const [
+		getActivesAdmins,
+		{
+			data: activesAdmins,
+			isSuccess: isSuccessGetActivesAdmins,
+			isLoading: isLoadingGetActivesAdmins,
+		},
+	] = useLazyGetActivesAdminQuery()
+	const [
+		getInactivesAdmins,
+		{
+			data: inactivesAdmins,
+			isSuccess: isSuccessGetInactivesAdmins,
+			isLoading: isLoadingGetInactivesAdmins,
+		},
+	] = useLazyGetInactivesAdminQuery()
+	const [
+		searchAdmin,
+		{ data: searchAdminData, isLoading: isLoadingSearchAdmin },
+	] = useLazyGetSearchAdminQuery()
 
 	const { parseToInteger } = useParseTo()
 
 	/**
-	 *  Call the rtk query function of add a new admin, then returns a promise, and then does some stuff with the promise
+	 *  Call the rtk query function of add a new admin, and then does some stuff with the promise
 	 * 	to send a notification of success or error.
 	 */
 	const registerNewAdmin = e => {
@@ -54,7 +77,7 @@ function useAdmin(formState = {}, id) {
 	}
 
 	/**
-	 *  Call the rtk query function of update the admin, then returns a promise, and then does some stuff with the promise
+	 *  Call the rtk query function of update the admin, and then does some stuff with the promise
 	 * 	to send a notification of success or error.
 	 */
 	const updateAdminUser = e => {
@@ -77,7 +100,7 @@ function useAdmin(formState = {}, id) {
 	}
 
 	/**
-	 *  Call the rtk query function of inactivate admin, then returns a promise, and then does some stuff with the promise
+	 *  Call the rtk query function of inactivate admin, and then does some stuff with the promise
 	 * 	to send a notification of success.
 	 */
 	const inactivaUserAdmin = () => {
@@ -94,17 +117,34 @@ function useAdmin(formState = {}, id) {
 	}
 
 	/**
-	 *  Call the rtk query function of activate admin
+	 *  Receives the id of the admin and call the rtk query function of activate admin
 	 */
 	const activateAdminUser = idAdmin => {
 		activateAdmin(parseToInteger(idAdmin))
+		// .unwrap()
+		// .then(
+		// 	payload =>
+		// 		payload.success &&
+		// 		(toast.success(payload.message),
+		// 		setTimeout(() => {
+		// 			navigate(-1)
+		// 		}, 2500))
+		// )
 	}
 
 	/**
-	 * 	Call the rtk query function & to get the information of the admin
+	 * 	Call the rtk query function of get admin data to get the information of the admin
 	 */
 	const getUserAdminInformation = () => {
 		getUserAdminData(parseToInteger(id))
+	}
+
+	const getActivesAdminsData = (pageNum = 1) => {
+		getActivesAdmins(pageNum)
+	}
+
+	const getInactivesAdminsData = (pageNum = 1) => {
+		getInactivesAdmins(pageNum)
 	}
 
 	return {
@@ -117,6 +157,19 @@ function useAdmin(formState = {}, id) {
 			isLoadingInactivateAdmin,
 			activateAdminUser,
 			isLoadingActivateAdmin,
+		},
+		listProps: {
+			getActivesAdminsData,
+			activesAdmins,
+			isLoadingGetActivesAdmins,
+			isSuccessGetActivesAdmins,
+			getInactivesAdminsData,
+			inactivesAdmins,
+			isLoadingGetInactivesAdmins,
+			isSuccessGetInactivesAdmins,
+			searchAdmin,
+			searchAdminData,
+			isLoadingSearchAdmin,
 		},
 		getUserAdminInformation,
 		userInformation,

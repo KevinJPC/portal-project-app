@@ -1,142 +1,66 @@
-import React, { useEffect, useState } from 'react'
-import {
-	useAddNewProcessMutation,
-	useGetSeSuiteProcessesQuery,
-} from '../../app/services/processApi'
-import { useGetActivesRolesQuery } from '../../app/services/roleApi'
+import React, { useEffect } from 'react'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
 import RolesOfProcess from '../../components/rolesOfProcess/RolesOfProcess'
-import { useNavigate } from 'react-router-dom'
 import Alert from '../../components/alerts/Alert'
-import Spinner from '../../components/Spinner'
+import useRole from '../../hooks/useRole'
+import useProcess from '../../hooks/useProcess'
+import useForm from '../../hooks/useForm'
 
 const RegisterProcess = () => {
-	const { data: roles, isSuccess: isSuccessGetRoles } =
-		useGetActivesRolesQuery()
-	const {
-		data: seSuiteProcesses,
-		isSuccess: isSucessGetSeSuiteProcesses,
-		isLoading: isLoadingGetSeSuiteProcesses,
-	} = useGetSeSuiteProcessesQuery()
-	const [addNewProcess, { isLoading, isSuccess, data, isError, error }] =
-		useAddNewProcessMutation()
-
-	const navigate = useNavigate()
-	const [processRoles, setProcessRoles] = useState([])
-
-	const [selectedRole, setSelectedRole] = useState({
-		id: '',
-		name: '',
-	})
-
-	const [values, setValues] = useState({
+	const { formState, name, visible, onInputChange, changeFormState } = useForm({
 		name: '',
 		visible: false,
 		seOid: '',
 		roles: [],
 	})
 
-	const [isEmpty, setIsEmpty] = useState({
-		roleContainer: false,
-		roles: false,
-	})
+	const {
+		listProps: {
+			getActivesRolesData,
+			activesRoles,
+			isLoadingGetActivesRoles,
+			isSuccessGetActivesRoles,
+		},
+	} = useRole()
+
+	const {
+		registerProps: { registerNewProcess, isLoadingAddNewProcess },
+		manageRolesProps: {
+			isEmptyContainer,
+			rolesOfProcess,
+			handleChangeRole,
+			handleChangeProcess,
+			addRoleToProcess,
+			isDeletingRole,
+			preloadSelectedRole,
+		},
+		info: {
+			getSeSuiteProcessesData,
+			seSuiteProcesses,
+			isSucessGetSeSuiteProcesses,
+			isLoadingGetSeSuiteProcesses,
+		},
+	} = useProcess({ ...formState }, { ...activesRoles }, changeFormState)
 
 	useEffect(() => {
-		if (isSuccessGetRoles) {
-			setSelectedRole({
-				id: roles?.data.roles.data[0].id,
-				name: roles?.data.roles.data[0].name,
-			})
-		}
-		if (isSucessGetSeSuiteProcesses) {
-			setValues({
-				...values,
-				seOid: seSuiteProcesses?.data[0].seOid,
-			})
-		}
-	}, [isSuccessGetRoles, isSucessGetSeSuiteProcesses])
+		getActivesRolesData()
+	}, [activesRoles])
 
-	/**
-	 * Filters the roles array to find the role that
-	 * matches the id of the selected option, and then it sets the selectedRole state to the role that was
-	 * found.
-	 */
-	const handleChangeRole = e => {
-		const value = roles?.data.roles.data.filter(
-			role => role.id === +e.target.value
-		)
-		setSelectedRole({ id: value[0].id, name: value[0].name })
-	}
+	useEffect(() => {
+		getSeSuiteProcessesData()
+	}, [seSuiteProcesses])
 
-	/**
-	 * Filters the processes array to find the process that
-	 * matches the id of the selected option, and then it sets the selectedProcess state to the process that was
-	 * found.
-	 */
-	const handleChangeProcess = e => {
-		const value = seSuiteProcesses?.data.filter(
-			process => process.seOid === e.target.value
-		)
-		setValues({ ...values, seOid: value[0].seOid })
-	}
+	useEffect(() => {
+		preloadSelectedRole({
+			id: activesRoles?.data?.roles?.data[0].id,
+			name: activesRoles?.data?.roles?.data[0].name,
+		})
+	}, [isSuccessGetActivesRoles])
 
-	/**
-	 * If the selected role is not in the processRoles array, add it to the array and add it to the values
-	 * object
-	 */
-	const addRoleToProcess = () => {
-		if (processRoles.some(role => role.id === selectedRole.id)) {
-			setIsEmpty({ roleContainer: true })
-			setTimeout(() => {
-				setIsEmpty({ roleContainer: false })
-			}, 2500)
-		} else {
-			setProcessRoles([...processRoles, selectedRole])
-			const ids = processRoles?.map(role => role.id)
-			setValues({ ...values, roles: [...ids, selectedRole.id] })
-		}
-	}
-
-	/**
-	 * Takes an id as an argument and returns a function that
-	 * sets the state of processRoles to the filtered processRoles array and sets the state of values to
-	 * the filtered processRoles array mapped to the ids.
-	 */
-	const isDeleting = id => {
-		setProcessRoles(processRoles.filter(role => role.id !== id))
-		const ids = processRoles
-			?.filter(role => role.id !== id)
-			.map(role => role.id)
-		setValues({ ...values, roles: [...ids] })
-	}
-
-	/**
-	 * If the processRoles array has a length greater than 0, then add the new process, unwrap the
-	 * promise, and if the payload is successful, then navigate to the previous page.
-	 */
-	const registerNewProcess = e => {
-		e.preventDefault()
-		try {
-			if (processRoles.length > 0) {
-				addNewProcess(values)
-					.unwrap()
-					.then(
-						payload =>
-							payload.success &&
-							setTimeout(() => {
-								navigate(-1)
-							}, 2500)
-					)
-					.catch(error)
-			} else {
-				setIsEmpty({ roles: true })
-				setTimeout(() => {
-					setIsEmpty({ roles: false })
-				}, 2500)
-			}
-		} catch (err) {}
-	}
+	useEffect(() => {
+		changeFormState({ seOid: seSuiteProcesses?.data[0].seOid })
+	}, [isSucessGetSeSuiteProcesses])
 
 	return (
 		<div className=' '>
@@ -151,8 +75,8 @@ const RegisterProcess = () => {
 								id='name'
 								label='Nombre del proceso'
 								placeholder='Nombre'
-								value={values.name}
-								onChange={e => setValues({ ...values, name: e.target.value })}
+								value={name}
+								onChange={onInputChange}
 							/>
 						</div>
 						<div className='mt-4 '>
@@ -160,7 +84,7 @@ const RegisterProcess = () => {
 								Proceso
 							</label>
 							<select
-								id='countries'
+								id='seSuiteProcess'
 								onChange={handleChangeProcess}
 								className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 							>
@@ -187,18 +111,22 @@ const RegisterProcess = () => {
 							</label>
 							<div className='flex items-center gap-3 md:gap-4'>
 								<select
-									id='countries'
+									id='role'
 									onChange={handleChangeRole}
 									className='bg-p-silver text-sm rounded-lg block w-full p-2.5'
 								>
-									{roles?.data.roles.data.map(role => (
-										<option
-											key={role.id}
-											value={role.id}
-										>
-											{role.name}
-										</option>
-									))}
+									{isLoadingGetActivesRoles ? (
+										<option value=''>Cargando...</option>
+									) : (
+										activesRoles?.data.roles.data.map(role => (
+											<option
+												key={role.id}
+												value={role.id}
+											>
+												{role.name}
+											</option>
+										))
+									)}
 								</select>
 								<button
 									type='button'
@@ -208,7 +136,7 @@ const RegisterProcess = () => {
 									Agregar
 								</button>
 							</div>
-							{isEmpty.roleContainer && (
+							{isEmptyContainer && (
 								<div className='mt-4'>
 									<Alert
 										type='error'
@@ -219,8 +147,8 @@ const RegisterProcess = () => {
 						</div>
 						<div className='mt-5 bg-p-silver rounded-lg'>
 							<RolesOfProcess
-								roles={processRoles}
-								isDeleting={isDeleting}
+								roles={rolesOfProcess}
+								isDeleting={isDeletingRole}
 							/>
 						</div>
 						<div className='mt-4 '>
@@ -234,46 +162,16 @@ const RegisterProcess = () => {
 								<input
 									id='visible'
 									type='checkbox'
-									value={values.visible}
-									checked={values.visible}
-									onChange={e =>
-										setValues({ ...values, visible: e.target.checked })
-									}
+									value={visible}
+									checked={visible}
+									onChange={e => changeFormState({ visible: e.target.checked })}
 									className='w-5 h-5 rounded'
 								/>
 							</div>
 						</div>
-						{isError && (
-							<div className='mt-4'>
-								<Alert
-									type='error'
-									message={
-										Object.keys(error.data.errors).length === 1
-											? error.data.message
-											: 'Todos los campos son obligatorios'
-									}
-								/>
-							</div>
-						)}
-						{isSuccess && (
-							<div className='mt-4'>
-								<Alert
-									type='success'
-									message={data.message}
-								/>
-							</div>
-						)}
-						{isEmpty.roles && (
-							<div className='mt-4'>
-								<Alert
-									type='error'
-									message={'Debe agregarse al menos un rol'}
-								/>
-							</div>
-						)}
 						<div className=' my-6'>
 							<SubmitButton
-								isLoading={isLoading}
+								isLoading={isLoadingAddNewProcess}
 								text='Registrar'
 							/>
 						</div>

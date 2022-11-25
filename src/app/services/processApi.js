@@ -85,6 +85,7 @@ export const {
 	useGetInactivesProcessQuery,
 	useLazyGetInactivesProcessQuery,
 	useGetProcessByIdQuery,
+	useLazyGetProcessByIdQuery,
 	useLazyGetVisiblesProcessQuery,
 	useGetSeSuiteProcessesQuery,
 	useLazyGetSeSuiteProcessesQuery,

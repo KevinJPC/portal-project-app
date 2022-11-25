@@ -7,6 +7,9 @@ import {
 	useUpdateRoleMutation,
 	useInactivateRoleMutation,
 	useActivateRoleMutation,
+	useLazyGetActivesRolesQuery,
+	useLazyGetInactivesRolesQuery,
+	useLazyGetSearchRoleQuery,
 } from '../app/services/roleApi'
 import useParseTo from './useParseTo'
 
@@ -23,9 +26,31 @@ function useRole(formState = {}, id) {
 		useInactivateRoleMutation()
 	const [activateRole, { isLoading: isLoadingActivateRole }] =
 		useActivateRoleMutation()
+	const [
+		getActivesRoles,
+		{
+			data: activesRoles,
+			isSuccess: isSuccessGetActivesRoles,
+			isLoading: isLoadingGetActivesRoles,
+		},
+	] = useLazyGetActivesRolesQuery()
+	const [
+		getInactivesRoles,
+		{
+			data: inactivesRoles,
+			isSuccess: isSuccessGetInactivesRoles,
+			isLoading: isLoadingGetInactivesRoles,
+		},
+	] = useLazyGetInactivesRolesQuery()
+	const [searchRole, { data: searchRoleData, isLoading: isLoadingSearchRole }] =
+		useLazyGetSearchRoleQuery()
 
 	const { parseToInteger } = useParseTo()
 
+	/**
+	 *  Call the rtk query function of add a new role, and then does some stuff with the promise
+	 * 	to send a notification of success or error.
+	 */
 	const registerNewRole = e => {
 		e.preventDefault()
 		addNewRole(formState)
@@ -45,6 +70,10 @@ function useRole(formState = {}, id) {
 			)
 	}
 
+	/**
+	 *  Call the rtk query function of update the role, and then does some stuff with the promise
+	 * 	to send a notification of success or error.
+	 */
 	const updateRoleData = e => {
 		e.preventDefault()
 		updateRole(formState)
@@ -64,6 +93,10 @@ function useRole(formState = {}, id) {
 			)
 	}
 
+	/**
+	 *  Call the rtk query function of inactivate role, and then does some stuff with the promise
+	 * 	to send a notification of success.
+	 */
 	const inactivateSelectedRole = () => {
 		inactivateRole(parseToInteger(id))
 			.unwrap()
@@ -77,10 +110,33 @@ function useRole(formState = {}, id) {
 			)
 	}
 
+	/**
+	 *  Receives the id of the role and call the rtk query function of activate role
+	 */
 	const activateSelectedRole = idRole => {
 		activateRole(parseToInteger(idRole))
+		// .unwrap()
+		// .then(
+		// 	payload =>
+		// 		payload.success &&
+		// 		(toast.success(payload.message),
+		// 		setTimeout(() => {
+		// 			navigate(-1)
+		// 		}, 2500))
+		// )
 	}
 
+	const getActivesRolesData = (pageNum = 1) => {
+		getActivesRoles(pageNum)
+	}
+
+	const getInactivesRolesData = (pageNum = 1) => {
+		getInactivesRoles(pageNum)
+	}
+
+	/**
+	 * 	Call the rtk query function of get role data to get the information of the role
+	 */
 	const getRoleInformation = () => {
 		getRoleData(parseToInteger(id))
 	}
@@ -97,6 +153,19 @@ function useRole(formState = {}, id) {
 			isLoadingInactivateRole,
 			activateSelectedRole,
 			isLoadingActivateRole,
+		},
+		listProps: {
+			getActivesRolesData,
+			activesRoles,
+			isLoadingGetActivesRoles,
+			isSuccessGetActivesRoles,
+			getInactivesRolesData,
+			inactivesRoles,
+			isLoadingGetInactivesRoles,
+			isSuccessGetInactivesRoles,
+			searchRole,
+			searchRoleData,
+			isLoadingSearchRole,
 		},
 		getRoleInformation,
 		isSuccessGetRole,

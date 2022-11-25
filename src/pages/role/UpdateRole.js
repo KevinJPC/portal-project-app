@@ -1,12 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Input from '../../components/inputs/TextInput'
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import {
-	useGetRoleByIdQuery,
-	useUpdateRoleMutation,
-	useInactivateRoleMutation,
-} from '../../app/services/roleApi'
+import { useParams } from 'react-router-dom'
 import Alert from '../../components/alerts/Alert'
 import ModalWindow from '../../components/ModalWindow'
 import SubmitButton from '../../components/buttons/SubmitButton'
@@ -27,7 +22,7 @@ const UpdateRole = () => {
 		closeModal,
 		openModal,
 	} = useForm({
-		id: id,
+		id,
 		name: '',
 		nameSlug: '',
 		description: '',
