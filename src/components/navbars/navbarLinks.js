@@ -11,7 +11,7 @@ export const profileGeneralLinks = [
 	{ to: '/', label: 'Cerrar sesión' },
 ]
 
-/* An array of objects that are being used to create the links in the navbar. */
+/* An array of objects that are being used to create the links in the navbar of the admin user. */
 export const adminUserLinks = [
 	{ to: 'admin/procesos', label: 'Administrar procesos' },
 	{ to: 'admin/roles', label: 'Administrar roles' },
@@ -24,11 +24,12 @@ export const generalUserLinks = [
 	{ to: 'mis-procesos', label: 'Mis procesos' },
 ]
 
-/* An array of objects that are being used to create the links in the profile menu. */
+/* An array of objects of temporary notifications. */
 export const notifications = [
 	{
 		label: 'Peticion de registro bancario',
-		description: 'Acción pendiente en P00003 en la actividad Agregar documentos',
+		description:
+			'Acción pendiente en P00003 en la actividad Agregar documentos',
 	},
 	{
 		label: 'Peticion de registro bancario 2',

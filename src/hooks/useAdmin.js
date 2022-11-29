@@ -118,18 +118,12 @@ function useAdmin(formState = {}, id) {
 
 	/**
 	 *  Receives the id of the admin and call the rtk query function of activate admin
+	 * 	and then does some stuff with the promise to send a notification of success.
 	 */
 	const activateAdminUser = idAdmin => {
 		activateAdmin(parseToInteger(idAdmin))
-		// .unwrap()
-		// .then(
-		// 	payload =>
-		// 		payload.success &&
-		// 		(toast.success(payload.message),
-		// 		setTimeout(() => {
-		// 			navigate(-1)
-		// 		}, 2500))
-		// )
+			.unwrap()
+			.then(payload => payload.success && toast.success(payload.message))
 	}
 
 	/**
@@ -139,10 +133,18 @@ function useAdmin(formState = {}, id) {
 		getUserAdminData(parseToInteger(id))
 	}
 
+	/**
+	 *  Call the rtk query function of get active administrators
+	 * 	@param pageNum - The page number to get the data from.
+	 */
 	const getActivesAdminsData = (pageNum = 1) => {
 		getActivesAdmins(pageNum)
 	}
 
+	/**
+	 *  Call the rtk query function of get inactive administrators
+	 * 	@param pageNum - The page number to get the data from.
+	 */
 	const getInactivesAdminsData = (pageNum = 1) => {
 		getInactivesAdmins(pageNum)
 	}

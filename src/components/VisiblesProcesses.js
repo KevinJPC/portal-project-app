@@ -1,45 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ClickButton from './buttons/ClickButton'
-import { useStartNewProcessMutation } from '../app/services/userHasProcessApi'
 import ModalWindow from './ModalWindow'
-import Alert from './alerts/Alert'
-import { format } from 'date-fns'
+import useUserHasProcess from '../hooks/useUserHasProcess'
+import useForm from '../hooks/useForm'
+import useParseTo from '../hooks/useParseTo'
 
 function VisiblesProcesses({ visibleProcesses }) {
+	const { parseToDate } = useParseTo()
+
+	const { showModal, closeModal, openModal } = useForm()
+
 	const { name, createdAt, id } = visibleProcesses
-	const [showModal, setShowModal] = useState(false)
-	const createdDate = format(new Date(createdAt), 'dd/MM/yyyy')
-	const [startProcess, { isLoading, isSuccess, data }] =
-		useStartNewProcessMutation()
 
-	/**
-	 * The function sets the state of the showModal variable to true.
-	 */
-	const handleStart = () => {
-		setShowModal(true)
-	}
-
-	/**
-	 * If the user chooses to start a new process, then the modal is closed and the process is started.
-	 */
-	const areSureStartNewProcess = choose => {
-		if (choose) {
-			setShowModal(false)
-			startProcess(id)
-		}
-	}
+	const { startNewProcess, isLoadingStartNewProcess } = useUserHasProcess()
 
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0 mt-4'>
 			<div className='flex justify-center py-4'>
 				<div className='w-3/4 bg-p-gray rounded'>
-					{isSuccess && (
-						<Alert
-							type='success'
-							message={data.message}
-						/>
-					)}
 					<div className='md:grid md:grid-cols-3 text-center items-center justify-items-center px-2 py-6 md:py-3'>
 						<div className='p-4 px-1 break-words text-p-blue'>
 							<p className='text-ms  font-fira-medium font-medium leading-5'>
@@ -51,21 +30,23 @@ function VisiblesProcesses({ visibleProcesses }) {
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Fecha creación
 							</p>
-							<p className='text-center leading-normal pt-2'>{createdDate} </p>
+							<p className='text-center leading-normal pt-2'>
+								{parseToDate(createdAt)}
+							</p>
 						</div>
 						<div>
 							<ClickButton
-								isLoading={isLoading}
+								isLoading={isLoadingStartNewProcess}
 								text='Iniciar'
-								func={handleStart}
+								func={openModal}
 								color='purple'
 							/>
 							{showModal && (
 								<ModalWindow
 									text='¿Está seguro de iniciar este proceso?'
 									buttonText='Iniciar'
-									setShowModal={setShowModal}
-									onDialog={areSureStartNewProcess}
+									setShowModal={closeModal}
+									onDialog={() => startNewProcess(id)}
 								/>
 							)}
 						</div>

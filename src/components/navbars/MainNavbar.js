@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
 	Bars3Icon,
@@ -15,14 +17,13 @@ import {
 	profileAdminLinks,
 	profileGeneralLinks,
 } from './navbarLinks'
-import { useSelector } from 'react-redux'
 import {
 	selectFullName,
 	selectIsAuthenticated,
 	selectRoleForRoutes,
 } from '../../features/authSlice'
 import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
-import { useEffect } from 'react'
+import Notification from '../Notifications'
 
 function AdminUserNavbar() {
 	const [getNotifications, { data: notification, isSuccess, isError }] =
@@ -30,7 +31,7 @@ function AdminUserNavbar() {
 	useEffect(() => {
 		getNotifications()
 	}, [isSuccess])
-	console.log(notification)
+
 	const role = useSelector(selectRoleForRoutes)
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const userName = useSelector(selectFullName)
@@ -150,28 +151,11 @@ function AdminUserNavbar() {
 										leaveFrom='transform scale-100 opacity-100'
 										leaveTo='transform scale-95 opacity-0'
 									>
-										<Menu.Items className='fixed sm:absolute overflow-y-scroll sm:text-left text-center sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-80 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-											<div className='h-80 space-y-2 sm:space-y-1 divide-y'>
+										<Menu.Items className='fixed sm:absolute overflow-y-scroll sm:text-left text-center sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-96 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+											<div className='h-80 space-y-2 sm:space-y-1 divide-y flex flex-col'>
 												{notifications.map(notification => (
 													<Menu.Item key={notification.label}>
-														<div>
-															<ul>
-																<li>
-																
-																	<a
-																		href='#'
-																		class='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
-																	>
-																		<p className='font-fira-medium'>
-																			{notification.label}
-																		</p>
-																		<span className='font-fira text-p-silver'>
-																			{notification.description}
-																		</span>
-																	</a>
-																</li>
-															</ul>
-														</div>
+														<Notification notification={notification} />
 													</Menu.Item>
 												))}
 											</div>
