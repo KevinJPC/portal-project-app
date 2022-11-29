@@ -20,7 +20,7 @@ const UpdatePassword = () => {
 
 	const {
 		passwordProps: { isLoadingUpdatePassword, updateUserPassword },
-	} = useUser({ formState, onResetForm })
+	} = useUser({ ...formState }, onResetForm)
 
 	return (
 		<div className=' mt-16 w-full'>

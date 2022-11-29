@@ -1,30 +1,23 @@
 import React, { useEffect } from 'react'
-import { useLazyGetUserProcessesQuery } from '../../app/services/userHasProcessApi'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
-import MyProcesses from '../../components/MyProcesses'
 import Pagination from '../../components/pagination/Pagination'
+import MyProcesses from '../../components/MyProcesses'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
+import useUserHasProcess from '../../hooks/useUserHasProcess'
 
 function ListUserProcesses() {
-	const [getUserProcesses, { data: userProcesses, isSuccess, isLoading }] =
-		useLazyGetUserProcessesQuery()
+	const { getUserProcessesData, userProcesses, isLoadingGetUserProcess } =
+		useUserHasProcess()
 
 	useEffect(() => {
-		getUserProcesses(1)
-	}, [isSuccess])
-
-	const changePageNumber = value => {
-		getUserProcesses(value)
-	}
+		getUserProcessesData()
+	}, [])
 
 	return (
 		<>
-			<SearchBar
-				// getdata={getdata}
-				title='Mis procesos'
-			/>
-			{isLoading ? (
+			<SearchBar title='Mis procesos' />
+			{isLoadingGetUserProcess ? (
 				<div className='mt-6 flex justify-center items-center'>
 					<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 					<Spinner />
@@ -39,7 +32,7 @@ function ListUserProcesses() {
 					))}
 					<div className='mt-6'>
 						<Pagination
-							changePage={changePageNumber}
+							changePage={getUserProcessesData}
 							pageCount={Math.ceil(userProcesses?.data.userProcesses.lastPage)}
 						/>
 					</div>

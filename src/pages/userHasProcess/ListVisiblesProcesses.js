@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { useLazyGetVisiblesProcessQuery } from '../../app/services/processApi'
+import React, { useEffect } from 'react'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
 import VisiblesProcesses from '../../components/VisiblesProcesses'
+import useProcess from '../../hooks/useProcess'
 
 function ListVisiblesProcesses() {
-	const [
-		getVisiblesProcess,
-		{ data: visiblesProcesses, isSuccess, isLoading },
-	] = useLazyGetVisiblesProcessQuery()
+	const {
+		listProps: {
+			getVisiblesProcessesData,
+			visiblesProcesses,
+			isLoadingGetVisiblesProcesses,
+		},
+	} = useProcess()
 
 	useEffect(() => {
-		getVisiblesProcess(1)
-	}, [isSuccess])
-
-	/**
-	 * takes a value as an argument and sets the pageCount state to
-	 * that value.
-	 */
-	const changePageNumber = value => {
-		getVisiblesProcess(value)
-	}
+		getVisiblesProcessesData()
+	}, [])
 
 	return (
 		<>
-			<SearchBar
-				// getdata={getdata}
-				title='Procesos'
-			/>
-			{isLoading ? (
+			<SearchBar title='Procesos' />
+			{isLoadingGetVisiblesProcesses ? (
 				<div className='mt-6 flex justify-center items-center'>
 					<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
 					<Spinner />
@@ -45,7 +37,7 @@ function ListVisiblesProcesses() {
 					))}
 					<div className='mt-6'>
 						<Pagination
-							changePage={changePageNumber}
+							changePage={getVisiblesProcessesData}
 							pageCount={Math.ceil(
 								visiblesProcesses?.data.userProcesses.lastPage
 							)}

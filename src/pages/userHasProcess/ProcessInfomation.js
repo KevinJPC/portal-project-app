@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { format } from 'date-fns'
-import Activity from '../../components/Activity'
 import { useGetUserProcessByIdQuery } from '../../app/services/userHasProcessApi'
+import Activity from '../../components/Activity'
 import Spinner from '../../components/Spinner'
-
+import useParseTo from '../../hooks/useParseTo'
+import useForm from '../../hooks/useForm'
 function ProcessInformation() {
 	const { id } = useParams()
+	const { parseToDate } = useParseTo()
+
 	const {
 		data: process,
 		isSuccess: isSucessGetProcess,
 		isLoading: isLoadingGetSeSuiteProcess,
 	} = useGetUserProcessByIdQuery(Number(id))
 
-	const [values, setValues] = useState({
+	const {
+		name,
+		createdAt,
+		status,
+		percentageAdvance,
+		activities,
+		changeFormState,
+	} = useForm({
 		name: '',
 		createdAt: '',
 		status: '',
@@ -23,12 +32,9 @@ function ProcessInformation() {
 
 	useEffect(() => {
 		if (isSucessGetProcess) {
-			setValues({
+			changeFormState({
 				name: process?.data.process.name,
-				createdAt: format(
-					new Date(process?.data.process.startedAt),
-					'dd/MM/yyyy'
-				),
+				createdAt: parseToDate(process?.data.process.startedAt),
 				percentageAdvance: process?.data.process.percentageAdvance,
 				activities: process?.data.process.activities,
 			})
@@ -49,11 +55,11 @@ function ProcessInformation() {
 							<div className='md:text-left flex flex-col '>
 								<div className='p-6 px-1 text-p-blue '>
 									<p className='text-md font-fira-medium '>Nombre</p>
-									<p className=' pt-2 text-sm'>{values.name}</p>
+									<p className=' pt-2 text-sm'>{name}</p>
 								</div>
 								<div className='p-6 px-1 text-p-blue'>
 									<p className='text-md font-fira-medium '>Fecha de inicio</p>
-									<p className=' pt-2 text-sm'>{values.createdAt}</p>
+									<p className=' pt-2 text-sm'>{createdAt}</p>
 								</div>
 								<div className='p-6 px-9 md:p-0 md:px-0 text-p-blue'>
 									<p className='text-md font-fira-medium'>Estado</p>
@@ -63,7 +69,7 @@ function ProcessInformation() {
 								</div>
 								<div className='p-6 px-1 text-p-blue'>
 									<p className='text-sm font-fira-medium '>Avance porcentual</p>
-									<p className=' pt-2 text-sm'>{values.percentageAdvance}%</p>
+									<p className=' pt-2 text-sm'>{percentageAdvance}%</p>
 								</div>
 							</div>
 							<div className='flex flex-col items-center'>
@@ -71,11 +77,11 @@ function ProcessInformation() {
 									<p className='text-md font-fira-medium '>Actividades</p>
 								</div>
 								<div>
-									{values.activities.map((activity, i) => (
+									{activities.map((activity, i) => (
 										<Activity
 											key={i}
 											activity={activity}
-											activities={values.activities}
+											activities={activities}
 										/>
 									))}
 								</div>
