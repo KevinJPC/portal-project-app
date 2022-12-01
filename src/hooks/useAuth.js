@@ -25,7 +25,6 @@ function useAuth() {
 			if (!isAuthenticated && token) {
 				console.log('reconectando...')
 				const { data } = await reconnect().unwrap()
-				console.log(data)
 				dispatch(setCredentials(data))
 			} else {
 				dispatch(setIsTokenValidated(true))

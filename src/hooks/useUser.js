@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import {
 	useUpdateUserPasswordMutation,
@@ -7,7 +6,7 @@ import {
 } from '../app/services/userApi'
 import { selectUser } from '../features/authSlice'
 
-function useUser(formState = {}, onResetForm) {
+function useUser() {
 	const userData = useSelector(selectUser)
 	const [updatePassword, { isloading: isLoadingUpdatePassword }] =
 		useUpdateUserPasswordMutation()
@@ -18,22 +17,17 @@ function useUser(formState = {}, onResetForm) {
 	/**
 	 * Update the password of the current user & show the notification of success or error.
 	 */
-	const updateUserPassword = e => {
-		e.preventDefault()
+	const updateUserPassword = (formState = {}) => {
 		updatePassword(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success && (toast.success(payload.message), onResetForm())
-			)
+			.then(payload => payload.success && toast.success(payload.message))
 			.catch(error => toast.error(error.data.message))
 	}
 
 	/**
 	 * Update the profile of the current user & show the notification of success or error.
 	 */
-	const updateUserProfile = e => {
-		e.preventDefault()
+	const updateUserProfile = (formState = {}) => {
 		updateProfile(formState)
 			.unwrap()
 			.then(payload => payload.success && toast.success(payload.message))
@@ -55,11 +49,6 @@ function useUser(formState = {}, onResetForm) {
 			updateUserProfile,
 		},
 	}
-}
-
-useUser.propTypes = {
-	formState: PropTypes.object,
-	onResetForm: PropTypes.func,
 }
 
 export default useUser

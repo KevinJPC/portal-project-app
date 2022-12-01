@@ -28,13 +28,15 @@ import Notification from '../Notifications'
 function AdminUserNavbar() {
 	const [getNotifications, { data: notification, isSuccess, isError }] =
 		useLazyGetNotificationsQuery()
-	useEffect(() => {
-		getNotifications()
-	}, [isSuccess])
 
 	const role = useSelector(selectRoleForRoutes)
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const userName = useSelector(selectFullName)
+
+	useEffect(() => {
+		if (role !== 'admin') getNotifications()
+	}, [isSuccess, role])
+
 	return isAuthenticated ? (
 		<Disclosure
 			as='nav'
