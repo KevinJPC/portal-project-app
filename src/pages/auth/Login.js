@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import loginImg from '../../assets/img/login.png'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from './../../components/inputs/PasswordInput'
@@ -20,11 +20,15 @@ function Login() {
 		password: '',
 	})
 
+	const handleSetValues = () =>
+		setValues(prevValues => ({ ...prevValues, ...values }))
+
 	useEffect(() => {
-		if (isSuccess) {
-			dispatch(setCredentials(data.data))
+		if (isSuccess) dispatch(setCredentials(data.data))
+		if (isError) {
+			handleSetValues({ password: '' })
 		}
-	}, [isSuccess])
+	}, [isSuccess, isError])
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -45,7 +49,7 @@ function Login() {
 						{isError && (
 							<Alert
 								type='error'
-								message={error.data.message}
+								message={error.data?.message}
 							/>
 						)}
 					</div>

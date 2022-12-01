@@ -2,7 +2,15 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
-function PasswordInput({ label, id, placeholder, value, onChange, ...props }) {
+function PasswordInput({
+	label,
+	id,
+	placeholder,
+	value,
+	onChange,
+	error,
+	...props
+}) {
 	const [showPassword, setShowPassword] = useState(false)
 
 	return (
@@ -23,6 +31,7 @@ function PasswordInput({ label, id, placeholder, value, onChange, ...props }) {
 					onChange={onChange}
 					{...props}
 				/>
+				<span className='text-p-red mt-1'>{error && error.join('\n')}</span>
 				{showPassword ? (
 					<EyeSlashIcon
 						className='text-p-blue w-6 my-auto absolute inset-y-0 right-0 mr-4 cursor-pointer'
@@ -44,6 +53,7 @@ PasswordInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	placeholder: PropTypes.string.isRequired,
 	value: PropTypes.string,
+	error: PropTypes.array,
 	onChange: PropTypes.func,
 	props: PropTypes.object,
 }

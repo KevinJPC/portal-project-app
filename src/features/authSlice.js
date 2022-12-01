@@ -8,7 +8,7 @@ const initialState = {
 		name: null,
 		firstLastName: null,
 		secondLastName: null,
-		role: null,
+		isAdmin: false,
 	},
 	token: sessionStorage.getItem('token') || null,
 }
@@ -49,8 +49,7 @@ export const selectFullName = state =>
 	].join(' ')
 export const selectRole = state => state.auth.user.role
 export const selectUser = state => state.auth.user
-export const selectRoleForRoutes = state =>
-	state.auth.user.role === 'admin' ? 'admin' : 'general'
+export const selectIsAdmin = state => state.auth.user.isAdmin
 export const selectIsTokenValidated = state => state.auth.isTokenValidated
 export const selectIsAuthenticated = state => state.auth.isAuthenticated
 

@@ -2,10 +2,9 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useReconnectMutation } from '../app/services/authApi'
 import {
-	removeCredentials,
 	selectIsAuthenticated,
 	selectIsTokenValidated,
-	selectRoleForRoutes,
+	selectIsAdmin,
 	selectToken,
 	setCredentials,
 	setIsTokenValidated,
@@ -14,7 +13,7 @@ import {
 function useAuth() {
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const isTokenValidated = useSelector(selectIsTokenValidated)
-	const roleForRoutes = useSelector(selectRoleForRoutes)
+	const isAdmin = useSelector(selectIsAdmin)
 
 	const [reconnect] = useReconnectMutation()
 	const dispatch = useDispatch()
@@ -23,16 +22,13 @@ function useAuth() {
 	const handleCheckAuth = async () => {
 		try {
 			if (!isAuthenticated && token) {
-				console.log('reconectando...')
 				const { data } = await reconnect().unwrap()
-				console.log(data)
 				dispatch(setCredentials(data))
 			} else {
 				dispatch(setIsTokenValidated(true))
 			}
 		} catch (error) {
-			dispatch(removeCredentials())
-			console.log(error)
+			dispatch(setIsTokenValidated(true))
 		}
 	}
 
@@ -40,7 +36,7 @@ function useAuth() {
 		handleCheckAuth()
 	}, [])
 
-	return { isAuthenticated, isTokenValidated, roleForRoutes }
+	return { isAuthenticated, isTokenValidated, isAdmin }
 }
 
 export default useAuth

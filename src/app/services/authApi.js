@@ -15,7 +15,34 @@ export const authApi = portalApi.injectEndpoints({
 				method: 'POST',
 			}),
 		}),
+		forgotPassword: builder.mutation({
+			query: ({ email }) => ({
+				url: '/password/forgot',
+				method: 'POST',
+				body: { email },
+			}),
+		}),
+		validateResetToken: builder.mutation({
+			query: ({ email, token }) => ({
+				url: '/password/validate',
+				method: 'POST',
+				body: { email, token },
+			}),
+		}),
+		ResetPassword: builder.mutation({
+			query: ({ email, token, password, passwordConfirmation }) => ({
+				url: '/password/reset',
+				method: 'POST',
+				body: { email, token, password, passwordConfirmation },
+			}),
+		}),
 	}),
 })
 
-export const { useLoginMutation, useReconnectMutation } = authApi
+export const {
+	useLoginMutation,
+	useReconnectMutation,
+	useForgotPasswordMutation,
+	useValidateResetTokenMutation,
+	useResetPasswordMutation,
+} = authApi
