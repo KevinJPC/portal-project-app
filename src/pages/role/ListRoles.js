@@ -32,7 +32,6 @@ const ListRoles = () => {
 		filterSeachData,
 	} = useList(getActivesRolesData, getInactivesRolesData, searchRole)
 
-	/* Calling the `getActivesRoles` and `getInactivesRoles` functions when the component is mounted. */
 	useEffect(() => {
 		getActivesRolesData()
 	}, [isSuccessGetActivesRoles])

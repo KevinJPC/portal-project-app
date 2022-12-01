@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useReconnectMutation } from '../app/services/authApi'
+import { useReconnectMutation, useRegisterUserMutation } from '../app/services/authApi'
 import {
 	removeCredentials,
 	selectIsAuthenticated,
@@ -10,11 +11,16 @@ import {
 	setCredentials,
 	setIsTokenValidated,
 } from '../features/authSlice'
+import { toast } from 'react-toastify'
 
-function useAuth() {
+function useAuth(formState = {}) {
+	const navigate = useNavigate()
+
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const isTokenValidated = useSelector(selectIsTokenValidated)
 	const roleForRoutes = useSelector(selectRoleForRoutes)
+	const [addNewUser, { isLoading: isLoadingAddNewUser }] =
+	useRegisterUserMutation()
 
 	const [reconnect] = useReconnectMutation()
 	const dispatch = useDispatch()
@@ -40,7 +46,32 @@ function useAuth() {
 		handleCheckAuth()
 	}, [])
 
-	return { isAuthenticated, isTokenValidated, roleForRoutes }
+	const RegisterNewUser = e => {
+		e.preventDefault()
+
+		addNewUser(formState)
+			.unwrap()
+			.then(
+				payload =>
+					payload.success &&
+					(toast.success(payload.message),
+					setTimeout(() => {
+						navigate('/')
+					}, 2500))
+			)
+			.catch(error =>
+				Object.keys(error.data.errors).length === 1
+					? toast.error(error.data.message)
+					: toast.error('Todos los campos son obligatorios')
+			)
+	}
+
+	return {
+		isAuthenticated,
+		isTokenValidated,
+		roleForRoutes,
+		registerProps: { RegisterNewUser, isLoadingAddNewUser },
+	}
 }
 
 export default useAuth

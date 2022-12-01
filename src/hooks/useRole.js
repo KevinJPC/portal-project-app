@@ -10,6 +10,7 @@ import {
 	useLazyGetActivesRolesQuery,
 	useLazyGetInactivesRolesQuery,
 	useLazyGetSearchRoleQuery,
+	useLazyGetPublicRolesQuery,
 } from '../app/services/roleApi'
 import useParseTo from './useParseTo'
 
@@ -44,6 +45,11 @@ function useRole(formState = {}, id) {
 	] = useLazyGetInactivesRolesQuery()
 	const [searchRole, { data: searchRoleData, isLoading: isLoadingSearchRole }] =
 		useLazyGetSearchRoleQuery()
+
+	const [
+		getPublicRoles,
+		{ data: publicRoles, isLoading: isLoadingGetPublicRoles, isSuccess: isSuccessGetPublicRoles},
+	] = useLazyGetPublicRolesQuery()
 
 	const { parseToInteger } = useParseTo()
 
@@ -166,6 +172,10 @@ function useRole(formState = {}, id) {
 			searchRole,
 			searchRoleData,
 			isLoadingSearchRole,
+			getPublicRoles,
+			publicRoles,
+			isLoadingGetPublicRoles,
+			isSuccessGetPublicRoles,
 		},
 		getRoleInformation,
 		isSuccessGetRole,
