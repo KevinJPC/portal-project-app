@@ -7,16 +7,9 @@ import useRole from '../../hooks/useRole'
 import { roleSchema } from '../../formYupSchemas/roleSchema'
 
 const RegisterRole = () => {
-	const { formState, name, description, onInputChange, changeFormState } =
-		useForm({
-			name: '',
-			nameSlug: '',
-			description: '',
-		})
-
 	const {
 		registerProps: { registerNewRole, isLoadingAddNewRole },
-	} = useRole({ ...formState })
+	} = useRole()
 
 	return (
 		<div>

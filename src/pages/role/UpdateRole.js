@@ -43,7 +43,7 @@ const UpdateRole = () => {
 	} = useRole()
 
 	useEffect(() => {
-		getRoleInformation()
+		getRoleInformation(id)
 	}, [roleData])
 
 	useEffect(() => {
@@ -63,59 +63,61 @@ const UpdateRole = () => {
 					<div>
 						<h3 className='text-3xl text-p-blue'>Modificar Rol</h3>
 					</div>
+					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
+						<Formik
+							initialValues={{ ...formState }}
+							onSubmit={values => {
+								updateRoleData({
+									id,
+									nameSlug: values.name.toLowerCase().replaceAll(' ', '-'),
+									...values,
+								})
+							}}
+							enableReinitialize
+							validationSchema={roleSchema}
+						>
+							{() => (
+								<>
+									<Form>
+										<div className='mt-4 '>
+											<TextInput
+												label='Nombre'
+												name='name'
+											/>
+										</div>
+										<div className='mt-4 '>
+											<TextInput
+												label='Descripción'
+												name='description'
+											/>
+										</div>
+										<ClickButton
+											isLoading={isLoadingInactivateRole}
+											text='Desactivar'
+											func={openModal}
+											color='red'
+										/>
 
-					<Formik
-						initialValues={{ ...formState }}
-						onSubmit={values => {
-							updateRoleData({
-								id,
-								nameSlug: values.name.toLowerCase().replaceAll(' ', '-'),
-								...values,
-							})
-						}}
-						enableReinitialize
-						validationSchema={roleSchema}
-					>
-						{() => (
-							<>
-								<Form>
-									<div className='mt-4 '>
-										<TextInput
-											label='Nombre'
-											name='name'
-										/>
-									</div>
-									<div className='mt-4 '>
-										<TextInput
-											label='Descripción'
-											name='description'
-										/>
-									</div>
-									<ClickButton
-										isLoading={isLoadingInactivateRole}
-										text='Desactivar'
-										func={openModal}
-										color='red'
-									/>
-									{showModal ? (
-										<ModalWindow
-											text='¿Está seguro de inactivar este registro?'
-											buttonText='Desactivar'
-											setShowModal={closeModal}
-											onDialog={inactivateSelectedRole}
-										/>
-									) : null}
-									<div className='mt-3'>
-										<SubmitButton
-											isLoading={isLoadingUpdateRole}
-											text='Guardar cambios'
-										/>
-									</div>
-								</Form>
-							</>
-						)}
-					</Formik>
+										<div className='mt-3'>
+											<SubmitButton
+												isLoading={isLoadingUpdateRole}
+												text='Guardar cambios'
+											/>
+										</div>
+									</Form>
+								</>
+							)}
+						</Formik>
+					</div>
 				</div>
+				{showModal && (
+					<ModalWindow
+						text='¿Está seguro de inactivar este registro?'
+						buttonText='Desactivar'
+						setShowModal={closeModal}
+						onDialog={() => inactivateSelectedRole(id)}
+					/>
+				)}
 			</div>
 		</div>
 	)

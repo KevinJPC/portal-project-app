@@ -13,7 +13,7 @@ import {
 } from '../app/services/roleApi'
 import useParseTo from './useParseTo'
 
-function useRole(formState = {}, id) {
+function useRole() {
 	const navigate = useNavigate()
 
 	const [addNewRole, { isLoading: isLoadingAddNewRole }] =
@@ -51,8 +51,7 @@ function useRole(formState = {}, id) {
 	 *  Call the rtk query function of add a new role, and then does some stuff with the promise
 	 * 	to send a notification of success or error.
 	 */
-	const registerNewRole = e => {
-		e.preventDefault()
+	const registerNewRole = (formState = {}) => {
 		addNewRole(formState)
 			.unwrap()
 			.then(
@@ -74,8 +73,7 @@ function useRole(formState = {}, id) {
 	 *  Call the rtk query function of update the role, and then does some stuff with the promise
 	 * 	to send a notification of success or error.
 	 */
-	const updateRoleData = e => {
-		e.preventDefault()
+	const updateRoleData = (formState = {}) => {
 		updateRole(formState)
 			.unwrap()
 			.then(
@@ -97,7 +95,7 @@ function useRole(formState = {}, id) {
 	 *  Call the rtk query function of inactivate role, and then does some stuff with the promise
 	 * 	to send a notification of success.
 	 */
-	const inactivateSelectedRole = () => {
+	const inactivateSelectedRole = id => {
 		inactivateRole(parseToInteger(id))
 			.unwrap()
 			.then(
@@ -108,6 +106,7 @@ function useRole(formState = {}, id) {
 						navigate(-1)
 					}, 2500))
 			)
+			.catch(error => toast.error(error.data.message))
 	}
 
 	/**
@@ -139,7 +138,7 @@ function useRole(formState = {}, id) {
 	/**
 	 * 	Call the rtk query function of get role data to get the information of the role
 	 */
-	const getRoleInformation = () => {
+	const getRoleInformation = id => {
 		getRoleData(parseToInteger(id))
 	}
 
