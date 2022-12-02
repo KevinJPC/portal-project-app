@@ -83,7 +83,7 @@ function useRole(formState = {}, id) {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate(-1)
+						navigate('/role')
 					}, 2500))
 			)
 			.catch(error =>
