@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import {
 	useAddNewAdminMutation,
@@ -13,7 +12,7 @@ import {
 } from '../app/services/adminApi'
 import useParseTo from './useParseTo'
 
-function useAdmin(formState = {}, id) {
+function useAdmin() {
 	const navigate = useNavigate()
 
 	const [addNewAdmin, { isLoading: isLoadingAddNewAdmin }] =
@@ -57,8 +56,7 @@ function useAdmin(formState = {}, id) {
 	 *  Call the rtk query function of add a new admin, and then does some stuff with the promise
 	 * 	to send a notification of success or error.
 	 */
-	const registerNewAdmin = e => {
-		e.preventDefault()
+	const registerNewAdmin = (formState = {}) => {
 		addNewAdmin(formState)
 			.unwrap()
 			.then(
@@ -66,7 +64,7 @@ function useAdmin(formState = {}, id) {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate(-1)
+						navigate('/admin/usuarios')
 					}, 2500))
 			)
 			.catch(error =>
@@ -80,8 +78,7 @@ function useAdmin(formState = {}, id) {
 	 *  Call the rtk query function of update the admin, and then does some stuff with the promise
 	 * 	to send a notification of success or error.
 	 */
-	const updateAdminUser = e => {
-		e.preventDefault()
+	const updateAdminUser = (formState = {}) => {
 		updateAdmin(formState)
 			.unwrap()
 			.then(
@@ -89,7 +86,7 @@ function useAdmin(formState = {}, id) {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate(-1)
+						navigate('/admin/usuarios')
 					}, 2500))
 			)
 			.catch(error =>
@@ -103,7 +100,7 @@ function useAdmin(formState = {}, id) {
 	 *  Call the rtk query function of inactivate admin, and then does some stuff with the promise
 	 * 	to send a notification of success.
 	 */
-	const inactivaUserAdmin = () => {
+	const inactivaUserAdmin = id => {
 		inactivateAdmin(parseToInteger(id))
 			.unwrap()
 			.then(
@@ -111,7 +108,7 @@ function useAdmin(formState = {}, id) {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate(-1)
+						navigate('/admin/usuarios')
 					}, 2500))
 			)
 	}
@@ -129,7 +126,7 @@ function useAdmin(formState = {}, id) {
 	/**
 	 * 	Call the rtk query function of get admin data to get the information of the admin
 	 */
-	const getUserAdminInformation = () => {
+	const getUserAdminInformation = id => {
 		getUserAdminData(parseToInteger(id))
 	}
 
@@ -177,11 +174,6 @@ function useAdmin(formState = {}, id) {
 		userInformation,
 		isSuccessGetAdmin,
 	}
-}
-
-useAdmin.propTypes = {
-	formState: PropTypes.object,
-	id: PropTypes.string,
 }
 
 export default useAdmin
