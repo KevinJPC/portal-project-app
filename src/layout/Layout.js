@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import NavbarContainer from '../components/navbars/NavbarContainer'
 
 import 'react-toastify/dist/ReactToastify.css'
+import CustomToastContainer from '../components/CustomToastContainer'
 
 /**
  * The Layout component is a wrapper for the Navbar and the children components.
@@ -16,7 +17,8 @@ const Layout = ({ children }) => {
 				<NavbarContainer />
 			</header>
 			<main className='min-h-[calc(100vh-64px)] flex flex-col'>{children}</main>
-			<ToastContainer autoClose={1500} />
+			<CustomToastContainer />
+			{/* <ToastContainer /> */}
 			<footer></footer>
 		</div>
 	)

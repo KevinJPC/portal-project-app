@@ -8,8 +8,7 @@ const initialState = {
 		name: null,
 		firstLastName: null,
 		secondLastName: null,
-		role: null,
-		email: null,
+		isAdmin: false,
 	},
 	token: sessionStorage.getItem('token') || null,
 }
@@ -26,10 +25,10 @@ export const authSlice = createSlice({
 			sessionStorage.setItem('token', state.token)
 		},
 		removeCredentials: state => {
-			state.user = null
+			state.user = initialState.user
 			state.token = null
 			state.isAuthenticated = false
-			state.isTokenValidated = false
+			state.isTokenValidated = true
 			sessionStorage.removeItem('token')
 		},
 		setIsTokenValidated: (state, action) => {
@@ -46,8 +45,7 @@ export const selectFullName = state =>
 	[state.auth.user.name, state.auth.user.firstLastName].join(' ')
 export const selectRole = state => state.auth.user.role
 export const selectUser = state => state.auth.user
-export const selectRoleForRoutes = state =>
-	state.auth.user.role === 'admin' ? 'admin' : 'general'
+export const selectIsAdmin = state => state.auth.user.isAdmin
 export const selectIsTokenValidated = state => state.auth.isTokenValidated
 export const selectIsAuthenticated = state => state.auth.isAuthenticated
 

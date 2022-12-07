@@ -1,7 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function TextInput({ label, id, placeholder, value, onChange, ...props }) {
+function TextInput({
+	label,
+	id,
+	placeholder,
+	value,
+	onChange,
+	error,
+	...props
+}) {
 	return (
 		<div className='flex flex-col w-full'>
 			<label
@@ -20,6 +28,7 @@ function TextInput({ label, id, placeholder, value, onChange, ...props }) {
 				value={value}
 				onChange={onChange}
 			/>
+			<span className='text-p-red mt-1'>{error && error.join('\n')}</span>
 		</div>
 	)
 }
@@ -30,6 +39,7 @@ TextInput.propTypes = {
 	placeholder: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func,
+	error: PropTypes.array,
 	props: PropTypes.object,
 }
 

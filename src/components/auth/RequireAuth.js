@@ -7,14 +7,14 @@ import Spinner from '../Spinner'
 function RequireAuth({
 	isAuthenticated,
 	isTokenValidated,
-	roleForRoutes,
-	accessRole,
+	isAdmin,
+	restrictTo,
 	redirectPath,
 	location,
 }) {
 	if (!isTokenValidated)
 		return (
-			<div className='w-full flex flex-col justify-center -mt-16'>
+			<div className='w-full flex flex-grow items-center justify-center -mt-16'>
 				<Spinner />
 			</div>
 		)
@@ -28,7 +28,10 @@ function RequireAuth({
 			/>
 		)
 
-	if (roleForRoutes !== accessRole)
+	if (
+		(restrictTo === 'admin' && !isAdmin) ||
+		(restrictTo === 'user' && isAdmin)
+	)
 		return (
 			<Navigate
 				to={redirectPath}
@@ -41,10 +44,10 @@ function RequireAuth({
 
 RequireAuth.propTypes = {
 	redirectPath: PropTypes.string.isRequired,
-	accessRole: PropTypes.oneOf(['admin', 'general']).isRequired,
+	restrictTo: PropTypes.oneOf(['admin', 'user']).isRequired,
 	isAuthenticated: PropTypes.bool.isRequired,
 	isTokenValidated: PropTypes.bool.isRequired,
-	roleForRoutes: PropTypes.string.isRequired,
+	isAdmin: PropTypes.bool.isRequired,
 	location: PropTypes.object.isRequired,
 }
 

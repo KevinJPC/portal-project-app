@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Alert from '../../components/alerts/Alert'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
 import useForm from '../../hooks/useForm'

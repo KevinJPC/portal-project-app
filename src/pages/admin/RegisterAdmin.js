@@ -2,7 +2,6 @@ import React from 'react'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from '../../components/inputs/PasswordInput'
 import SubmitButton from '../../components/buttons/SubmitButton'
-import Alert from '../../components/alerts/Alert'
 import useForm from '../../hooks/useForm'
 import useAdmin from '../../hooks/useAdmin'
 

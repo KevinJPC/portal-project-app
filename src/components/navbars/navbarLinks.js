@@ -2,13 +2,13 @@
 export const profileAdminLinks = [
 	{ to: 'admin/usuario/editar-perfil', label: 'Editar perfil' },
 	{ to: 'admin/usuario/cambiar-contrasena', label: 'Cambiar contraseña' },
-	{ to: '/', label: 'Cerrar sesión' },
+	// { to: '/', label: 'Cerrar sesión' },
 ]
 /* An array of objects that are being used to create the links in the profile menu for general users. */
 export const profileGeneralLinks = [
 	{ to: 'usuario/editar-perfil', label: 'Editar perfil' },
 	{ to: 'usuario/cambiar-contrasena', label: 'Cambiar contraseña' },
-	{ to: '/', label: 'Cerrar sesión' },
+	// { to: '/', label: 'Cerrar sesión' },
 ]
 
 /* An array of objects that are being used to create the links in the navbar of the admin user. */

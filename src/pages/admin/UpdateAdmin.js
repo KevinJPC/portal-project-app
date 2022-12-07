@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import Alert from '../../components/alerts/Alert'
 import ClickButton from '../../components/buttons/ClickButton'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
