@@ -1,84 +1,88 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import SubmitButton from '../../components/buttons/SubmitButton'
+import Input from '../../components/inputs/TextInput'
+import useForm from '../../hooks/useForm'
+import useUser from '../../hooks/useUser'
 
 const UpdateUser = () => {
+	const {
+		formState,
+		name,
+		email,
+		firstLastName,
+		secondLastName,
+		onInputChange,
+		changeFormState,
+	} = useForm({
+		name: '',
+		email: '',
+		firstLastName: '',
+		secondLastName: '',
+	})
+
+	const {
+		profileProps: { isLoadingUpdateProfile, userData, updateUserProfile },
+	} = useUser({ ...formState })
+
+	useEffect(() => {
+		changeFormState({
+			name: userData?.name,
+			email: userData?.email,
+			firstLastName: userData?.firstLastName,
+			secondLastName: userData?.secondLastName,
+		})
+	}, [userData])
+
 	return (
-		<div className=' mt-16'>
+		<div className='mt-16 w-full'>
 			<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'>
 				<div>
 					<h3 className='text-3xl text-p-blue'>Editar perfil</h3>
 				</div>
 				<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-					<form>
+					<form onSubmit={updateUserProfile}>
 						<div className='mt-4 '>
-							<label
-								htmlFor='name'
-								className='block text-sm font-medium text-p-blue mb-2'
-							>
-								Nombre
-							</label>
-							<div className='flex flex-col items-start relative'>
-								<input
-									type='text'
-									name='old_password'
-									className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-									placeholder='Nombre'
-								/>
-							</div>
+							<Input
+								id='name'
+								label='Nombre'
+								placeholder='Nombre'
+								value={name}
+								onChange={onInputChange}
+							/>
 						</div>
 						<div className='mt-4 '>
-							<label
-								htmlFor='first_last_name'
-								className='block text-sm font-medium text-p-blue mb-2'
-							>
-								Primer apellido
-							</label>
-							<div className='flex flex-col items-start relative'>
-								<input
-									type='text'
-									name='first_last_name'
-									className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-									placeholder='Nombre'
-								/>
-							</div>
+							<Input
+								id='firstLastName'
+								label='Primer apellido'
+								placeholder='Primer apellido'
+								value={firstLastName}
+								onChange={onInputChange}
+							/>
 						</div>
 						<div className='mt-4 '>
-							<label
-								htmlFor='second_last_name'
-								className='block text-sm font-medium text-p-blue mb-2'
-							>
-								Segundo apellido
-							</label>
-							<div className='flex flex-col items-start relative'>
-								<input
-									type='text'
-									name='second_last_name'
-									className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-									placeholder='Nombre'
-								/>
-							</div>
+							<Input
+								id='secondLastName'
+								label='Segundo apellido'
+								placeholder='Segundo apellido'
+								value={secondLastName}
+								onChange={onInputChange}
+							/>
 						</div>
-						<div className='mt-4 '>
-							<label
-								htmlFor='email'
-								className='block text-sm font-medium text-p-blue mb-2'
-							>
-								Correo electrónico
-							</label>
-							<div className='flex flex-col items-start relative'>
-								<input
-									type='email'
-									name='email'
-									className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
-									placeholder='Nombre'
-								/>
-							</div>
+						<div className='mt-4 mb-6'>
+							<Input
+								id='email'
+								label='Correo electrónico'
+								placeholder='Correo electrónico'
+								value={email}
+								onChange={onInputChange}
+							/>
 						</div>
-						<button
-							type='submit'
-							className='text-p-white bg-p-purple mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-						>
-							Editar
-						</button>
+						<div className='mt-6'>
+							<SubmitButton
+								isLoading={isLoadingUpdateProfile}
+								text='Guardar cambios'
+							/>
+						</div>
 					</form>
 				</div>
 			</div>

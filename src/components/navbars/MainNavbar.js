@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
 	Bars3Icon,
@@ -8,19 +10,44 @@ import {
 } from '@heroicons/react/24/outline'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import Navlink from '../Navlink'
-import { NavLink } from 'react-router-dom'
 import {
 	adminUserLinks,
 	generalUserLinks,
 	notifications,
-	profileLinks,
+	profileAdminLinks,
+	profileGeneralLinks,
 } from './navbarLinks'
-// import { Link } from 'react-router-dom'
+import {
+	removeCredentials,
+	selectFullName,
+	selectIsAdmin,
+	selectIsAuthenticated,
+} from '../../features/authSlice'
+import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
+import Notification from '../Notifications'
+import { useLogoutMutation } from '../../app/services/authApi'
 
 function AdminUserNavbar() {
-	const role = 'Admin'
+	const dispatch = useDispatch()
 
-	return (
+	const [getNotifications, { data: notification, isSuccess, isError }] =
+		useLazyGetNotificationsQuery()
+
+	const [logout, { isLoading: isLoggingOut }] = useLogoutMutation()
+
+	const handleLogout = () => {
+		logout().unwrap().catch()
+		dispatch(removeCredentials())
+	}
+
+	useEffect(() => {
+		getNotifications()
+	}, [isSuccess])
+
+	const isAdmin = useSelector(selectIsAdmin)
+	const isAuthenticated = useSelector(selectIsAuthenticated)
+	const userName = useSelector(selectFullName)
+	return isAuthenticated ? (
 		<Disclosure
 			as='nav'
 			className='bg-p-blue text-p-white '
@@ -58,15 +85,21 @@ function AdminUserNavbar() {
 											leaveTo='transform scale-95 opacity-0'
 										>
 											<Menu.Items className='fixed sm:absolute sm:text-left text-center space-y-2 sm:space-y-1 h-screen sm:h-auto mt-3 right-0 px-2 z-10 sm:mt-2 w-screen sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-												{role === 'Admin'
+												{isAdmin
 													? adminUserLinks.map(link => (
 															<Menu.Item key={link.label}>
-																<Navlink to={link.to}>{link.label}</Navlink>
+																<Navlink
+																	to={link.to}
+																	text={link.label}
+																/>
 															</Menu.Item>
 													  ))
 													: generalUserLinks.map(link => (
 															<Menu.Item key={link.label}>
-																<Navlink to={link.to}>{link.label}</Navlink>
+																<Navlink
+																	to={link.to}
+																	text={link.label}
+																/>
 															</Menu.Item>
 													  ))}
 											</Menu.Items>
@@ -79,35 +112,41 @@ function AdminUserNavbar() {
 							<div className='flex flex-shrink-0 items-center ml-3'>Logo</div>
 							<div className='hidden sm:ml-6 sm:block'>
 								<div className='flex flex-row '>
-									{role === 'Admin'
+									{isAdmin
 										? adminUserLinks.map(link => (
 												<div
 													key={link.label}
-													className='px-3 py-10 text-sm lg:text-lg'
+													className='px-3 text-sm lg:text-lg'
 												>
-													<Navlink to={link.to}>{link.label}</Navlink>
+													<Navlink
+														to={link.to}
+														text={link.label}
+													/>
 												</div>
 										  ))
 										: generalUserLinks.map(link => (
 												<div
 													key={link.label}
-													className='px-3 py-1 hover:bg-p-silver rounded '
+													className='px-3 hover:bg-p-silver rounded '
 												>
-													<Navlink to={link.to}>{link.label}</Navlink>
+													<Navlink
+														to={link.to}
+														text={link.label}
+													/>
 												</div>
 										  ))}
 								</div>
 							</div>
 						</div>
 						<div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-							{role !== 'Admin' ? (
+							{!isAdmin ? (
 								<Menu
 									as='div'
 									className='relative ml-3'
 								>
 									<Menu.Button
 										type='button'
-										className='flex rounded-full p-1 focus:outline-none focus:ring-1 focus:ring-offset-1'
+										className='flex rounded-full p-1 hover:bg-p-silver'
 									>
 										<BellAlertIcon
 											className='h-6 w-6'
@@ -124,19 +163,14 @@ function AdminUserNavbar() {
 										leaveFrom='transform scale-100 opacity-100'
 										leaveTo='transform scale-95 opacity-0'
 									>
-										<Menu.Items className='fixed sm:absolute sm:text-left text-center space-y-2 sm:space-y-1 divide-y sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-80 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-											{notifications.map(notification => (
-												<Menu.Item key={notification.label}>
-													<div>
-														<p className='font-fira-medium'>
-															{notification.label}
-														</p>
-														<span className='font-fira text-p-silver'>
-															{notification.description}
-														</span>
-													</div>
-												</Menu.Item>
-											))}
+										<Menu.Items className='fixed sm:absolute overflow-y-scroll sm:text-left text-center sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-96 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+											<div className='h-80 space-y-2 sm:space-y-1 divide-y flex flex-col'>
+												{notifications.map(notification => (
+													<Menu.Item key={notification.label}>
+														<Notification notification={notification} />
+													</Menu.Item>
+												))}
+											</div>
 										</Menu.Items>
 									</Transition>
 								</Menu>
@@ -146,9 +180,10 @@ function AdminUserNavbar() {
 								className='relative ml-3'
 							>
 								<div>
-									<Menu.Button className='flex items-center focus:outline-none rounded-full focus:ring-1 focus:ring-offset-1 '>
+									<Menu.Button className='flex  items-center focus:outline-none rounded-full hover:bg-p-silver'>
 										<UserCircleIcon className='h-8 w-8 rounded-full' />
-										<ChevronDownIcon className='h-3 w-3' />
+										<p className='mx-1 lg:text-base text-sm '>{userName}</p>
+										<ChevronDownIcon className='h-4 w-4' />
 									</Menu.Button>
 								</div>
 								<Transition
@@ -161,16 +196,32 @@ function AdminUserNavbar() {
 									leaveTo='transform scale-95 opacity-0'
 								>
 									<Menu.Items className='fixed sm:absolute text-center space-y-2 sm:space-y-1 divide-y sm:border h-screen sm:h-auto right-0 z-10 mt-4 sm:mt-2 w-screen sm:w-48 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+										{isAdmin
+											? profileAdminLinks.map(link => (
+													<Menu.Item key={link.label}>
+														<Navlink
+															to={link.to}
+															text={link.label}
+														/>
+													</Menu.Item>
+											  ))
+											: profileGeneralLinks.map(link => (
+													<Menu.Item key={link.label}>
+														<Navlink
+															to={link.to}
+															text={link.label}
+														/>
+													</Menu.Item>
+											  ))}
 										<Menu.Item>
-											<div className='block px-4 py-2 hover:bg-p-silver rounded mb-2'>
-												<p>Pancho panchito</p>
-											</div>
+											<button
+												disabled={isLoggingOut}
+												onClick={handleLogout}
+												className='text-p-silver hover:text-p-blue block px-4 py-2 hover:bg-p-silver rounded w-full'
+											>
+												Cerrar sesión
+											</button>
 										</Menu.Item>
-										{profileLinks.map(link => (
-											<Menu.Item key={link.label}>
-												<Navlink to={link.to}>{link.label}</Navlink>
-											</Menu.Item>
-										))}
 									</Menu.Items>
 								</Transition>
 							</Menu>
@@ -179,7 +230,7 @@ function AdminUserNavbar() {
 				</div>
 			</>
 		</Disclosure>
-	)
+	) : null
 }
 
 export default AdminUserNavbar

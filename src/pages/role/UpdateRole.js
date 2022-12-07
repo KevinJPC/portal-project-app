@@ -1,63 +1,116 @@
-import React, { useState } from 'react'
+import React from 'react'
+import Input from '../../components/inputs/TextInput'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import ModalWindow from '../../components/ModalWindow'
+import SubmitButton from '../../components/buttons/SubmitButton'
+import ClickButton from '../../components/buttons/ClickButton'
+import useForm from '../../hooks/useForm'
+import useRole from '../../hooks/useRole'
+
 const UpdateRole = () => {
-	const [showModal, setShowModal] = useState(false)
+	const { id } = useParams()
+
+	const {
+		formState,
+		name,
+		description,
+		showModal,
+		onInputChange,
+		changeFormState,
+		closeModal,
+		openModal,
+	} = useForm({
+		id,
+		name: '',
+		nameSlug: '',
+		description: '',
+	})
+
+	const {
+		updateProps: {
+			updateRoleData,
+			isLoadingUpdateRole,
+			inactivateSelectedRole,
+			isLoadingInactivateRole,
+		},
+		getRoleInformation,
+		isSuccessGetRole,
+		roleData,
+	} = useRole({ ...formState }, id)
+
+	useEffect(() => {
+		getRoleInformation()
+	}, [roleData])
+
+	useEffect(() => {
+		if (isSuccessGetRole) {
+			changeFormState({
+				name: roleData?.data.role.name,
+				nameSlug: roleData?.data.role.nameSlug,
+				description: roleData?.data.role.description,
+			})
+		}
+	}, [isSuccessGetRole])
+
 	return (
 		<div>
 			<div className=' mt-16'>
 				<div className='flex flex-col items-center pt-6 justify-center sm:pt-0'>
 					<div>
-						<h3 className='text-3xl text-p-blue'>Registrar Rol</h3>
+						<h3 className='text-3xl text-p-blue'>Modificar Rol</h3>
 					</div>
 					<div className='w-full px-6 py-4 mt-1 overflow-hidde max-w-xs sm:max-w-md'>
-						<form>
+						<form onSubmit={updateRoleData}>
 							<div className='mt-4 '>
-								<label
-									htmlFor='name'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Nombre
-								</label>
 								<div className='flex flex-col items-start relative'>
-									<input
-										type='text'
-										name='name'
-										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
+									<Input
+										id='name'
+										label='Nombre'
 										placeholder='Nombre'
+										value={name}
+										onChange={e =>
+											changeFormState({
+												name: e.target.value,
+												nameSlug: e.target.value
+													.toLowerCase()
+													.replaceAll(' ', '-'),
+											})
+										}
 									/>
 								</div>
 							</div>
-
 							<div className='mt-4 '>
-								<label
-									htmlFor='description'
-									className='block text-sm font-medium text-p-blue mb-2'
-								>
-									Descripción
-								</label>
 								<div className='flex flex-col items-start relative'>
-									<textarea
-										type='text'
-										name='description'
-										className=' w-full mt-1 rounded-md shadow-sm bg-p-silver p-2'
+									<Input
+										id='description'
+										value={description}
+										label='Descripción'
 										placeholder='Descripción'
+										onChange={onInputChange}
 									/>
 								</div>
 							</div>
-							<button
-								type='button'
-								className='text-p-white bg-p-red mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-								onClick={() => setShowModal(true)}
-							>
-								Desactivar
-							</button>
-							{showModal ? <ModalWindow setShowModal={setShowModal} /> : null}
-							<button
-								type='submit'
-								className='text-p-white bg-p-purple mt-7 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center'
-							>
-								Editar
-							</button>
+							<ClickButton
+								isLoading={isLoadingInactivateRole}
+								text='Desactivar'
+								func={openModal}
+								color='red'
+							/>
+							{showModal ? (
+								<ModalWindow
+									text='¿Está seguro de inactivar este registro?'
+									buttonText='Desactivar'
+									setShowModal={closeModal}
+									onDialog={inactivateSelectedRole}
+								/>
+							) : null}
+							<div className='mt-3'>
+								<SubmitButton
+									isLoading={isLoadingUpdateRole}
+									text='Guardar cambios'
+								/>
+							</div>
 						</form>
 					</div>
 				</div>

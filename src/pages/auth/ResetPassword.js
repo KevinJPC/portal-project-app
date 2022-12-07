@@ -7,8 +7,11 @@ import {
 import SubmitButton from '../../components/buttons/SubmitButton'
 import PasswordInput from '../../components/inputs/PasswordInput'
 import Spinner from '../../components/Spinner'
+import useAlert from '../../hooks/useAlert'
 
 function ResetPassword() {
+	const { successAlert, errorAlert } = useAlert()
+
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
 
@@ -44,11 +47,15 @@ function ResetPassword() {
 		e.preventDefault()
 		resetPassword(values)
 			.unwrap()
-			.then(() => navigate('/', { replace: true }))
+			.then(data => {
+				successAlert(data)
+				navigate('/', { replace: true })
+			})
 			.catch(err => handleRedirectOnInvalidToken(err))
 	}
 
 	const handleRedirectOnInvalidToken = err => {
+		errorAlert(err)
 		if (err.status === 410)
 			navigate('/restablecer-contrasena', { replace: true })
 	}

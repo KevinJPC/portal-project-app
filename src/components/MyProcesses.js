@@ -1,50 +1,53 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { format } from 'date-fns'
+import useParseTo from '../hooks/useParseTo'
 
-function MyProcesses({
-	name,
-	creationDate,
-	activitynow,
-	percentageAdvance,
-	buttonText,
-	route,
-}) {
+function MyProcesses({ userProcesses }) {
+	const { name, startedAt, finishedAt, enabledActivity, status, id } =
+		userProcesses
+	const { parseToDate } = useParseTo()
+
 	return (
-		<div className='flex flex-col pt-2'>
+		<div className='flex flex-col pt-2 sm:pt-0 md:px-10 mt-4'>
 			<div className='flex justify-center py-4'>
-				<div className='w-3/4 bg-p-gray rounded'>
-					<div className='sm:grid md:grid-cols-4 text-center justify-items-center gap-2 sm:px-32 '>
-						<div className='p-6 px-1 break-words text-p-blue'>
-							<p className='text-ms  font-fira-medium font-medium leading-5'>
-								Nombre del proceso
+				<div className='w-auto bg-p-gray rounded'>
+					<div className='md:grid md:grid-cols-5 text-center items-center justify-items-center px-2 py-6 md:py-1'>
+						<div className='p-6 px-1 break-words text-p-blue md:text-left'>
+							<p className='text-ms font-fira-medium font-medium leading-5'>
+								Nombre
 							</p>
 							<p className='text-center leading-normal pt-2'>{name}</p>
 						</div>
-						<div className='p-6 px-1 break-words text-p-blue'>
-							<p className='text-ms font-fira-medium font-medium leading-5'>
-								Fecha de creacción
+						<div className='p-6 px-9 break-words text-p-blue '>
+							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
+								Estado
 							</p>
-							<p className='text-center leading-normal pt-2'>{creationDate}</p>
+							<p className='flex justify-center text-sm leading-normal py-1 px-2 bg-p-purple rounded-full text-p-white'>
+								En progreso
+							</p>
 						</div>
 						<div className='p-6 px-1 break-words text-p-blue '>
 							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
 								Actividad actual
 							</p>
-							<p className='text-sm leading-normal pt-2'>{activitynow}</p>
+							<p className='text-sm leading-normal pt-2'>{enabledActivity}</p>
 						</div>
-						<div className='p-4 px-1 break-words text-p-blue '>
-							<p className='text-ms font-medium leading-5 break-words font-fira-medium'>
-								Avance porcentual
+						<div className='p-6 px-1 break-words text-p-blue'>
+							<p className='text-ms font-fira-medium font-medium leading-5'>
+								Fecha de inicio
 							</p>
-							<p className='text-sm leading-normal pt-2'>{percentageAdvance}</p>
+							<p className='text-center leading-normal pt-2'>
+								{parseToDate(startedAt)}
+							</p>
 						</div>
-						<div className='p-8 text-center'>
+						<div className='p-8 '>
 							<Link
-								to={route}
-								className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm'
+								to={`${id}`}
+								className='text-p-white md:flex bg-p-purple text-center font-medium rounded-lg text-xs md:text-sm p-1.5 px-10 py-3 md:mr-2'
 							>
-								{buttonText}
+								Más información
 							</Link>
 						</div>
 					</div>
@@ -54,12 +57,7 @@ function MyProcesses({
 	)
 }
 MyProcesses.propTypes = {
-	name: PropTypes.string,
-	description: PropTypes.string,
-	activitynow: PropTypes.string,
-	percentageAdvance: PropTypes.string,
-	buttonText: PropTypes.string,
-	route: PropTypes.string,
+	userProcesses: PropTypes.object,
 }
 
 export default MyProcesses

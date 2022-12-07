@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 function NonRequireAuth({ isAuthenticated, isTokenValidated, isAdmin, state }) {
 	if (!isTokenValidated)
 		return (
-			<div className='w-full flex flex-col justify-center -mt-16'>
+			<div className='w-full flex flex-grow items-center justify-center -mt-16'>
 				<Spinner />
 			</div>
 		)

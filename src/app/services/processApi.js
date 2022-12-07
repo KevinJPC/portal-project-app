@@ -3,21 +3,33 @@ import { providesList } from './tagProvider'
 
 export const processApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
+		getSearchProcess: builder.query({
+			query: processName => `processes/search/${processName}`,
+			providesTags: result =>
+				providesList(result.data.searchProcesses.data, 'Process'),
+		}),
 		getActivesProcess: builder.query({
-			query: () => 'processes/actives',
-			providesTags: result => providesList(result, 'Process'),
+			query: pageNum => `processes/actives?page=${pageNum}`,
+			providesTags: result =>
+				providesList(result.data.activeProcesses.data, 'Process'),
 		}),
 		getInactivesProcess: builder.query({
-			query: () => 'processes/inactives',
-			providesTags: result => providesList(result, 'Process'),
+			query: pageNum => `processes/inactives?page=${pageNum}`,
+			providesTags: result =>
+				providesList(result.data.inactiveProcesses.data, 'Process'),
 		}),
 		getProcessById: builder.query({
 			query: processId => `processes/${processId}`,
 			providesTags: (result, error, arg) => [{ type: 'Process', id: arg }],
 		}),
 		getVisiblesProcess: builder.query({
-			query: () => 'processes/visibles',
-			providesTags: result => providesList(result, 'Process'),
+			query: pageNum => `processes/visibles?page=${pageNum}`,
+			providesTags: result =>
+				providesList(result.data.userProcesses.data, 'Process'),
+		}),
+		getSeSuiteProcesses: builder.query({
+			query: () => `processes/sesuite`,
+			providesTags: result => providesList(result.data, 'Process'),
 		}),
 		addNewProcess: builder.mutation({
 			query: process => ({
@@ -59,10 +71,19 @@ export const processApi = portalApi.injectEndpoints({
 })
 
 export const {
+	useGetSearchUserProcessQuery,
+	useLazyGetSearchUserProcessQuery,
+	useLazyGetSearchProcessQuery,
+	useGetSearchProcessQuery,
 	useGetActivesProcessQuery,
+	useLazyGetActivesProcessQuery,
 	useGetInactivesProcessQuery,
+	useLazyGetInactivesProcessQuery,
 	useGetProcessByIdQuery,
-	useGetVisiblesProcessQuery,
+	useLazyGetProcessByIdQuery,
+	useLazyGetVisiblesProcessQuery,
+	useGetSeSuiteProcessesQuery,
+	useLazyGetSeSuiteProcessesQuery,
 	useAddNewProcessMutation,
 	useUpdateProcessMutation,
 	useInactivateProcessMutation,

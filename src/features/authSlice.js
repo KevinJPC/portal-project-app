@@ -25,10 +25,10 @@ export const authSlice = createSlice({
 			sessionStorage.setItem('token', state.token)
 		},
 		removeCredentials: state => {
-			state.user = null
+			state.user = initialState.user
 			state.token = null
 			state.isAuthenticated = false
-			state.isTokenValidated = false
+			state.isTokenValidated = true
 			sessionStorage.removeItem('token')
 		},
 		setIsTokenValidated: (state, action) => {
@@ -42,11 +42,7 @@ export const { setCredentials, removeCredentials, setIsTokenValidated } =
 
 export const selectToken = state => state.auth.token
 export const selectFullName = state =>
-	[
-		state.auth.user.name,
-		state.auth.user.firstLastName,
-		state.auth.user.secondLastName,
-	].join(' ')
+	[state.auth.user.name, state.auth.user.firstLastName].join(' ')
 export const selectRole = state => state.auth.user.role
 export const selectUser = state => state.auth.user
 export const selectIsAdmin = state => state.auth.user.isAdmin

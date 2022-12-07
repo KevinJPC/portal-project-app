@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { camelizeKeys, decamelizeKeys } from 'humps'
+import { removeCredentials } from '../../features/authSlice'
+import { toast } from 'react-toastify'
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://127.0.0.1:8000/api/v1/',
@@ -15,11 +17,11 @@ const baseQuery = fetchBaseQuery({
 })
 
 /**
- * It takes an object, converts it to snake case, sends it to the API, and then converts the response
- * to camel case
+ * It takes an object, transforms it to snake case, sends it to the server, transforms the response to
+ * camel case and returns it. Also disconnects the authenticaded user if the access token is invalid
  * @param args - The arguments that will be passed to the API.
- * @param api - The name of the API.
- * @param extraOptions - This is an object that can contain the following keys:
+ * @param api - the API object that is created in the file where the query is called.
+ * @param extraOptions - {
  * @returns The result of the baseQuery function.
  */
 const baseQueryWithTransformations = async (args, api, extraOptions) => {
@@ -30,6 +32,11 @@ const baseQueryWithTransformations = async (args, api, extraOptions) => {
 	if (result?.data) result.data = camelizeKeys(result.data)
 	if (result?.error) result.error = camelizeKeys(result.error)
 
+	if (api.getState().auth.isAuthenticated && result?.error?.status === 401) {
+		api.dispatch(removeCredentials())
+		toast.error('La sesión ha caducado. Vuelve a iniciar sesion.')
+	}
+
 	return result
 }
 
@@ -38,6 +45,6 @@ export const portalApi = createApi({
 	baseQuery: baseQueryWithTransformations,
 	refetchOnFocus: true,
 	refetchOnReconnect: true,
-	tagTypes: ['User', 'Process', 'Role', 'Admin'],
+	tagTypes: ['User', 'Process', 'Role', 'Admin', 'Insider', 'Notifications'],
 	endpoints: builder => ({}),
 })

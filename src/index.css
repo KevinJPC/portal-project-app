@@ -14,6 +14,32 @@
 	}
 }
 
+@layer components {
+	.pagination {
+		list-style-type: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 5rem;
+		font-size: 1.2rem;
+		gap: 5px;
+	}
+	.pagination .page-num {
+		background-color: #a0aec0;
+		color: #fff;
+		padding: 8px 15px;
+		cursor: pointer;
+		border-radius: 3px;
+		font-weight: 400;
+	}
+	.pagination .page-num:hover {
+		background-color: #334155;
+	}
+	.pagination .active {
+		background-color: #334155;
+	}
+}
+
 /* A CSS hack to hide the password reveal button in IE. */
 ::-ms-reveal {
 	display: none;

@@ -6,8 +6,8 @@ function SubmitButton({ text, color = 'purple', isLoading = false }) {
 	return (
 		<button
 			className={`text-p-white h-12 rounded-lg w-full 
-			${color === 'purple' ? 'bg-p-purple shadow-purple' : null}
-			${color === 'red' ? 'bg-p-red shadow-red' : null}
+			${color === 'purple' ? 'bg-p-purple shadow-p-purple' : null}
+			${color === 'red' ? 'bg-p-red shadow-p-red' : null}
 			`}
 			type='submit'
 			disabled={isLoading}
@@ -19,7 +19,7 @@ function SubmitButton({ text, color = 'purple', isLoading = false }) {
 
 SubmitButton.propTypes = {
 	text: PropTypes.string.isRequired,
-	isLoading: PropTypes.bool.isRequired,
+	isLoading: PropTypes.bool,
 	color: PropTypes.string,
 }
 

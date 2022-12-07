@@ -1,42 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import loginImg from '../../assets/img/login.png'
 import Input from '../../components/inputs/TextInput'
 import PasswordInput from './../../components/inputs/PasswordInput'
 import SubmitButton from './../../components/buttons/SubmitButton'
 import { useLoginMutation } from '../../app/services/authApi'
-import Alert from '../../components/alerts/Alert'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../../features/authSlice'
+import useForm from '../../hooks/useForm'
+import useAlert from '../../hooks/useAlert'
 
 function Login() {
 	const dispatch = useDispatch()
 
-	const [login, { isLoading, isSuccess, data, isError, error }] =
-		useLoginMutation()
+	const [login, { isLoading }] = useLoginMutation()
 
-	const [values, setValues] = useState({
-		email: '',
-		password: '',
-	})
+	const { errorAlert } = useAlert()
 
-	const handleSetValues = () =>
-		setValues(prevValues => ({ ...prevValues, ...values }))
-
-	useEffect(() => {
-		if (isSuccess) dispatch(setCredentials(data.data))
-		if (isError) {
-			handleSetValues({ password: '' })
-		}
-	}, [isSuccess, isError])
+	const { formState, email, password, onInputChange, changeFormState } =
+		useForm({
+			email: '',
+			password: '',
+		})
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		login(values)
+		login(formState)
+			.unwrap()
+			.then(data => dispatch(setCredentials(data.data)))
+			.catch(err => {
+				changeFormState({ password: '' })
+				errorAlert(err)
+			})
 	}
 
 	return (
-		<div className='w-full flex flex-col lg:grid lg:grid-cols-2'>
+		<div className='w-full flex flex-col grow lg:grid lg:grid-cols-2'>
 			<div className='flex flex-col my-auto justify-center items-center'>
 				<div className='w-11/12 md:w-7/12 lg:w-9/12'>
 					<h1 className=' text-p-blue text-4xl font-fira-medium mb-4'>
@@ -45,14 +44,6 @@ function Login() {
 					<p className='text-p-silver font-fira-medium mb-7'>
 						Inicia sesión para acceder a tu cuenta del portal
 					</p>
-					<div className='mb-7'>
-						{isError && (
-							<Alert
-								type='error'
-								message={error.data?.message}
-							/>
-						)}
-					</div>
 					<form
 						className='flex flex-col'
 						onSubmit={handleSubmit}
@@ -62,17 +53,15 @@ function Login() {
 								id='email'
 								label='Correo electrónico'
 								placeholder='Correo electrónico'
-								value={values.email}
-								onChange={e => setValues({ ...values, email: e.target.value })}
+								value={email}
+								onChange={onInputChange}
 							/>
 							<PasswordInput
 								id='password'
 								label='Contraseña'
 								placeholder='Contraseña'
-								value={values.password}
-								onChange={e =>
-									setValues({ ...values, password: e.target.value })
-								}
+								value={password}
+								onChange={onInputChange}
 							/>
 						</div>
 						<Link
@@ -97,7 +86,7 @@ function Login() {
 					</p>
 				</div>
 			</div>
-			<div className='bg-p-red hidden lg:block'>
+			<div className='hidden lg:block'>
 				<img
 					className='h-full object-cover'
 					src={loginImg}

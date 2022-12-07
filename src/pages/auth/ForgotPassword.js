@@ -2,18 +2,21 @@ import React, { useState } from 'react'
 import SubmitButton from '../../components/buttons/SubmitButton'
 import Input from '../../components/inputs/TextInput'
 import { useForgotPasswordMutation } from '../../app/services/authApi'
+import useAlert from '../../hooks/useAlert'
 
 function ForgotPassword() {
 	const [values, setValues] = useState({
 		email: '',
 	})
 
+	const { errorAlert } = useAlert()
+
 	const [forgotPassword, { isSuccess, data, isLoading, error }] =
 		useForgotPasswordMutation()
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		forgotPassword(values)
+		forgotPassword(values).unwrap().catch(errorAlert)
 	}
 
 	return (

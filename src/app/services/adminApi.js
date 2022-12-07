@@ -3,16 +3,23 @@ import { providesList } from './tagProvider'
 
 export const adminApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
+		getSearchAdmin: builder.query({
+			query: searchParam => `admin/search/${searchParam}`,
+			providesTags: result =>
+				providesList(result.data.searchUsers.data, 'Admin'),
+		}),
 		getActivesAdmin: builder.query({
-			query: () => 'admin/actives',
-			providesTags: result => providesList(result, 'Admin'),
+			query: pageNum => `admin/actives?page=${pageNum}`,
+			providesTags: result =>
+				providesList(result.data.activeUsers.data, 'Admin'),
 		}),
 		getInactivesAdmin: builder.query({
-			query: () => 'admin/inactives',
-			providesTags: result => providesList(result, 'Admin'),
+			query: pageNum => `admin/inactives?page=${pageNum}`,
+			providesTags: result =>
+				providesList(result.data.inactiveUsers.data, 'Admin'),
 		}),
 		getAdminById: builder.query({
-			query: adminId => `admin/${adminId}`,
+			query: adminId => `users/${adminId}`,
 			providesTags: (result, error, arg) => [{ type: 'Admin', id: arg }],
 		}),
 		addNewAdmin: builder.mutation({
@@ -48,12 +55,16 @@ export const adminApi = portalApi.injectEndpoints({
 	}),
 })
 
-const {
+export const {
+	useLazyGetSearchAdminQuery,
 	useGetActivesAdminQuery,
+	useLazyGetActivesAdminQuery,
 	useGetInactivesAdminQuery,
-	useGetAdminByIdQuery,
+	useLazyGetInactivesAdminQuery,
+	useLazyGetAdminByIdQuery,
 	useAddNewAdminMutation,
 	useUpdateAdminMutation,
 	useInactivateAdminMutation,
 	useActivateAdminMutation,
+	useGetSearchAdminQuery,
 } = adminApi

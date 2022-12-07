@@ -2,11 +2,24 @@ import { portalApi } from './portalApi'
 
 export const authApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
+		registerUser: builder.mutation({
+			query: user => ({
+				url: `auth/register`,
+				method: 'POST',
+				body: { ...user },
+			}),
+		}),
 		login: builder.mutation({
 			query: credentials => ({
 				url: '/auth/login',
 				method: 'POST',
 				body: credentials,
+			}),
+		}),
+		logout: builder.mutation({
+			query: () => ({
+				url: '/auth/logout',
+				method: 'POST',
 			}),
 		}),
 		reconnect: builder.mutation({
@@ -40,7 +53,9 @@ export const authApi = portalApi.injectEndpoints({
 })
 
 export const {
+	useRegisterUserMutation,
 	useLoginMutation,
+	useLogoutMutation,
 	useReconnectMutation,
 	useForgotPasswordMutation,
 	useValidateResetTokenMutation,

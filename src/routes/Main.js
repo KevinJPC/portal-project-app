@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { authRoutes } from './auth'
-import { profileRoutes } from './profile'
+import { profileRoutes } from './generalProfile'
 import { rolesRoutes } from './roles'
 import { processesRoutes } from './processes'
 import { notFoundRoute } from './notFound'
@@ -11,6 +11,7 @@ import { userProcessesRoutes } from './userProcesses'
 import RequireAuth from '../components/auth/RequireAuth'
 import NonRequireAuth from '../components/auth/NonRequireAuth'
 import useAuth from '../hooks/useAuth'
+import { adminProfileRoutes } from './adminProfile'
 
 const MainRoutes = () => {
 	const { isAuthenticated, isTokenValidated, isAdmin } = useAuth()
@@ -63,6 +64,7 @@ const MainRoutes = () => {
 					/>
 				}
 			>
+				{adminProfileRoutes}
 				{userAdminsRoutes}
 				{processesRoutes}
 				{rolesRoutes}
