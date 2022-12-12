@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 function Notification({ notification }) {
-	// const [userProcessId, processName, activityName] = data
+	const { userProcessId, processName, activityName } = notification
 
 	return (
 		<div className='cursor-pointer hover:bg-p-silver/40 rounded-sm'>
-			<Link to=''>
-				<p className='font-fira-medium'>{notification.label}</p>
+			<Link to={`/mis-procesos/${userProcessId}`}>
+				<p className='font-fira-medium'>{processName}</p>
 				<span className='font-fira text-p-silver'>
-					Tiene tareas pendientes en este proceso
+					Tiene tareas pendientes en este proceso, en la actividad {activityName}
 				</span>
 			</Link>
 		</div>
