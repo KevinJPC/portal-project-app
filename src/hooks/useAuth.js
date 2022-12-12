@@ -65,7 +65,7 @@ function useAuth(formState = {}) {
 	return {
 		isAuthenticated,
 		isTokenValidated,
-		roleForRoutes,
+		isAdmin,
 		registerProps: { RegisterNewUser, isLoadingAddNewUser },
 	}
 }

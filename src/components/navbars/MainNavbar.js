@@ -26,6 +26,7 @@ import {
 import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
 import Notification from '../Notifications'
 import { useLogoutMutation } from '../../app/services/authApi'
+import { data } from 'autoprefixer'
 
 function AdminUserNavbar() {
 	const dispatch = useDispatch()
@@ -35,18 +36,23 @@ function AdminUserNavbar() {
 
 	const [logout, { isLoading: isLoggingOut }] = useLogoutMutation()
 
+	const isAdmin = useSelector(selectIsAdmin)
+	const isAuthenticated = useSelector(selectIsAuthenticated)
+	const userName = useSelector(selectFullName)
+
 	const handleLogout = () => {
 		logout().unwrap().catch()
 		dispatch(removeCredentials())
 	}
 
 	useEffect(() => {
-		getNotifications()
+		if (!isAdmin) {
+			getNotifications()
+		}
 	}, [isSuccess])
 
-	const isAdmin = useSelector(selectIsAdmin)
-	const isAuthenticated = useSelector(selectIsAuthenticated)
-	const userName = useSelector(selectFullName)
+	console.log(notification)
+
 	return isAuthenticated ? (
 		<Disclosure
 			as='nav'
@@ -152,7 +158,7 @@ function AdminUserNavbar() {
 											className='h-6 w-6'
 											aria-hidden='true'
 										/>
-										<p>{notifications.length}</p>
+										<p>{notification?.data.results}</p>
 									</Menu.Button>
 									<Transition
 										as={Fragment}
@@ -165,8 +171,8 @@ function AdminUserNavbar() {
 									>
 										<Menu.Items className='fixed sm:absolute overflow-y-scroll sm:text-left text-center sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-96 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
 											<div className='h-80 space-y-2 sm:space-y-1 divide-y flex flex-col'>
-												{notifications.map(notification => (
-													<Menu.Item key={notification.label}>
+												{notification?.data.notifications.map(notification => (
+													<Menu.Item key={notification.userProcessId}>
 														<Notification notification={notification} />
 													</Menu.Item>
 												))}
