@@ -23,7 +23,7 @@ import {
 	selectRoleForRoutes,
 } from '../../features/authSlice'
 import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
-import Notification from '../Notifications'
+import Notification from '../Notification'
 
 function AdminUserNavbar() {
 	const [getNotifications, { data: notification, isSuccess, isError }] =

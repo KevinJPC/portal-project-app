@@ -59,7 +59,8 @@ const RegisterProcess = () => {
 	}, [isSuccessGetActivesRoles])
 
 	useEffect(() => {
-		changeFormState({ seOid: seSuiteProcesses?.data[0].seOid })
+		// console.log(seSuiteProcesses)
+		changeFormState({ seOid: seSuiteProcesses?.data[0]?.seOid })
 	}, [isSucessGetSeSuiteProcesses])
 
 	return (

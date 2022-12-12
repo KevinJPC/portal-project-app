@@ -59,7 +59,7 @@ function useRole() {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate(-1)
+						navigate('/admin/roles')
 					}, 2500))
 			)
 			.catch(error =>
@@ -81,7 +81,7 @@ function useRole() {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate('/role')
+						navigate('/admin/roles')
 					}, 2500))
 			)
 			.catch(error =>
@@ -103,7 +103,7 @@ function useRole() {
 					payload.success &&
 					(toast.success(payload.message),
 					setTimeout(() => {
-						navigate(-1)
+						navigate('/admin/roles')
 					}, 2500))
 			)
 			.catch(error => toast.error(error.data.message))

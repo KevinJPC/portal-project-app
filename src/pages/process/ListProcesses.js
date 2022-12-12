@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import {
-	useLazyGetSearchProcessQuery,
-	useLazyGetActivesProcessQuery,
-	useLazyGetInactivesProcessQuery,
-} from '../../app/services/processApi'
+import React, { useEffect } from 'react'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
-import Processes from '../../components/Processes'
+import Process from '../../components/Process'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
 import useList from '../../hooks/useList'
@@ -62,7 +57,7 @@ const ActivesProcesses = () => {
 					</div>
 				) : searchProcessData?.data.searchProcesses.total > 0 ? (
 					searchProcessData?.data.searchProcesses.data.map(process => (
-						<Processes
+						<Process
 							key={process.id}
 							processes={process}
 							buttonText='Modificar'
@@ -79,7 +74,7 @@ const ActivesProcesses = () => {
 					</div>
 				) : activesProcesses?.data.activeProcesses.total > 0 ? (
 					activesProcesses?.data.activeProcesses.data.map(process => (
-						<Processes
+						<Process
 							key={process.id}
 							processes={process}
 							buttonText='Modificar'
@@ -95,7 +90,7 @@ const ActivesProcesses = () => {
 				</div>
 			) : inactivesProcesses?.data.inactiveProcesses.total > 0 ? (
 				inactivesProcesses?.data.inactiveProcesses.data.map(process => (
-					<Processes
+					<Process
 						key={process.id}
 						processes={process}
 						buttonText='Activar'
