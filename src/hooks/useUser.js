@@ -7,7 +7,7 @@ import {
 } from '../app/services/userApi'
 import { selectUser } from '../features/authSlice'
 
-function useUser(onResetForm, formState = {}) {
+function useUser(formState = {}, onResetForm) {
 	const userData = useSelector(selectUser)
 	const [updatePassword, { isloading: isLoadingUpdatePassword }] =
 		useUpdateUserPasswordMutation()
@@ -23,14 +23,10 @@ function useUser(onResetForm, formState = {}) {
 		updatePassword(formState)
 			.unwrap()
 			.then(
-				payload => payload.success && toast.success(payload.message),
-				onResetForm()
+				payload =>
+					payload.success && (toast.success(payload.message), onResetForm())
 			)
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.catch(error => toast.error(error.data.message))
 	}
 
 	/**
@@ -62,8 +58,8 @@ function useUser(onResetForm, formState = {}) {
 }
 
 useUser.propTypes = {
-	onResetForm: PropTypes.func,
 	formState: PropTypes.object,
+	onResetForm: PropTypes.func,
 }
 
 export default useUser

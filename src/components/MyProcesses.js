@@ -2,12 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
+import useParseTo from '../hooks/useParseTo'
 
 function MyProcesses({ userProcesses }) {
 	const { name, startedAt, finishedAt, enabledActivity, status, id } =
 		userProcesses
-	const dateStarted = format(new Date(startedAt), 'dd/MM/yyyy')
-	const dateFinished = format(new Date(finishedAt), 'dd/MM/yyyy')
+	const { parseToDate } = useParseTo()
+
 	return (
 		<div className='flex flex-col pt-2 sm:pt-0 md:px-10 mt-4'>
 			<div className='flex justify-center py-4'>
@@ -37,7 +38,9 @@ function MyProcesses({ userProcesses }) {
 							<p className='text-ms font-fira-medium font-medium leading-5'>
 								Fecha de inicio
 							</p>
-							<p className='text-center leading-normal pt-2'>{dateStarted}</p>
+							<p className='text-center leading-normal pt-2'>
+								{parseToDate(startedAt)}
+							</p>
 						</div>
 						<div className='p-8 '>
 							<Link

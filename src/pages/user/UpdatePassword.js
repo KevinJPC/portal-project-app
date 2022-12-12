@@ -1,6 +1,5 @@
 import PasswordInput from '../../components/inputs/PasswordInput'
 import SubmitButton from '../../components/buttons/SubmitButton'
-import Alert from '../../components/alerts/Alert'
 import useForm from '../../hooks/useForm'
 import useUser from '../../hooks/useUser'
 
@@ -20,7 +19,7 @@ const UpdatePassword = () => {
 
 	const {
 		passwordProps: { isLoadingUpdatePassword, updateUserPassword },
-	} = useUser({ formState, onResetForm })
+	} = useUser({ ...formState }, onResetForm)
 
 	return (
 		<div className=' mt-16 w-full'>

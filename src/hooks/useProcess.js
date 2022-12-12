@@ -11,6 +11,7 @@ import {
 	useLazyGetProcessByIdQuery,
 	useLazyGetSearchProcessQuery,
 	useLazyGetSeSuiteProcessesQuery,
+	useLazyGetVisiblesProcessQuery,
 	useUpdateProcessMutation,
 } from '../app/services/processApi'
 import useParseTo from './useParseTo'
@@ -57,6 +58,14 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		searchProcess,
 		{ data: searchProcessData, isLoading: isLoadingSearchProcess },
 	] = useLazyGetSearchProcessQuery()
+	const [
+		getVisiblesProcess,
+		{
+			data: visiblesProcesses,
+			isSuccess: isSuccessGetVisiblesProcesses,
+			isLoading: isLoadingGetVisiblesProcesses,
+		},
+	] = useLazyGetVisiblesProcessQuery()
 
 	const [selectedRole, setSelectedRole] = useState({})
 	const [isEmptyContainer, setIsEmptyContainer] = useState(false)
@@ -135,44 +144,71 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 
 	/**
 	 *  Receives the id of the process and call the rtk query function of activate process
+	 * 	and then does some stuff with the promise to send a notification of success.
 	 */
 	const activateSelectedProcess = idProcess => {
 		activateProcess(parseToInteger(idProcess))
-		// .unwrap()
-		// .then(
-		// 	payload =>
-		// 		payload.success &&
-		// 		(toast.success(payload.message),
-		// 		setTimeout(() => {
-		// 			navigate(-1)
-		// 		}, 2500))
-		// )
+			.unwrap()
+			.then(payload => payload.success && toast.success(payload.message))
 	}
 
 	const getProcessInformation = () => {
 		getProcessData(parseToInteger(id))
 	}
 
+	/**
+	 *  Call the rtk query function of get active process
+	 * 	@param pageNum - The page number to get the data from.
+	 */
 	const getActivesProcessesData = (pageNum = 1) => {
 		getActivesProcesses(pageNum)
 	}
 
+	/**
+	 *  Call the rtk query function of get inactive process
+	 * 	@param pageNum - The page number to get the data from.
+	 */
 	const getInactivesProcessesData = (pageNum = 1) => {
 		getInactivesProcesses(pageNum)
 	}
 
+	/**
+	 *  Call the rtk query function of get the visibles processes to the role of the current user
+	 * 	@param pageNum - The page number to get the data from.
+	 */
+	const getVisiblesProcessesData = (pageNum = 1) => {
+		getVisiblesProcess(pageNum)
+	}
+
+	/**
+	 *  Call the rtk query function of get the SE Suite processes elegible to
+	 * 	display in the portal
+	 */
 	const getSeSuiteProcessesData = () => {
 		getSeSuiteProcesses()
 	}
 
-	const preloadSelectedRole = state => {
-		setSelectedRole(state)
+	/**
+	 * 	Load the first role from the array of the active roles
+	 * 	@param role - Object with the id and name of the first role
+	 */
+	const preloadSelectedRole = role => {
+		setSelectedRole(role)
 	}
 
-	const preloadRolesOfProcess = state => {
-		setRolesOfProcess(state)
+	/**
+	 * 	Load all the roles that are linked to the process
+	 * 	@param roles - Array of objects of roles
+	 */
+	const preloadRolesOfProcess = roles => {
+		setRolesOfProcess(roles)
 	}
 
+	/**
+	 * 	Filters from the array of active roles the role that has the same id as the
+	 * 	selected role, and sets the selectedRole state to the filtered role.
+	 * 	@param e - Event object and gets the value (role id)
+	 */
 	const handleChangeRole = e => {
 		const value = rolesData?.data.roles.data.filter(
 			role => role.id === parseToInteger(e.target.value)
@@ -180,6 +216,11 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		setSelectedRole({ id: value[0].id, name: value[0].name })
 	}
 
+	/**
+	 * 	When the user changes the value of the select element, filter the data in the seSuiteProcesses
+	 * 	object to find the matching seOid and then update the form state with the new value.
+	 * 	@param e - Event object and gets the value (process seOID)
+	 **/
 	const handleChangeProcess = e => {
 		const value = seSuiteProcesses?.data.filter(
 			process => process.seOid === e.target.value
@@ -187,6 +228,11 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		changeFormState({ seOid: value[0].seOid })
 	}
 
+	/**
+	 * 	If the selected role is not in the rolesOfProcess array, add it to the array, then gets
+	 *  the roles id of the rolesOfProcess array and update the form state with the roles id
+	 * 	and new role id added to the process.
+	 */
 	const addRoleToProcess = () => {
 		if (rolesOfProcess.some(role => role.id === selectedRole.id)) {
 			setIsEmptyContainer(true)
@@ -200,6 +246,11 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		}
 	}
 
+	/**
+	 *  Filter the rolesOfProcess array and returning a new array with the filtered roles and
+	 * 	sets the rolesOfProcess state with that roles and update the form state with the roles id
+	 * 	@param id - Role id
+	 */
 	const isDeletingRole = id => {
 		setRolesOfProcess(rolesOfProcess.filter(role => role.id !== id))
 		const ids = rolesOfProcess
@@ -240,6 +291,10 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 			searchProcess,
 			searchProcessData,
 			isLoadingSearchProcess,
+			getVisiblesProcessesData,
+			visiblesProcesses,
+			isSuccessGetVisiblesProcesses,
+			isLoadingGetVisiblesProcesses,
 		},
 		info: {
 			getSeSuiteProcessesData,

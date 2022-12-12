@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
 	Bars3Icon,
@@ -15,23 +17,34 @@ import {
 	profileAdminLinks,
 	profileGeneralLinks,
 } from './navbarLinks'
-import { useSelector } from 'react-redux'
 import {
+	removeCredentials,
 	selectFullName,
+	selectIsAdmin,
 	selectIsAuthenticated,
-	selectRoleForRoutes,
 } from '../../features/authSlice'
 import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
-import { useEffect } from 'react'
+import Notification from '../Notifications'
+import { useLogoutMutation } from '../../app/services/authApi'
 
 function AdminUserNavbar() {
+	const dispatch = useDispatch()
+
 	const [getNotifications, { data: notification, isSuccess, isError }] =
 		useLazyGetNotificationsQuery()
+
+	const [logout, { isLoading: isLoggingOut }] = useLogoutMutation()
+
+	const handleLogout = () => {
+		logout().unwrap().catch()
+		dispatch(removeCredentials())
+	}
+
 	useEffect(() => {
 		getNotifications()
 	}, [isSuccess])
-	console.log(notification)
-	const role = useSelector(selectRoleForRoutes)
+
+	const isAdmin = useSelector(selectIsAdmin)
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const userName = useSelector(selectFullName)
 	return isAuthenticated ? (
@@ -72,7 +85,7 @@ function AdminUserNavbar() {
 											leaveTo='transform scale-95 opacity-0'
 										>
 											<Menu.Items className='fixed sm:absolute sm:text-left text-center space-y-2 sm:space-y-1 h-screen sm:h-auto mt-3 right-0 px-2 z-10 sm:mt-2 w-screen sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-												{role === 'admin'
+												{isAdmin
 													? adminUserLinks.map(link => (
 															<Menu.Item key={link.label}>
 																<Navlink
@@ -99,7 +112,7 @@ function AdminUserNavbar() {
 							<div className='flex flex-shrink-0 items-center ml-3'>Logo</div>
 							<div className='hidden sm:ml-6 sm:block'>
 								<div className='flex flex-row '>
-									{role === 'admin'
+									{isAdmin
 										? adminUserLinks.map(link => (
 												<div
 													key={link.label}
@@ -126,7 +139,7 @@ function AdminUserNavbar() {
 							</div>
 						</div>
 						<div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-							{role !== 'admin' ? (
+							{!isAdmin ? (
 								<Menu
 									as='div'
 									className='relative ml-3'
@@ -150,28 +163,11 @@ function AdminUserNavbar() {
 										leaveFrom='transform scale-100 opacity-100'
 										leaveTo='transform scale-95 opacity-0'
 									>
-										<Menu.Items className='fixed sm:absolute overflow-y-scroll sm:text-left text-center sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-80 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-											<div className='h-80 space-y-2 sm:space-y-1 divide-y'>
+										<Menu.Items className='fixed sm:absolute overflow-y-scroll sm:text-left text-center sm:border h-screen sm:h-auto right-0 px-2 z-10 mt-4 sm:mt-2 w-screen sm:w-96 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+											<div className='h-80 space-y-2 sm:space-y-1 divide-y flex flex-col'>
 												{notifications.map(notification => (
 													<Menu.Item key={notification.label}>
-														<div>
-															<ul>
-																<li>
-																
-																	<a
-																		href='#'
-																		class='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
-																	>
-																		<p className='font-fira-medium'>
-																			{notification.label}
-																		</p>
-																		<span className='font-fira text-p-silver'>
-																			{notification.description}
-																		</span>
-																	</a>
-																</li>
-															</ul>
-														</div>
+														<Notification notification={notification} />
 													</Menu.Item>
 												))}
 											</div>
@@ -200,7 +196,7 @@ function AdminUserNavbar() {
 									leaveTo='transform scale-95 opacity-0'
 								>
 									<Menu.Items className='fixed sm:absolute text-center space-y-2 sm:space-y-1 divide-y sm:border h-screen sm:h-auto right-0 z-10 mt-4 sm:mt-2 w-screen sm:w-48 origin-top-right sm:rounded-md bg-p-blue py-3 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-										{role === 'admin'
+										{isAdmin
 											? profileAdminLinks.map(link => (
 													<Menu.Item key={link.label}>
 														<Navlink
@@ -217,6 +213,15 @@ function AdminUserNavbar() {
 														/>
 													</Menu.Item>
 											  ))}
+										<Menu.Item>
+											<button
+												disabled={isLoggingOut}
+												onClick={handleLogout}
+												className='text-p-silver hover:text-p-blue block px-4 py-2 hover:bg-p-silver rounded w-full'
+											>
+												Cerrar sesión
+											</button>
+										</Menu.Item>
 									</Menu.Items>
 								</Transition>
 							</Menu>

@@ -4,15 +4,10 @@ import { Navigate } from 'react-router-dom'
 import Spinner from '../Spinner'
 import PropTypes from 'prop-types'
 
-function NonRequireAuth({
-	isAuthenticated,
-	isTokenValidated,
-	roleForRoutes,
-	state,
-}) {
+function NonRequireAuth({ isAuthenticated, isTokenValidated, isAdmin, state }) {
 	if (!isTokenValidated)
 		return (
-			<div className='w-full flex flex-col justify-center -mt-16'>
+			<div className='w-full flex flex-grow items-center justify-center -mt-16'>
 				<Spinner />
 			</div>
 		)
@@ -26,7 +21,7 @@ function NonRequireAuth({
 		)
 	}
 
-	if (isAuthenticated && roleForRoutes === 'admin')
+	if (isAuthenticated && isAdmin)
 		return (
 			<Navigate
 				to='/admin/procesos'
@@ -34,7 +29,7 @@ function NonRequireAuth({
 			/>
 		)
 
-	if (isAuthenticated && roleForRoutes === 'general')
+	if (isAuthenticated && !isAdmin)
 		return (
 			<Navigate
 				to='/procesos'
@@ -48,7 +43,7 @@ function NonRequireAuth({
 NonRequireAuth.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
 	isTokenValidated: PropTypes.bool.isRequired,
-	roleForRoutes: PropTypes.string.isRequired,
+	isAdmin: PropTypes.bool.isRequired,
 	state: PropTypes.object,
 }
 

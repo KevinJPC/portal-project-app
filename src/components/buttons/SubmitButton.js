@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '../Spinner'
 
-function SubmitButton({ text, color = 'purple', isLoading }) {
+function SubmitButton({ text, color = 'purple', isLoading = false }) {
 	return (
 		<button
 			className={`text-p-white h-12 rounded-lg w-full 

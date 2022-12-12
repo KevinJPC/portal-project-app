@@ -13,14 +13,16 @@ function useForm(initialState = {}) {
 	}
 
 	/**
-	 * Set & change the formState with data that we sent.
+	 * 	Set & change the formState with data that is sent.
+	 *  @param updatedStatate - The new state that is being set
 	 */
 	const changeFormState = updatedStatate => {
 		setFormState({ ...formState, ...updatedStatate })
 	}
 
 	/**
-	 * When the input value changes, update the form state specific target with the new value.
+	 * 	When the input value changes, update the form state specific target with the new value.
+	 *  @param e - Event object and unstruture the object to get the target
 	 */
 	const onInputChange = ({ target: { name, value } }) => {
 		setFormState({ ...formState, [name]: value })
@@ -30,7 +32,7 @@ function useForm(initialState = {}) {
 	 * 	Open de modal window
 	 */
 	const openModal = () => {
-		setShowModal(true)
+		setShowModal(!showModal)
 	}
 
 	/**

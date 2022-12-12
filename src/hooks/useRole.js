@@ -118,24 +118,26 @@ function useRole(formState = {}, id) {
 
 	/**
 	 *  Receives the id of the role and call the rtk query function of activate role
+	 *  and then does some stuff with the promise to send a notification of success.
 	 */
 	const activateSelectedRole = idRole => {
 		activateRole(parseToInteger(idRole))
-		// .unwrap()
-		// .then(
-		// 	payload =>
-		// 		payload.success &&
-		// 		(toast.success(payload.message),
-		// 		setTimeout(() => {
-		// 			navigate(-1)
-		// 		}, 2500))
-		// )
+			.unwrap()
+			.then(payload => payload.success && toast.success(payload.message))
 	}
 
+	/**
+	 *  Call the rtk query function of get active roles
+	 * 	@param pageNum - The page number to get the data from.
+	 */
 	const getActivesRolesData = (pageNum = 1) => {
 		getActivesRoles(pageNum)
 	}
 
+	/**
+	 *  Call the rtk query function of get inactive roles
+	 * 	@param pageNum - The page number to get the data from.
+	 */
 	const getInactivesRolesData = (pageNum = 1) => {
 		getInactivesRoles(pageNum)
 	}

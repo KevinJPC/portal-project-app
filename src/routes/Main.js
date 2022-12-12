@@ -14,7 +14,7 @@ import useAuth from '../hooks/useAuth'
 import { adminProfileRoutes } from './adminProfile'
 
 const MainRoutes = () => {
-	const { isAuthenticated, isTokenValidated, roleForRoutes } = useAuth()
+	const { isAuthenticated, isTokenValidated, isAdmin } = useAuth()
 	const location = useLocation()
 
 	return (
@@ -25,7 +25,7 @@ const MainRoutes = () => {
 					<NonRequireAuth
 						isAuthenticated={isAuthenticated}
 						isTokenValidated={isTokenValidated}
-						roleForRoutes={roleForRoutes}
+						isAdmin={isAdmin}
 						state={location?.state}
 					/>
 				}
@@ -33,14 +33,14 @@ const MainRoutes = () => {
 				{authRoutes}
 			</Route>
 
-			{/* General routes that requires authentication. */}
+			{/* User routes that requires authentication. */}
 			<Route
 				element={
 					<RequireAuth
 						isAuthenticated={isAuthenticated}
 						isTokenValidated={isTokenValidated}
-						roleForRoutes={roleForRoutes}
-						accessRole='general'
+						isAdmin={isAdmin}
+						restrictTo='user'
 						redirectPath='admin/procesos'
 						location={location}
 					/>
@@ -57,8 +57,8 @@ const MainRoutes = () => {
 					<RequireAuth
 						isAuthenticated={isAuthenticated}
 						isTokenValidated={isTokenValidated}
-						roleForRoutes={roleForRoutes}
-						accessRole='admin'
+						isAdmin={isAdmin}
+						restrictTo='admin'
 						redirectPath='mis-procesos'
 						location={location}
 					/>

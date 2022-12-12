@@ -2,11 +2,24 @@ import { portalApi } from './portalApi'
 
 export const authApi = portalApi.injectEndpoints({
 	endpoints: builder => ({
+		registerUser: builder.mutation({
+			query: user => ({
+				url: `auth/register`,
+				method: 'POST',
+				body: { ...user },
+			}),
+		}),
 		login: builder.mutation({
 			query: credentials => ({
 				url: '/auth/login',
 				method: 'POST',
 				body: credentials,
+			}),
+		}),
+		logout: builder.mutation({
+			query: () => ({
+				url: '/auth/logout',
+				method: 'POST',
 			}),
 		}),
 		reconnect: builder.mutation({
@@ -15,18 +28,36 @@ export const authApi = portalApi.injectEndpoints({
 				method: 'POST',
 			}),
 		}),
-		registerUser: builder.mutation({
-			query: user => ({
-				url: `auth/register`,
+		forgotPassword: builder.mutation({
+			query: ({ email }) => ({
+				url: '/password/forgot',
 				method: 'POST',
-				body: { ...user },
+				body: { email },
+			}),
+		}),
+		validateResetToken: builder.mutation({
+			query: ({ email, token }) => ({
+				url: '/password/validate',
+				method: 'POST',
+				body: { email, token },
+			}),
+		}),
+		ResetPassword: builder.mutation({
+			query: ({ email, token, password, passwordConfirmation }) => ({
+				url: '/password/reset',
+				method: 'POST',
+				body: { email, token, password, passwordConfirmation },
 			}),
 		}),
 	}),
 })
 
 export const {
-	useLoginMutation,
-	useReconnectMutation,
 	useRegisterUserMutation,
+	useLoginMutation,
+	useLogoutMutation,
+	useReconnectMutation,
+	useForgotPasswordMutation,
+	useValidateResetTokenMutation,
+	useResetPasswordMutation,
 } = authApi

@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useReconnectMutation, useRegisterUserMutation } from '../app/services/authApi'
 import {
-	removeCredentials,
 	selectIsAuthenticated,
 	selectIsTokenValidated,
-	selectRoleForRoutes,
+	selectIsAdmin,
 	selectToken,
 	setCredentials,
 	setIsTokenValidated,
@@ -18,9 +17,9 @@ function useAuth(formState = {}) {
 
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const isTokenValidated = useSelector(selectIsTokenValidated)
-	const roleForRoutes = useSelector(selectRoleForRoutes)
 	const [addNewUser, { isLoading: isLoadingAddNewUser }] =
 	useRegisterUserMutation()
+	const isAdmin = useSelector(selectIsAdmin)
 
 	const [reconnect] = useReconnectMutation()
 	const dispatch = useDispatch()
@@ -29,16 +28,13 @@ function useAuth(formState = {}) {
 	const handleCheckAuth = async () => {
 		try {
 			if (!isAuthenticated && token) {
-				console.log('reconectando...')
 				const { data } = await reconnect().unwrap()
-				console.log(data)
 				dispatch(setCredentials(data))
 			} else {
 				dispatch(setIsTokenValidated(true))
 			}
 		} catch (error) {
-			dispatch(removeCredentials())
-			console.log(error)
+			dispatch(setIsTokenValidated(true))
 		}
 	}
 
