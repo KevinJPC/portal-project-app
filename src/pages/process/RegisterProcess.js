@@ -53,13 +53,13 @@ const RegisterProcess = () => {
 
 	useEffect(() => {
 		preloadSelectedRole({
-			id: activesRoles?.data?.roles?.data[0].id,
-			name: activesRoles?.data?.roles?.data[0].name,
+			id: activesRoles?.data?.roles?.data[0]?.id,
+			name: activesRoles?.data?.roles?.data[0]?.name,
 		})
 	}, [isSuccessGetActivesRoles])
 
 	useEffect(() => {
-		changeFormState({ seOid: seSuiteProcesses?.data[0].seOid })
+		changeFormState({ seOid: seSuiteProcesses?.data[0]?.seOid })
 	}, [isSucessGetSeSuiteProcesses])
 
 	return (

@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { format } from 'date-fns'
 import useParseTo from '../hooks/useParseTo'
 
-function MyProcesses({ userProcesses }) {
+function MyProcess({ userProcesses }) {
 	const { name, startedAt, finishedAt, enabledActivity, status, id } =
 		userProcesses
 	const { parseToDate } = useParseTo()
@@ -56,8 +55,8 @@ function MyProcesses({ userProcesses }) {
 		</div>
 	)
 }
-MyProcesses.propTypes = {
+MyProcess.propTypes = {
 	userProcesses: PropTypes.object,
 }
 
-export default MyProcesses
+export default MyProcess

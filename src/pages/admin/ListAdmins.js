@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
-import Admins from '../../components/Admins'
+import Admin from '../../components/Admin'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
 import useAdmin from '../../hooks/useAdmin'
@@ -57,7 +57,7 @@ const ActivesAdmins = () => {
 					</div>
 				) : searchAdminData?.data.searchUsers.total > 0 ? (
 					searchAdminData?.data.searchUsers.data.map(admin => (
-						<Admins
+						<Admin
 							key={admin.id}
 							admins={admin}
 							buttonText='Modificar'
@@ -74,7 +74,7 @@ const ActivesAdmins = () => {
 					</div>
 				) : activesAdmins?.data.activeUsers.total > 0 ? (
 					activesAdmins?.data.activeUsers.data.map(admin => (
-						<Admins
+						<Admin
 							key={admin.id}
 							admins={admin}
 							buttonText='Modificar'
@@ -90,7 +90,7 @@ const ActivesAdmins = () => {
 				</div>
 			) : inactivesAdmins?.data.inactiveUsers.total > 0 ? (
 				inactivesAdmins?.data.inactiveUsers.data.map(admin => (
-					<Admins
+					<Admin
 						key={admin.id}
 						admins={admin}
 						buttonText='Activar'

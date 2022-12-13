@@ -91,6 +91,7 @@ const UpdateProcess = () => {
 			changeFormState({
 				name: processData?.data.process.name,
 				visible: parseToBoolean(processData?.data.process.visible),
+				seOid: processData?.data.process.seOid,
 				roles: ids,
 			})
 		}
@@ -99,8 +100,8 @@ const UpdateProcess = () => {
 	useEffect(() => {
 		if (isSuccessGetActivesRoles) {
 			preloadSelectedRole({
-				id: activesRoles?.data.roles.data[0].id,
-				name: activesRoles?.data.roles.data[0].name,
+				id: activesRoles?.data.roles.data[0]?.id,
+				name: activesRoles?.data.roles.data[0]?.name,
 			})
 		}
 	}, [isSuccessGetActivesRoles])
@@ -109,11 +110,11 @@ const UpdateProcess = () => {
 		if (isSucessGetSeSuiteProcesses) {
 			const processOfSeSuite = seSuiteProcesses?.data.filter(
 				processSeSuite =>
-					processSeSuite.seOid === processData?.data.process.seOid
+					processSeSuite.seOid === processData?.data.process?.seOid
 			)
 			setValues({
-				seOid: processOfSeSuite[0].seOid,
-				seName: processOfSeSuite[0].seName,
+				seOid: processOfSeSuite[0]?.seOid,
+				seName: processOfSeSuite[0]?.seName,
 			})
 		}
 	}, [isSucessGetSeSuiteProcesses])

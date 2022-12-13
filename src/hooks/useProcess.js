@@ -15,8 +15,10 @@ import {
 	useUpdateProcessMutation,
 } from '../app/services/processApi'
 import useParseTo from './useParseTo'
+import useAlert from './useAlert'
 
 function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
+	const { successAlert, errorAlert } = useAlert()
 	const navigate = useNavigate()
 	const { parseToInteger } = useParseTo()
 
@@ -80,19 +82,11 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		if (rolesOfProcess.length > 0) {
 			addNewProcess(formState)
 				.unwrap()
-				.then(
-					payload =>
-						payload.success &&
-						(toast.success(payload.message),
-						setTimeout(() => {
-							navigate(-1)
-						}, 2500))
-				)
-				.catch(error =>
-					Object.keys(error.data.errors).length === 1
-						? toast.error(error.data.message)
-						: toast.error('Todos los campos son obligatorios')
-				)
+				.then(data => {
+					successAlert(data)
+					navigate('/admin/procesos')
+				})
+				.catch(errorAlert)
 		} else {
 			toast.error('Debe agregarse al menos un rol')
 		}
@@ -107,19 +101,11 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		if (rolesOfProcess.length > 0) {
 			updateProcess(formState)
 				.unwrap()
-				.then(
-					payload =>
-						payload.success &&
-						(toast.success(payload.message),
-						setTimeout(() => {
-							navigate(-1)
-						}, 2500))
-				)
-				.catch(error =>
-					Object.keys(error.data.errors).length === 1
-						? toast.error(error.data.message)
-						: toast.error('Todos los campos son obligatorios')
-				)
+				.then(data => {
+					successAlert(data)
+					navigate('/admin/procesos')
+				})
+				.catch(errorAlert)
 		} else {
 			toast.error('Debe agregarse al menos un rol')
 		}
@@ -132,14 +118,10 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 	const inactivateSelectedProcess = () => {
 		inactivateProcess(parseToInteger(id))
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/procesos')
+			})
 	}
 
 	/**
@@ -149,7 +131,9 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 	const activateSelectedProcess = idProcess => {
 		activateProcess(parseToInteger(idProcess))
 			.unwrap()
-			.then(payload => payload.success && toast.success(payload.message))
+			.then(data => {
+				successAlert(data)
+			})
 	}
 
 	const getProcessInformation = () => {

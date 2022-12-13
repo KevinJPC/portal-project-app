@@ -7,7 +7,7 @@ import useParseTo from '../hooks/useParseTo'
 import useForm from '../hooks/useForm'
 import useRole from '../hooks/useRole'
 
-function Roles({ data, buttonText }) {
+function Role({ data, buttonText }) {
 	const { name, description, createdAt, id } = data
 	const { parseToDate } = useParseTo()
 
@@ -73,10 +73,10 @@ function Roles({ data, buttonText }) {
 	)
 }
 
-Roles.propTypes = {
+Role.propTypes = {
 	data: PropTypes.object,
 	buttonText: PropTypes.string,
 	route: PropTypes.string,
 }
 
-export default Roles
+export default Role

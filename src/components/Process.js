@@ -7,7 +7,7 @@ import useProcess from '../hooks/useProcess'
 import useForm from '../hooks/useForm'
 import useParseTo from '../hooks/useParseTo'
 
-function Processes({ processes, buttonText }) {
+function Process({ processes, buttonText }) {
 	const { id, name, createdAt, updatedAt } = processes
 
 	const { parseToDate } = useParseTo()
@@ -77,9 +77,9 @@ function Processes({ processes, buttonText }) {
 	)
 }
 
-Processes.propTypes = {
+Process.propTypes = {
 	processes: PropTypes.object,
 	buttonText: PropTypes.string,
 }
 
-export default Processes
+export default Process
