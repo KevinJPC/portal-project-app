@@ -13,7 +13,6 @@ import Navlink from '../Navlink'
 import {
 	adminUserLinks,
 	generalUserLinks,
-	notifications,
 	profileAdminLinks,
 	profileGeneralLinks,
 } from './navbarLinks'
@@ -24,9 +23,8 @@ import {
 	selectIsAuthenticated,
 } from '../../features/authSlice'
 import { useLazyGetNotificationsQuery } from '../../app/services/notificationsApi'
-import Notification from '../Notifications'
+import Notification from '../Notification'
 import { useLogoutMutation } from '../../app/services/authApi'
-import { data } from 'autoprefixer'
 
 function AdminUserNavbar() {
 	const dispatch = useDispatch()
@@ -50,8 +48,6 @@ function AdminUserNavbar() {
 			getNotifications()
 		}
 	}, [isSuccess])
-
-	console.log(notification)
 
 	return isAuthenticated ? (
 		<Disclosure

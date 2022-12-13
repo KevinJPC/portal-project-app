@@ -1,7 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useReconnectMutation, useRegisterUserMutation } from '../app/services/authApi'
+import {
+	useReconnectMutation,
+	useRegisterUserMutation,
+} from '../app/services/authApi'
 import {
 	selectIsAuthenticated,
 	selectIsTokenValidated,
@@ -10,7 +13,7 @@ import {
 	setCredentials,
 	setIsTokenValidated,
 } from '../features/authSlice'
-import { toast } from 'react-toastify'
+import useAlert from './useAlert'
 
 function useAuth(formState = {}) {
 	const navigate = useNavigate()
@@ -18,12 +21,13 @@ function useAuth(formState = {}) {
 	const isAuthenticated = useSelector(selectIsAuthenticated)
 	const isTokenValidated = useSelector(selectIsTokenValidated)
 	const [addNewUser, { isLoading: isLoadingAddNewUser }] =
-	useRegisterUserMutation()
+		useRegisterUserMutation()
 	const isAdmin = useSelector(selectIsAdmin)
 
 	const [reconnect] = useReconnectMutation()
 	const dispatch = useDispatch()
 	const token = useSelector(selectToken)
+	const { successAlert, errorAlert } = useAlert()
 
 	const handleCheckAuth = async () => {
 		try {
@@ -47,19 +51,11 @@ function useAuth(formState = {}) {
 
 		addNewUser(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate('/')
-					}, 2500))
-			)
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/')
+			})
+			.catch(errorAlert)
 	}
 
 	return {

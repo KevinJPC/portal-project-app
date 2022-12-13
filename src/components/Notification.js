@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -10,7 +10,8 @@ function Notification({ notification }) {
 			<Link to={`/mis-procesos/${userProcessId}`}>
 				<p className='font-fira-medium'>{processName}</p>
 				<span className='font-fira text-p-silver'>
-					Tiene tareas pendientes en este proceso, en la actividad {activityName}
+					Tiene tareas pendientes en este proceso, en la actividad{' '}
+					{activityName}
 				</span>
 			</Link>
 		</div>

@@ -1,14 +1,16 @@
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { toast } from 'react-toastify'
 import {
 	useUpdateUserPasswordMutation,
 	useUpdateUserProfileMutation,
 } from '../app/services/userApi'
 import { selectUser } from '../features/authSlice'
+import useAlert from './useAlert'
 
 function useUser(formState = {}, onResetForm) {
 	const userData = useSelector(selectUser)
+	const { successAlert, errorAlert } = useAlert()
+
 	const [updatePassword, { isloading: isLoadingUpdatePassword }] =
 		useUpdateUserPasswordMutation()
 
@@ -22,11 +24,11 @@ function useUser(formState = {}, onResetForm) {
 		e.preventDefault()
 		updatePassword(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success && (toast.success(payload.message), onResetForm())
-			)
-			.catch(error => toast.error(error.data.message))
+			.then(data => {
+				successAlert(data)
+				onResetForm()
+			})
+			.catch(errorAlert)
 	}
 
 	/**
@@ -36,12 +38,10 @@ function useUser(formState = {}, onResetForm) {
 		e.preventDefault()
 		updateProfile(formState)
 			.unwrap()
-			.then(payload => payload.success && toast.success(payload.message))
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.then(data => {
+				successAlert(data)
+			})
+			.catch(errorAlert)
 	}
 
 	return {

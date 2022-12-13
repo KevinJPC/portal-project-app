@@ -3,7 +3,7 @@ import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
-import VisiblesProcesses from '../../components/VisiblesProcesses'
+import VisibleProcess from '../../components/VisibleProcess'
 import useProcess from '../../hooks/useProcess'
 
 function ListVisiblesProcesses() {
@@ -30,7 +30,7 @@ function ListVisiblesProcesses() {
 			) : visiblesProcesses?.data.userProcesses.total > 0 ? (
 				<>
 					{visiblesProcesses?.data.userProcesses.data.map(process => (
-						<VisiblesProcesses
+						<VisibleProcess
 							key={process.id}
 							visibleProcesses={process}
 						/>

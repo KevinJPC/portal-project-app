@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { toast } from 'react-toastify'
 import {
 	useAddNewRoleMutation,
 	useLazyGetRoleByIdQuery,
@@ -13,8 +12,10 @@ import {
 	useLazyGetPublicRolesQuery,
 } from '../app/services/roleApi'
 import useParseTo from './useParseTo'
+import useAlert from './useAlert'
 
 function useRole(formState = {}, id) {
+	const { successAlert, errorAlert } = useAlert()
 	const navigate = useNavigate()
 
 	const [addNewRole, { isLoading: isLoadingAddNewRole }] =
@@ -48,7 +49,11 @@ function useRole(formState = {}, id) {
 
 	const [
 		getPublicRoles,
-		{ data: publicRoles, isLoading: isLoadingGetPublicRoles, isSuccess: isSuccessGetPublicRoles},
+		{
+			data: publicRoles,
+			isLoading: isLoadingGetPublicRoles,
+			isSuccess: isSuccessGetPublicRoles,
+		},
 	] = useLazyGetPublicRolesQuery()
 
 	const { parseToInteger } = useParseTo()
@@ -61,19 +66,11 @@ function useRole(formState = {}, id) {
 		e.preventDefault()
 		addNewRole(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/roles')
+			})
+			.catch(errorAlert)
 	}
 
 	/**
@@ -84,19 +81,11 @@ function useRole(formState = {}, id) {
 		e.preventDefault()
 		updateRole(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/roles')
+			})
+			.catch(errorAlert)
 	}
 
 	/**
@@ -106,14 +95,10 @@ function useRole(formState = {}, id) {
 	const inactivateSelectedRole = () => {
 		inactivateRole(parseToInteger(id))
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/roles')
+			})
 	}
 
 	/**
@@ -123,7 +108,9 @@ function useRole(formState = {}, id) {
 	const activateSelectedRole = idRole => {
 		activateRole(parseToInteger(idRole))
 			.unwrap()
-			.then(payload => payload.success && toast.success(payload.message))
+			.then(data => {
+				successAlert(data)
+			})
 	}
 
 	/**

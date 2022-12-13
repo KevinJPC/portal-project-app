@@ -6,7 +6,7 @@ import useUserHasProcess from '../hooks/useUserHasProcess'
 import useForm from '../hooks/useForm'
 import useParseTo from '../hooks/useParseTo'
 
-function VisiblesProcesses({ visibleProcesses }) {
+function VisibleProcess({ visibleProcesses }) {
 	const { parseToDate } = useParseTo()
 
 	const { showModal, closeModal, openModal } = useForm()
@@ -57,9 +57,9 @@ function VisiblesProcesses({ visibleProcesses }) {
 	)
 }
 
-VisiblesProcesses.propTypes = {
+VisibleProcess.propTypes = {
 	visibleProcesses: PropTypes.object,
 	buttonText: PropTypes.string,
 }
 
-export default VisiblesProcesses
+export default VisibleProcess

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { toast } from 'react-toastify'
 import {
 	useAddNewAdminMutation,
 	useLazyGetAdminByIdQuery,
@@ -12,9 +11,11 @@ import {
 	useLazyGetSearchAdminQuery,
 } from '../app/services/adminApi'
 import useParseTo from './useParseTo'
+import useAlert from './useAlert'
 
 function useAdmin(formState = {}, id) {
 	const navigate = useNavigate()
+	const { successAlert, errorAlert } = useAlert()
 
 	const [addNewAdmin, { isLoading: isLoadingAddNewAdmin }] =
 		useAddNewAdminMutation()
@@ -61,19 +62,11 @@ function useAdmin(formState = {}, id) {
 		e.preventDefault()
 		addNewAdmin(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/usuarios')
+			})
+			.catch(errorAlert)
 	}
 
 	/**
@@ -84,19 +77,11 @@ function useAdmin(formState = {}, id) {
 		e.preventDefault()
 		updateAdmin(formState)
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
-			.catch(error =>
-				Object.keys(error.data.errors).length === 1
-					? toast.error(error.data.message)
-					: toast.error('Todos los campos son obligatorios')
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/usuarios')
+			})
+			.catch(errorAlert)
 	}
 
 	/**
@@ -106,14 +91,10 @@ function useAdmin(formState = {}, id) {
 	const inactivaUserAdmin = () => {
 		inactivateAdmin(parseToInteger(id))
 			.unwrap()
-			.then(
-				payload =>
-					payload.success &&
-					(toast.success(payload.message),
-					setTimeout(() => {
-						navigate(-1)
-					}, 2500))
-			)
+			.then(data => {
+				successAlert(data)
+				navigate('/admin/usuarios')
+			})
 	}
 
 	/**
@@ -123,7 +104,9 @@ function useAdmin(formState = {}, id) {
 	const activateAdminUser = idAdmin => {
 		activateAdmin(parseToInteger(idAdmin))
 			.unwrap()
-			.then(payload => payload.success && toast.success(payload.message))
+			.then(data => {
+				successAlert(data)
+			})
 	}
 
 	/**

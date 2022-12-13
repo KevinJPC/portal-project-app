@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
-import Roles from '../../components/Roles'
+import Role from '../../components/Role'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
 import useRole from '../../hooks/useRole'
@@ -57,7 +57,7 @@ const ListRoles = () => {
 					</div>
 				) : searchRoleData?.data.roles.total > 0 ? (
 					searchRoleData?.data.roles.data.map(rol => (
-						<Roles
+						<Role
 							key={rol.id}
 							data={rol}
 							buttonText='Modificar'
@@ -74,7 +74,7 @@ const ListRoles = () => {
 					</div>
 				) : activesRoles?.data.roles.total > 0 ? (
 					activesRoles?.data.roles.data.map(rol => (
-						<Roles
+						<Role
 							key={rol.id}
 							data={rol}
 							buttonText='Modificar'
@@ -90,7 +90,7 @@ const ListRoles = () => {
 				</div>
 			) : inactivesRoles?.data.roles.total > 0 ? (
 				inactivesRoles?.data.roles.data.map(rol => (
-					<Roles
+					<Role
 						key={rol.id}
 						data={rol}
 						buttonText='Activar'

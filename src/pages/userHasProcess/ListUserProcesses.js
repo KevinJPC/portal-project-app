@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
-import MyProcesses from '../../components/MyProcesses'
+import MyProcess from '../../components/MyProcess'
 import SearchBar from '../../components/SearchBar'
 import Spinner from '../../components/Spinner'
 import useUserHasProcess from '../../hooks/useUserHasProcess'
@@ -25,7 +25,7 @@ function ListUserProcesses() {
 			) : userProcesses?.data.userProcesses.total > 0 ? (
 				<>
 					{userProcesses?.data.userProcesses.data.map((process, i) => (
-						<MyProcesses
+						<MyProcess
 							key={i}
 							userProcesses={process}
 						/>
