@@ -52,14 +52,12 @@ function Login() {
 							<Input
 								id='email'
 								label='Correo electrónico'
-								placeholder='Correo electrónico'
 								value={email}
 								onChange={onInputChange}
 							/>
 							<PasswordInput
 								id='password'
 								label='Contraseña'
-								placeholder='Contraseña'
 								value={password}
 								onChange={onInputChange}
 							/>

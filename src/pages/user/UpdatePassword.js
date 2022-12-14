@@ -33,7 +33,6 @@ const UpdatePassword = () => {
 							<PasswordInput
 								id='oldPassword'
 								label='Contraseña actual'
-								placeholder='Contraseña actual'
 								value={oldPassword}
 								onChange={onInputChange}
 							/>
@@ -42,7 +41,6 @@ const UpdatePassword = () => {
 							<PasswordInput
 								id='password'
 								label='Nueva contraseña '
-								placeholder='Nueva contraseña'
 								value={password}
 								onChange={onInputChange}
 							/>
@@ -51,7 +49,6 @@ const UpdatePassword = () => {
 							<PasswordInput
 								id='passwordConfirmation'
 								label='Confirmar contraseña '
-								placeholder='Confirmar contraseña'
 								value={passwordConfirmation}
 								onChange={onInputChange}
 							/>

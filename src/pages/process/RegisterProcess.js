@@ -74,7 +74,6 @@ const RegisterProcess = () => {
 							<Input
 								id='name'
 								label='Nombre del proceso'
-								placeholder='Nombre'
 								value={name}
 								onChange={onInputChange}
 							/>

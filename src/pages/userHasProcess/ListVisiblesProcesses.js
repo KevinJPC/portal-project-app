@@ -20,13 +20,10 @@ function ListVisiblesProcesses() {
 	}, [])
 
 	return (
-		<>
+		<div className='min-h-full flex flex-col grow'>
 			<SearchBar title='Procesos' />
 			{isLoadingGetVisiblesProcesses ? (
-				<div className='mt-6 flex justify-center items-center'>
-					<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-					<Spinner />
-				</div>
+				<Spinner />
 			) : visiblesProcesses?.data.userProcesses.total > 0 ? (
 				<>
 					{visiblesProcesses?.data.userProcesses.data.map(process => (
@@ -35,19 +32,18 @@ function ListVisiblesProcesses() {
 							visibleProcesses={process}
 						/>
 					))}
-					<div className='mt-6'>
-						<Pagination
-							changePage={getVisiblesProcessesData}
-							pageCount={Math.ceil(
-								visiblesProcesses?.data.userProcesses.lastPage
-							)}
-						/>
-					</div>
+
+					<Pagination
+						changePage={getVisiblesProcessesData}
+						pageCount={Math.ceil(
+							visiblesProcesses?.data.userProcesses.lastPage
+						)}
+					/>
 				</>
 			) : (
 				<ListEmptyMessage text='El listado de procesos está vacío' />
 			)}
-		</>
+		</div>
 	)
 }
 

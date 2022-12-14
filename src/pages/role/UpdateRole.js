@@ -67,7 +67,6 @@ const UpdateRole = () => {
 									<Input
 										id='name'
 										label='Nombre'
-										placeholder='Nombre'
 										value={name}
 										onChange={e =>
 											changeFormState({
@@ -86,7 +85,6 @@ const UpdateRole = () => {
 										id='description'
 										value={description}
 										label='Descripción'
-										placeholder='Descripción'
 										onChange={onInputChange}
 									/>
 								</div>

@@ -7,8 +7,8 @@ import useProcess from '../hooks/useProcess'
 import useForm from '../hooks/useForm'
 import useParseTo from '../hooks/useParseTo'
 
-function Process({ processes, buttonText }) {
-	const { id, name, createdAt, updatedAt } = processes
+function Process({ process, buttonText }) {
+	const { id, name, createdAt, updatedAt } = process
 
 	const { parseToDate } = useParseTo()
 
@@ -19,7 +19,7 @@ function Process({ processes, buttonText }) {
 	} = useProcess()
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 mt-4'>
+		<div className='flex flex-col'>
 			<div className='flex justify-center py-4'>
 				<div className='w-3/4 bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-4 text-center items-center justify-items-center px-2 py-6 md:py-3'>
@@ -49,7 +49,7 @@ function Process({ processes, buttonText }) {
 							{buttonText === 'Modificar' ? (
 								<Link
 									to={`editar/${id}`}
-									className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
+									className='text-p-white bg-p-purple shadow-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
 								>
 									{buttonText}
 								</Link>
@@ -78,7 +78,7 @@ function Process({ processes, buttonText }) {
 }
 
 Process.propTypes = {
-	processes: PropTypes.object,
+	process: PropTypes.object,
 	buttonText: PropTypes.string,
 }
 

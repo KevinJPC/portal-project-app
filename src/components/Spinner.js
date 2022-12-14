@@ -2,7 +2,7 @@ import React from 'react'
 
 const Spinner = () => {
 	return (
-		<div className='text-center'>
+		<div className='my-auto text-center'>
 			<div role='status'>
 				<svg
 					className='inline mr-2 w-8 h-8 text-gray-200 animate-spin fill-p-blue text-p-silver'

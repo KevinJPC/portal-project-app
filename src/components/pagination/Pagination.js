@@ -7,8 +7,8 @@ function Pagination({ pageCount, changePage }) {
 		changePage(page.selected + 1)
 	}
 
-	return (
-		<>
+	return !pageCount ? null : (
+		<div className='mt-auto max-h-20 pt-5'>
 			<ReactPaginate
 				breakLabel='...'
 				nextLabel='>'
@@ -24,7 +24,7 @@ function Pagination({ pageCount, changePage }) {
 				nextLinkClassName='page-num'
 				activeLinkClassName='active'
 			/>
-		</>
+		</div>
 	)
 }
 

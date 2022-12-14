@@ -41,7 +41,7 @@ const ActivesAdmins = () => {
 	}, [isSuccessGetInactivesAdmins])
 
 	return (
-		<>
+		<div className='min-h-full border flex flex-col grow'>
 			<SearchBar
 				getState={changeListState}
 				getdata={filterSeachData}
@@ -51,10 +51,7 @@ const ActivesAdmins = () => {
 			/>
 			{searchState !== '' ? (
 				isLoadingSearchAdmin ? (
-					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-						<Spinner />
-					</div>
+					<Spinner />
 				) : searchAdminData?.data.searchUsers.total > 0 ? (
 					searchAdminData?.data.searchUsers.data.map(admin => (
 						<Admin
@@ -68,10 +65,7 @@ const ActivesAdmins = () => {
 				)
 			) : listState === 'actives' ? (
 				isLoadingGetActivesAdmins ? (
-					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
-						<Spinner />
-					</div>
+					<Spinner />
 				) : activesAdmins?.data.activeUsers.total > 0 ? (
 					activesAdmins?.data.activeUsers.data.map(admin => (
 						<Admin
@@ -84,10 +78,7 @@ const ActivesAdmins = () => {
 					<ListEmptyMessage text='El listado de administradores activos está vacío' />
 				)
 			) : isLoadingGetInactivesAdmins ? (
-				<div className='mt-6 flex justify-center items-center'>
-					<p className='text-p-blue font-fira-medium'>Cargando...</p>
-					<Spinner />
-				</div>
+				<Spinner />
 			) : inactivesAdmins?.data.inactiveUsers.total > 0 ? (
 				inactivesAdmins?.data.inactiveUsers.data.map(admin => (
 					<Admin
@@ -99,17 +90,15 @@ const ActivesAdmins = () => {
 			) : (
 				<ListEmptyMessage text='El listado de administradores inactivos está vacío' />
 			)}
-			<div className='mt-6'>
-				<Pagination
-					changePage={changePageNumber}
-					pageCount={
-						listState === 'actives'
-							? Math.ceil(activesAdmins?.data.activeUsers.lastPage)
-							: Math.ceil(inactivesAdmins?.data.inactiveUsers.lastPage)
-					}
-				/>
-			</div>
-		</>
+			<Pagination
+				changePage={changePageNumber}
+				pageCount={
+					listState === 'actives'
+						? Math.ceil(activesAdmins?.data.activeUsers.lastPage)
+						: Math.ceil(inactivesAdmins?.data.inactiveUsers.lastPage)
+				}
+			/>
+		</div>
 	)
 }
 

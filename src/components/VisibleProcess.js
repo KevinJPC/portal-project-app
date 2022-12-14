@@ -16,7 +16,7 @@ function VisibleProcess({ visibleProcesses }) {
 	const { startNewProcess, isLoadingStartNewProcess } = useUserHasProcess()
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 mt-4'>
+		<div className='flex flex-col'>
 			<div className='flex justify-center py-4'>
 				<div className='w-3/4 bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-3 text-center items-center justify-items-center px-2 py-6 md:py-3'>

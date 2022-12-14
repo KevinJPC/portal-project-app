@@ -2,15 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
-function PasswordInput({
-	label,
-	id,
-	placeholder,
-	value,
-	onChange,
-	error,
-	...props
-}) {
+function PasswordInput({ label, id, value, onChange, error, ...props }) {
 	const [showPassword, setShowPassword] = useState(false)
 
 	return (
@@ -25,7 +17,6 @@ function PasswordInput({
 				<input
 					id={id}
 					type={showPassword ? 'text' : 'password'}
-					placeholder={placeholder}
 					className='px-5 text-p-blue bg-p-silver h-12 rounded-lg focus:outline-none hover:ring-1 hover:ring-p-purple focus:ring-2 focus:ring-p-purple placeholder-p-blue'
 					value={value}
 					name={id}
@@ -52,7 +43,6 @@ function PasswordInput({
 PasswordInput.propTypes = {
 	label: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	placeholder: PropTypes.string.isRequired,
 	value: PropTypes.string,
 	error: PropTypes.array,
 	onChange: PropTypes.func,

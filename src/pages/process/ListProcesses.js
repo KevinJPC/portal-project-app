@@ -1,4 +1,9 @@
 import React, { useEffect } from 'react'
+import {
+	useLazyGetSearchProcessQuery,
+	useLazyGetActivesProcessQuery,
+	useLazyGetInactivesProcessQuery,
+} from '../../app/services/processApi'
 import ListEmptyMessage from '../../components/ListEmptyMessage'
 import Pagination from '../../components/pagination/Pagination'
 import Process from '../../components/Process'
@@ -41,7 +46,7 @@ const ActivesProcesses = () => {
 	}, [isSuccessGetInactivesProcesses])
 
 	return (
-		<>
+		<div className='min-h-full border flex flex-col grow'>
 			<SearchBar
 				getState={changeListState}
 				getdata={filterSeachData}
@@ -51,15 +56,12 @@ const ActivesProcesses = () => {
 			/>
 			{searchState !== '' ? (
 				isLoadingSearchProcess ? (
-					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-						<Spinner />
-					</div>
+					<Spinner />
 				) : searchProcessData?.data.searchProcesses.total > 0 ? (
 					searchProcessData?.data.searchProcesses.data.map(process => (
 						<Process
 							key={process.id}
-							processes={process}
+							process={process}
 							buttonText='Modificar'
 						/>
 					))
@@ -68,15 +70,12 @@ const ActivesProcesses = () => {
 				)
 			) : listState === 'actives' ? (
 				isLoadingGetActivesProcesses ? (
-					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-						<Spinner />
-					</div>
+					<Spinner />
 				) : activesProcesses?.data.activeProcesses.total > 0 ? (
 					activesProcesses?.data.activeProcesses.data.map(process => (
 						<Process
 							key={process.id}
-							processes={process}
+							process={process}
 							buttonText='Modificar'
 						/>
 					))
@@ -84,32 +83,27 @@ const ActivesProcesses = () => {
 					<ListEmptyMessage text='El listado de procesos activos está vacío' />
 				)
 			) : isLoadingGetInactivesProcesses ? (
-				<div className='mt-6 flex justify-center items-center'>
-					<p className='text-p-blue font-fira-medium'>Cargando...</p>
-					<Spinner />
-				</div>
+				<Spinner />
 			) : inactivesProcesses?.data.inactiveProcesses.total > 0 ? (
 				inactivesProcesses?.data.inactiveProcesses.data.map(process => (
 					<Process
 						key={process.id}
-						processes={process}
+						process={process}
 						buttonText='Activar'
 					/>
 				))
 			) : (
 				<ListEmptyMessage text='El listado de procesos inactivos está vacío' />
 			)}
-			<div className='mt-6'>
-				<Pagination
-					changePage={changePageNumber}
-					pageCount={
-						listState === 'actives'
-							? Math.ceil(activesProcesses?.data.activeProcesses.lastPage)
-							: Math.ceil(inactivesProcesses?.data.inactiveProcesses.lastPage)
-					}
-				/>
-			</div>
-		</>
+			<Pagination
+				changePage={changePageNumber}
+				pageCount={
+					listState === 'actives'
+						? Math.ceil(activesProcesses?.data.activeProcesses.lastPage)
+						: Math.ceil(inactivesProcesses?.data.inactiveProcesses.lastPage)
+				}
+			/>
+		</div>
 	)
 }
 
