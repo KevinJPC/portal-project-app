@@ -45,7 +45,7 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		{
 			data: activesProcesses,
 			isSuccess: isSuccessGetActivesProcesses,
-			isLoading: isLoadingGetActivesProcesses,
+			isFetching: isLoadingGetActivesProcesses,
 		},
 	] = useLazyGetActivesProcessQuery()
 	const [
@@ -53,19 +53,19 @@ function useProcess(formState = {}, rolesData = {}, changeFormState, id = 0) {
 		{
 			data: inactivesProcesses,
 			isSuccess: isSuccessGetInactivesProcesses,
-			isLoading: isLoadingGetInactivesProcesses,
+			isFetching: isLoadingGetInactivesProcesses,
 		},
 	] = useLazyGetInactivesProcessQuery()
 	const [
 		searchProcess,
-		{ data: searchProcessData, isLoading: isLoadingSearchProcess },
+		{ data: searchProcessData, isFetching: isLoadingSearchProcess },
 	] = useLazyGetSearchProcessQuery()
 	const [
 		getVisiblesProcess,
 		{
 			data: visiblesProcesses,
 			isSuccess: isSuccessGetVisiblesProcesses,
-			isLoading: isLoadingGetVisiblesProcesses,
+			isFetching: isLoadingGetVisiblesProcesses,
 		},
 	] = useLazyGetVisiblesProcessQuery()
 

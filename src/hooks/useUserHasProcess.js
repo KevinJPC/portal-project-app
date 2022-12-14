@@ -10,7 +10,7 @@ function useUserHasProcess() {
 		{
 			data: userProcesses,
 			isSuccess: isSuccessGetUserProcesses,
-			isLoading: isLoadingGetUserProcess,
+			isFetching: isLoadingGetUserProcess,
 		},
 	] = useLazyGetUserProcessesQuery()
 	const [startProcess, { isLoading: isLoadingStartNewProcess }] =

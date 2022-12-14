@@ -46,7 +46,7 @@ const ActivesProcesses = () => {
 	}, [isSuccessGetInactivesProcesses])
 
 	return (
-		<div className='min-h-full border flex flex-col grow'>
+		<div className='min-h-full flex flex-col grow'>
 			<SearchBar
 				getState={changeListState}
 				getdata={filterSeachData}
