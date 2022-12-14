@@ -6,7 +6,7 @@ export const notificationApi = portalApi.injectEndpoints({
 		getNotifications: builder.query({
 			query: () => `notifications`,
 			providesTags: result =>
-				providesList(result.data.notification, 'Notifications'),
+				providesList(result.data.notification, 'Notification'),
 		}),
 	}),
 })

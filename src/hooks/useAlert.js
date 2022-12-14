@@ -6,7 +6,8 @@ function useAlert() {
 	}
 
 	const errorAlert = err => {
-		if (err?.status !== 422 && err?.data?.message) toast.error(err.data.message)
+		// if (err?.status !== 422 && err?.data?.message)
+		toast.error(err.data.message)
 	}
 
 	return { successAlert, errorAlert }

@@ -32,7 +32,10 @@ const userHasProcess = portalApi.injectEndpoints({
 				url: `users/processes/${processId}/start`,
 				method: 'POST',
 			}),
-			invalidatesTags: [{ type: 'Insider', id: 'LIST' }],
+			invalidatesTags: [
+				{ type: 'Insider', id: 'LIST' },
+				{ type: 'Notification', id: 'LIST' },
+			],
 		}),
 		getSearchUserProcess: builder.query({
 			query: processName => `processes/visible/${processName}`,

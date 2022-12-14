@@ -53,7 +53,7 @@ const Register = () => {
 
 	useEffect(() => {
 		if (isSuccessGetPublicRoles) {
-			changeFormState({ roleId: publicRoles?.data.roles[0].id })
+			changeFormState({ roleId: publicRoles?.data?.roles[0]?.id })
 		}
 	}, [isSuccessGetPublicRoles])
 
@@ -105,7 +105,7 @@ const Register = () => {
 							onChange={e =>
 								changeFormState({ roleId: parseToInteger(e.target.value) })
 							}
-							className='px-5 text-p-blue bg-p-silver h-12 rounded-lg focus:outline-none hover:ring-1 hover:ring-p-purple focus:ring-2 focus:ring-p-purple placeholder-p-blue appearance-none'
+							className='px-5 text-p-blue bg-p-silver h-12 rounded-lg focus:outline-none hover:ring-1 hover:ring-p-purple focus:ring-2 focus:ring-p-purple placeholder-p-blue'
 						>
 							{isLoadingGetPublicRoles ? (
 								<option value=''>Cargando...</option>

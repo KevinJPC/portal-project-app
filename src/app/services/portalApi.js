@@ -45,6 +45,6 @@ export const portalApi = createApi({
 	baseQuery: baseQueryWithTransformations,
 	refetchOnFocus: true,
 	refetchOnReconnect: true,
-	tagTypes: ['User', 'Process', 'Role', 'Admin', 'Insider', 'Notifications'],
+	tagTypes: ['User', 'Process', 'Role', 'Admin', 'Insider', 'Notification'],
 	endpoints: builder => ({}),
 })
