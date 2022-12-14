@@ -33,7 +33,7 @@ function useRole(formState = {}, id) {
 		{
 			data: activesRoles,
 			isSuccess: isSuccessGetActivesRoles,
-			isLoading: isLoadingGetActivesRoles,
+			isFetching: isLoadingGetActivesRoles,
 		},
 	] = useLazyGetActivesRolesQuery()
 	const [
@@ -41,11 +41,13 @@ function useRole(formState = {}, id) {
 		{
 			data: inactivesRoles,
 			isSuccess: isSuccessGetInactivesRoles,
-			isLoading: isLoadingGetInactivesRoles,
+			isFetching: isLoadingGetInactivesRoles,
 		},
 	] = useLazyGetInactivesRolesQuery()
-	const [searchRole, { data: searchRoleData, isLoading: isLoadingSearchRole }] =
-		useLazyGetSearchRoleQuery()
+	const [
+		searchRole,
+		{ data: searchRoleData, isFetching: isLoadingSearchRole },
+	] = useLazyGetSearchRoleQuery()
 
 	const [
 		getPublicRoles,

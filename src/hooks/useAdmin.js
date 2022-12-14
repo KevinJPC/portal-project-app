@@ -36,7 +36,7 @@ function useAdmin(formState = {}, id) {
 		{
 			data: activesAdmins,
 			isSuccess: isSuccessGetActivesAdmins,
-			isLoading: isLoadingGetActivesAdmins,
+			isFetching: isLoadingGetActivesAdmins,
 		},
 	] = useLazyGetActivesAdminQuery()
 	const [
@@ -44,12 +44,12 @@ function useAdmin(formState = {}, id) {
 		{
 			data: inactivesAdmins,
 			isSuccess: isSuccessGetInactivesAdmins,
-			isLoading: isLoadingGetInactivesAdmins,
+			isFetching: isLoadingGetInactivesAdmins,
 		},
 	] = useLazyGetInactivesAdminQuery()
 	const [
 		searchAdmin,
-		{ data: searchAdminData, isLoading: isLoadingSearchAdmin },
+		{ data: searchAdminData, isFetching: isLoadingSearchAdmin },
 	] = useLazyGetSearchAdminQuery()
 
 	const { parseToInteger } = useParseTo()
