@@ -85,7 +85,6 @@ function ResetPassword() {
 						<div className='flex flex-col gap-7 mb-10'>
 							<PasswordInput
 								label='Nueva contraseña'
-								placeholder='Nueva contraseña'
 								name='password'
 								id='password'
 								value={values.password}
@@ -94,7 +93,6 @@ function ResetPassword() {
 							/>
 							<PasswordInput
 								label='Confirmar contraseña'
-								placeholder='Confirmar contraseña'
 								name='confirm_password'
 								id='confirm_password'
 								value={values.passwordConfirmation}

@@ -43,7 +43,6 @@ const RegisterAdmin = () => {
 								<Input
 									id='dni'
 									label='Cédula'
-									placeholder='Cédula'
 									value={dni}
 									onChange={onInputChange}
 								/>
@@ -52,7 +51,6 @@ const RegisterAdmin = () => {
 								<Input
 									id='name'
 									label='Nombre'
-									placeholder='Nombre'
 									value={name}
 									onChange={onInputChange}
 								/>
@@ -61,7 +59,6 @@ const RegisterAdmin = () => {
 								<Input
 									id='firstLastName'
 									label='Primer apellido'
-									placeholder='Primer apellido'
 									value={firstLastName}
 									onChange={onInputChange}
 								/>
@@ -70,7 +67,6 @@ const RegisterAdmin = () => {
 								<Input
 									id='secondLastName'
 									label='Segundo apellido'
-									placeholder='Segundo apellido'
 									value={secondLastName}
 									onChange={onInputChange}
 								/>
@@ -79,7 +75,6 @@ const RegisterAdmin = () => {
 								<Input
 									id='email'
 									label='Correo electrónico'
-									placeholder='Correo electrónico'
 									value={email}
 									onChange={onInputChange}
 								/>
@@ -88,7 +83,6 @@ const RegisterAdmin = () => {
 								<PasswordInput
 									id='password'
 									label='Contraseña'
-									placeholder='Contraseña'
 									value={password}
 									onChange={onInputChange}
 								/>
@@ -97,7 +91,6 @@ const RegisterAdmin = () => {
 								<PasswordInput
 									id='passwordConfirmation'
 									label='Confirmar Contraseña'
-									placeholder='Confirmar Contraseña'
 									value={passwordConfirmation}
 									onChange={onInputChange}
 								/>

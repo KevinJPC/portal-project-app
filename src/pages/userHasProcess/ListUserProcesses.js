@@ -15,13 +15,10 @@ function ListUserProcesses() {
 	}, [])
 
 	return (
-		<>
+		<div className='min-h-full flex flex-col grow'>
 			<SearchBar title='Mis procesos' />
 			{isLoadingGetUserProcess ? (
-				<div className='mt-6 flex justify-center items-center'>
-					<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-					<Spinner />
-				</div>
+				<Spinner />
 			) : userProcesses?.data.userProcesses.total > 0 ? (
 				<>
 					{userProcesses?.data.userProcesses.data.map((process, i) => (
@@ -30,17 +27,15 @@ function ListUserProcesses() {
 							userProcesses={process}
 						/>
 					))}
-					<div className='mt-6'>
-						<Pagination
-							changePage={getUserProcessesData}
-							pageCount={Math.ceil(userProcesses?.data.userProcesses.lastPage)}
-						/>
-					</div>
 				</>
 			) : (
 				<ListEmptyMessage text='El listado de mis procesos está vacío' />
 			)}
-		</>
+			<Pagination
+				changePage={getUserProcessesData}
+				pageCount={Math.ceil(userProcesses?.data.userProcesses.lastPage)}
+			/>
+		</div>
 	)
 }
 

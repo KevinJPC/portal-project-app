@@ -18,7 +18,7 @@ function Admins({ admins, buttonText }) {
 	} = useAdmin()
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 md:px-10 mt-4'>
+		<div className='flex flex-col'>
 			<div className='flex justify-center py-4'>
 				<div className='w-auto bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-5 text-center items-center justify-items-center px-2 py-6 md:py-3'>
@@ -54,7 +54,7 @@ function Admins({ admins, buttonText }) {
 							{buttonText === 'Modificar' ? (
 								<Link
 									to={`editar/${id}`}
-									className='text-p-white bg-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
+									className='text-p-white bg-p-purple shadow-p-purple text-center font-medium rounded-lg text-xs sm:text-sm p-1.5 px-10 py-3 ml-4 md:mr-2'
 								>
 									{buttonText}
 								</Link>

@@ -9,7 +9,7 @@ function MyProcess({ userProcesses }) {
 	const { parseToDate } = useParseTo()
 
 	return (
-		<div className='flex flex-col pt-2 sm:pt-0 md:px-10 mt-4'>
+		<div className='flex flex-col'>
 			<div className='flex justify-center py-4'>
 				<div className='w-auto bg-p-gray rounded'>
 					<div className='md:grid md:grid-cols-5 text-center items-center justify-items-center px-2 py-6 md:py-1'>
@@ -44,7 +44,7 @@ function MyProcess({ userProcesses }) {
 						<div className='p-8 '>
 							<Link
 								to={`${id}`}
-								className='text-p-white md:flex bg-p-purple text-center font-medium rounded-lg text-xs md:text-sm p-1.5 px-10 py-3 md:mr-2'
+								className='text-p-white md:flex bg-p-purple shadow-p-purple text-center font-medium rounded-lg text-xs md:text-sm p-1.5 px-10 py-3 md:mr-2'
 							>
 								Más información
 							</Link>

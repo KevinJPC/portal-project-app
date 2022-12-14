@@ -21,7 +21,7 @@ function SearchBar({ title, buttonText, route, getState, getdata }) {
 	}
 
 	return (
-		<div className='shadow-md w-full'>
+		<div className='shadow-md w-full mb-3'>
 			<div
 				className={`flex items-center ${
 					isAdmin ? 'justify-between md:px-2' : 'gap-5 md:gap-24 lg:gap-44 px-4'

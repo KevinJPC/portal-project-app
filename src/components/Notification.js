@@ -6,10 +6,10 @@ function Notification({ notification }) {
 	const { userProcessId, processName, activityName } = notification
 
 	return (
-		<div className='cursor-pointer hover:bg-p-silver/40 rounded-sm'>
+		<div className='cursor-pointer hover:bg-p-silver/40 px-2 py-1'>
 			<Link to={`/mis-procesos/${userProcessId}`}>
-				<p className='font-fira-medium'>{processName}</p>
-				<span className='font-fira text-p-silver'>
+				<p className='font-fira text-base'>{processName}</p>
+				<span className='text-p-silver'>
 					Tiene tareas pendientes en este proceso, en la actividad{' '}
 					{activityName}
 				</span>

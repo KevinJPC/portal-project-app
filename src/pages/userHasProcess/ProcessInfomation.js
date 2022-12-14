@@ -42,39 +42,40 @@ function ProcessInformation() {
 	}, [isSucessGetProcess])
 
 	return (
-		<div className=' pt-2 sm:pt-0 mt-5 md:mt-10'>
-			<div className='flex justify-center py-4'>
-				<div className='w-auto max-w-5xl bg-p-gray rounded px-6'>
-					{isLoadingGetSeSuiteProcess ? (
-						<div className='p-4 flex justify-center items-center'>
-							<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-							<Spinner />
-						</div>
-					) : (
-						<div className='md:grid md:grid-cols-2 justify-items-start text-center mb-4'>
-							<div className='md:text-left flex flex-col '>
+		<div className='min-h-full grow flex flex-col'>
+			{isLoadingGetSeSuiteProcess ? (
+				<Spinner />
+			) : (
+				<div className='min-h-full flex flex-col grow items-center md:-mt-16 justify-center py-4 mx-4'>
+					<div className='w-full md:w-11/12 lg:w-4/5 max-w-6xl bg-p-gray rounded px-2 md:px-14 py-10'>
+						<div className='flex flex-col md:flex-row justify-between text-center'>
+							<div className='md:text-left flex flex-col w-full md:w-2/5'>
 								<div className='p-6 px-1 text-p-blue '>
-									<p className='text-md font-fira-medium '>Nombre</p>
-									<p className=' pt-2 text-sm'>{name}</p>
+									<p className='text-xl font-fira-medium '>Nombre</p>
+									<p className=' mt-2 '>{name}</p>
 								</div>
 								<div className='p-6 px-1 text-p-blue'>
-									<p className='text-md font-fira-medium '>Fecha de inicio</p>
-									<p className=' pt-2 text-sm'>{createdAt}</p>
+									<p className='text-xl font-fira-medium '>Fecha de inicio</p>
+									<p className=' mt-2 '>{createdAt}</p>
 								</div>
 								<div className='p-6 px-9 md:p-0 md:px-0 text-p-blue'>
-									<p className='text-md font-fira-medium'>Estado</p>
-									<p className='flex justify-center text-md py-1 px-1 md:px-2 bg-p-purple rounded-full text-p-white'>
-										En progreso
-									</p>
+									<p className='text-xl font-fira-medium'>Estado</p>
+									<div className='mt-2 flex justify-center md:justify-start'>
+										<p className='w-fit px-2 bg-p-purple rounded-full text-p-white'>
+											En progreso
+										</p>
+									</div>
 								</div>
 								<div className='p-6 px-1 text-p-blue'>
-									<p className='text-sm font-fira-medium '>Avance porcentual</p>
-									<p className=' pt-2 text-sm'>{percentageAdvance}%</p>
+									<p className='text-xl font-fira-medium '>Avance porcentual</p>
+									<p className=' pt-1 '>{percentageAdvance * 100}%</p>
 								</div>
 							</div>
 							<div className='flex flex-col items-center'>
-								<div className='p-6 justify-items-center px-1 text-p-blue'>
-									<p className='text-md font-fira-medium '>Actividades</p>
+								<div className='py-6 justify-items-center px-1 text-p-blue'>
+									<p className='text-xl font-fira-medium text-center'>
+										Actividades
+									</p>
 								</div>
 								<div>
 									{activities.map((activity, i) => (
@@ -87,9 +88,9 @@ function ProcessInformation() {
 								</div>
 							</div>
 						</div>
-					)}
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	)
 }

@@ -42,7 +42,6 @@ function ForgotPassword() {
 						<div className='flex flex-col mb-10'>
 							<Input
 								label='Correo electrónico'
-								placeholder='Correo electrónico'
 								name='email'
 								value={values.email}
 								onChange={e => setValues({ ...values, email: e.target.value })}

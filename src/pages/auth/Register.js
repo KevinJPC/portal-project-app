@@ -9,7 +9,6 @@ import useRole from '../../hooks/useRole'
 import { useEffect } from 'react'
 import useParseTo from '../../hooks/useParseTo'
 
-
 const Register = () => {
 	const { parseToInteger } = useParseTo()
 
@@ -70,35 +69,30 @@ const Register = () => {
 				<div className='grid grid-cols-1 lg:grid-cols-2 gap-x-32 gap-y-7 mb-10 w-full'>
 					<Input
 						label='Cédula'
-						placeholder='Cédula'
 						id='dni'
 						value={dni}
 						onChange={onInputChange}
 					/>
 					<Input
 						label='Nombre'
-						placeholder='Nombre'
 						id='name'
 						value={name}
 						onChange={onInputChange}
 					/>
 					<Input
 						label='Primer apellido'
-						placeholder='Primer apellido'
 						id='firstLastName'
 						value={firstLastName}
 						onChange={onInputChange}
 					/>
 					<Input
 						label='Segundo apellido'
-						placeholder='Segundo apellido'
 						id='secondLastName'
 						value={secondLastName}
 						onChange={onInputChange}
 					/>
 					<Input
 						label='Correo electrónico'
-						placeholder='Correo electrónico'
 						id='email'
 						value={email}
 						onChange={onInputChange}
@@ -130,14 +124,12 @@ const Register = () => {
 
 					<PasswordInput
 						label='Nueva contraseña'
-						placeholder='Nueva contraseña'
 						id='password'
 						value={password}
 						onChange={onInputChange}
 					/>
 					<PasswordInput
 						label='Confirmar contraseña'
-						placeholder='Confirmar contraseña'
 						id='passwordConfirmation'
 						value={passwordConfirmation}
 						onChange={onInputChange}

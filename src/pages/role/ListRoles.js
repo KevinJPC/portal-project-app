@@ -41,7 +41,7 @@ const ListRoles = () => {
 	}, [isSuccessGetInactivesRoles])
 
 	return (
-		<>
+		<div className='min-h-full border flex flex-col grow'>
 			<SearchBar
 				getState={changeListState}
 				getdata={filterSeachData}
@@ -51,10 +51,7 @@ const ListRoles = () => {
 			/>
 			{searchState !== '' ? (
 				isLoadingSearchRole ? (
-					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium mr-2'>Cargando...</p>
-						<Spinner />
-					</div>
+					<Spinner />
 				) : searchRoleData?.data.roles.total > 0 ? (
 					searchRoleData?.data.roles.data.map(rol => (
 						<Role
@@ -68,10 +65,7 @@ const ListRoles = () => {
 				)
 			) : listState === 'actives' ? (
 				isLoadingGetActivesRoles ? (
-					<div className='mt-6 flex justify-center items-center'>
-						<p className='text-p-blue font-fira-medium'>Cargando...</p>
-						<Spinner />
-					</div>
+					<Spinner />
 				) : activesRoles?.data.roles.total > 0 ? (
 					activesRoles?.data.roles.data.map(rol => (
 						<Role
@@ -84,10 +78,7 @@ const ListRoles = () => {
 					<ListEmptyMessage text='El listado de roles activos está vacío' />
 				)
 			) : isLoadingGetInactivesRoles ? (
-				<div className='mt-6 flex justify-center items-center'>
-					<p className='text-p-blue font-fira-medium'>Cargando...</p>
-					<Spinner />
-				</div>
+				<Spinner />
 			) : inactivesRoles?.data.roles.total > 0 ? (
 				inactivesRoles?.data.roles.data.map(rol => (
 					<Role
@@ -99,17 +90,15 @@ const ListRoles = () => {
 			) : (
 				<ListEmptyMessage text='El listado de roles inactivos está vacío' />
 			)}
-			<div className='mt-6'>
-				<Pagination
-					changePage={changePageNumber}
-					pageCount={
-						listState === 'actives'
-							? Math.ceil(activesRoles?.data.roles.lastPage)
-							: Math.ceil(inactivesRoles?.data.roles.lastPage)
-					}
-				/>
-			</div>
-		</>
+			<Pagination
+				changePage={changePageNumber}
+				pageCount={
+					listState === 'actives'
+						? Math.ceil(activesRoles?.data.roles.lastPage)
+						: Math.ceil(inactivesRoles?.data.roles.lastPage)
+				}
+			/>
+		</div>
 	)
 }
 
